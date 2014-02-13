@@ -29,7 +29,7 @@ cp classdefs.zip classdefsWith560fixed.zip
 zip -f classdefsWith560fixed.zip classdefs201308/class_560.xml
 
 # Install jquery-ui-fancytree to where pat-clas-ui expects it
-FT_DIR=../pat-clas-ui/fancytree
-mkdir -p $FT_DIR
-( cd $FT_DIR; unzip $D_DIR/jquery.fancytree-2.0.0-4.zip )
+#FT_DIR=../pat-clas-ui/fancytree
+#mkdir -p $FT_DIR
+#( cd $FT_DIR; unzip $D_DIR/jquery.fancytree-2.0.0-4.zip )
 
