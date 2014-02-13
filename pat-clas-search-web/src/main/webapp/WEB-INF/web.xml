@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+      version="3.0">
+
+    <servlet>
+        <servlet-name>CPCSearchServlet</servlet-name>
+        <servlet-class>org.t3as.patClas.search.web.CPCSearchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CPCSearchServlet</servlet-name>
+        <url-pattern>/v1.0/CPC</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>IPCSearchServlet</servlet-name>
+        <servlet-class>org.t3as.patClas.search.web.IPCSearchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IPCSearchServlet</servlet-name>
+        <url-pattern>/v1.0/IPC</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>USPCSearchServlet</servlet-name>
+        <servlet-class>org.t3as.patClas.search.web.USPCSearchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>USPCSearchServlet</servlet-name>
+        <url-pattern>/v1.0/USPC</url-pattern>
+    </servlet-mapping>
+</web-app>

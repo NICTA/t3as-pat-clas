@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.t3as</groupId>
+		<artifactId>pat-clas</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>pat-clas-examples</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Patent Classification Examples</name>
+	<description>Usage examples for Patent Classification services</description>
+
+	<build>
+		<sourceDirectory>src/main/scala</sourceDirectory>
+		<testSourceDirectory>src/test/scala</testSourceDirectory>
+		<!-- <resources></resources> -->
+		<!-- <testResources>src/test/resources</testResources> -->
+	</build>
+
+	<dependencies>
+	    <!-- compile time dependency only on API -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pat-clas-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<!-- runtime dependency on choice of local or remote service -->
+		<!-- no code change, but required properties files must be under src/main/resources -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pat-clas-lookup</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- or -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>${project.groupId}</groupId> -->
+<!-- 			<artifactId>pat-clas-lookup-client</artifactId> -->
+<!-- 			<version>${project.version}</version> -->
+<!-- 			<scope>runtime</scope> -->
+<!-- 		</dependency> -->
+		
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pat-clas-search</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- or -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>${project.groupId}</groupId> -->
+<!-- 			<artifactId>pat-clas-search-client</artifactId> -->
+<!-- 			<version>${project.version}</version> -->
+<!-- 			<scope>runtime</scope> -->
+<!-- 		</dependency> -->
+	</dependencies>
+
+</project>

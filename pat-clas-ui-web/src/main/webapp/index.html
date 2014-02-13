@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Patent Classifications</title>
+<link rel="icon" type="image/ico" href="http://www.nicta.com.au/__data/assets/file/0014/28031/NICTALogo.ico"/>
+<link href="index.css" rel="stylesheet" type="text/css">
+
+<script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
+<!--   <link href="http://code.jquery.com/ui/1.9.2/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css"/> -->
+
+<script src="fancytree/jquery.fancytree-all.js" type="text/javascript"></script>
+<link href="fancytree/skin-lion/ui.fancytree.css" rel="stylesheet" type="text/css" />
+
+<!-- 
+    Copyright 2013 NICTA
+    
+    This file is part of t3as (Text Analysis As A Service).
+
+    t3as is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    t3as is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with t3as.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+<script type="text/javascript">
+  /* === debug and error logging === */
+
+  // TODO: use namespaces: $.myNamespace = { .. };
+  // http://stackoverflow.com/questions/527089/is-it-possible-to-create-a-namespace-in-jquery
+  function debug() {
+    // $('#debug').append('DEBUG: ' + s + '<br/>');
+    console.log(arguments)
+  }
+
+  function error(s, e) {
+    console.log(s, e.stack);
+    $('#error').append('ERROR: ' + s + ' ' + e + '<br/>');
+  }
+
+  // handle unsuccessful ajax response
+  function ajaxError(jqXHR, textStatus, errorThrown) {
+    error('jqXHR = ' + jqXHR + ', textStatus = ' + textStatus, errorThrown);
+  }
+
+  /* === add an .onEnter function we can use for input fields === */
+  (function($) {
+      $.fn.onEnter = function(func) {
+          this.bind('keypress', function(e) {
+              if (e.keyCode == 13) func.apply(this, [e]);
+          });
+          return this;
+      };
+  })(jQuery);
+
+  /* === generate a table from an array of objects === */
+
+  // what genTable needs to know for each column
+  function Col(label, field, handler) {
+    this.label = label; // label for header
+    this.field = field; // name of field for data
+    this.handler = handler; // a function mapping field data => content of table/tr/td
+  }
+
+  // Some functions to use for Col.handler
+
+  function defHandler(v) {
+    return v;
+  }
+
+  function linkHandler(v) {
+    return '<a href="' + v + '">' + v + '</a>';
+  }
+
+  function ipcLinkHandler(v) {
+    return '<a href="' + v + '">' + ipcRefToCPCformat(v) + '</a>';
+  }
+
+  function ipcHandler(v) {
+    // html content model for <title> has only text children
+    // to keep element content we have to rename it before adding it to the DOM
+    // we could change emdash to something visible afterwards, but may as well do it now
+    return v.replace("<title>", "<ipcTitle>").replace("</title>", "</ipcTitle>").replace("<emdash/>", "-");
+  }
+
+  // generate table content
+  function genTable(t, data, cols) {
+    t.empty();
+    var tr = $('<tr>');
+    // column headers from 'labels'
+    t.append(tr);
+    for (var i = 0; i < cols.length; i++) {
+      var col = cols[i];
+      var ele = '<th class="' + col.field + '">';
+      tr.append($(ele).text(cols[i].label));
+    }
+    // make a row from each element in 'data'
+    // 'fields' gives the properties to use and their order
+    $.each(data, function(index, x) {
+      var tr = $('<tr>');
+      for (var i = 0; i < cols.length; i++) {
+        var col = cols[i]
+        var ele = '<td class="' + col.field + '">';
+        var v = x[col.field];
+        tr.append($(ele).append(col.handler(v)));
+      }
+      t.append(tr);
+    });
+  }
+
+  /* === what fancytree needs to know for each node === */
+
+  // see http://wwwendt.de/tech/fancytree/doc/jsdoc/global.html#NodeData
+  function NodeData(title, key) {
+    this.title = title; // node text (may contain HTML tags)
+    this.key = key; // unique key for this node (auto-generated if omitted)
+    this.data = {
+      state : 0
+    }; // change to 1 once all children are loaded (initially we have at most one child loaded)
+    this.folder = true;
+    this.expanded = true;
+    this.lazy = false;
+    this.children = [];
+  }
+  NodeData.prototype.appendChild = function(c) {
+    // this.folder = true;
+    this.children.push(c);
+    return this;
+  };
+  // NodeData.prototype.folder = function() { this doesn't work, this.folder field does work
+  //   return this.children.length > 0;
+  // } 
+  NodeData.prototype.toString = function() {
+    return 'NodeData: key=' + this.key + ', title=' + this.title
+  }
+
+  /* === schema radio buttons === */
+
+  // get value of selected schema radio button: 0, 1, or 2 for CPC, IPC or USPC
+  function schemaInt() {
+    return parseInt($('#schemaForm input[name=schema]:checked').val());
+  }
+
+  // get schema name string from above int
+  function schemaName(i) {
+    var names = [ 'CPC', 'IPC', 'USPC' ];
+    return names[i];
+  }
+
+  /* === search ajaxy stuff === */
+
+  var baseUrl = 'http://pat-clas.t3as.org'
+  // var baseUrl = ''
+
+  // click handler for search button
+  // does ajax search request
+  function search(e) {
+    try {
+      e.preventDefault();
+      var sName = schemaName(schemaInt());
+      var url = baseUrl + '/pat-clas-search-web/v1.0/' + sName;
+      debug('schema = ' + sName + ', query = ' + $('#query').val() + ', url = ' + url);
+      $.ajax({
+        url : url,
+        data : 'q=' + $('#query').val(),
+        dataType : 'jsonp',
+        success : searchSuccess,
+        error : ajaxError
+      });
+      var sr = $('#searchResult');
+      $('#searchTable', sr).empty();
+      addSpinner(sr);
+    } catch (e) {
+      error('search()', e);
+    }
+  }
+  
+  function addSpinner(parent) {
+    removeSpinner(parent); // incase previous ajax request did not return and spinner is still there
+    parent.append('<div class="spinner"><img src="ajax-loader.gif" alt="spinner"></div>');    
+  }
+  
+  function removeSpinner(parent) {
+    $('div.spinner', parent).remove();
+  }
+
+  // handle successful ajax search response
+  function searchSuccess(data, textStatus, jqXHR) {
+    debug('searchSuccess: textStatus', textStatus, 'jqXHR', jqXHR);
+    try {
+      var cols = [
+          [ new Col('CPC Symbol', 'symbol', linkHandler), new Col('Level', 'level', defHandler), new Col('Rank', 'score', defHandler),
+            new Col('Class Title Highlights', 'classTitleHighlights', defHandler), new Col('Notes And Warnings Highlights', 'notesAndWarningsHighlights', defHandler) ],
+          [ new Col('IPC Symbol', 'symbol', ipcLinkHandler), new Col('Level', 'level', defHandler), new Col('Kind', 'kind', defHandler), new Col('Rank', 'score', defHandler),
+            new Col('Text Highlights', 'textBodyHighlights', defHandler) ],
+          [ new Col('USPC Symbol', 'symbol', linkHandler), new Col('Rank', 'score', defHandler),
+            new Col('Class Title Highlights', 'classTitleHighlights', defHandler), new Col('Subclass Title Highlights', 'subClassTitleHighlights', defHandler),
+            new Col('Subclass Description Highlights', 'subClassDescriptionHighlights', defHandler), new Col('Text Highlights', 'textHighlights', defHandler) ] ];
+      var i = schemaInt();
+      var sr = $('#searchResult');
+      removeSpinner(sr);
+      var t = $('#searchTable', sr);
+      genTable(t, data, cols[i]);
+      t.on('click', 'a', viewContext);
+    } catch (e) {
+      error('searchSuccess()', e);
+    }
+  }
+
+  // click handler for symbol links (<a>, IPC <sref> etc.)
+  function viewContext(e) {
+    debug('viewContext');
+    $('#symbol').val($(e.target).text());
+    context(e);
+  }
+
+  function viewIpcContext(e) {
+    try {
+      $('#IPC').prop('checked', true); // switch from CPC to IPC
+      schemaSelected(); // update official browser link
+      viewContext(e);
+    } catch (e) {
+      error('viewIpcContext()', e);
+    }
+  }
+
+  /* === context ajaxy stuff === */
+
+  // click handler for context button
+  // does ajax lookup request
+  function context(e) {
+    try {
+      e.preventDefault();
+      var i = schemaInt();
+      var sName = schemaName(i);
+      var sym = $('#symbol').val();
+      if (i === 1)
+        sym = cpcRefToIpc(sym); // IPC
+      var url = baseUrl + '/pat-clas-lookup-web/v1.0/' + sName + '/' + sym;
+      debug('schema = ' + sName + ', symbol = ' + sym + ', url = ' + url);
+      $.ajax({
+        url : url,
+        data : 'f=xml',
+        dataType : 'jsonp',
+        success : contextSuccess,
+        error : ajaxError
+      });
+      var cr = $('#contextResult');
+      $('#contextTable', cr).empty();
+      addSpinner(cr);
+    } catch (e) {
+      error('context()', e);
+    }
+  }
+
+  // handle successful ajax lookup response
+  function contextSuccess(data, textStatus, jqXHR) {
+    debug('contextSuccess: textStatus = ', textStatus, 'jqXHR', jqXHR);
+    try {
+      var cols = [
+          [ new Col('CPC Symbol', 'symbol', linkHandler), new Col('Level', 'level', defHandler), new Col('Class Title', 'classTitle', defHandler), new Col('Notes and Warnings', 'notesAndWarnings', defHandler) ],
+          [ new Col('IPC Symbol', 'symbol', ipcLinkHandler), new Col('Level', 'level', defHandler), new Col('Kind', 'kind', defHandler), new Col('Text', 'textBody', ipcHandler) ],
+          [ new Col('USPC Symbol', 'symbol', linkHandler), new Col('Class Title', 'classTitle', defHandler), new Col('Subclass Title', 'subClassTitle', defHandler), new Col('Subclass Description', 'subClassDescription', defHandler),
+              new Col('Text', 'text', defHandler) ] ];
+      var cr = $('#contextResult');
+      removeSpinner(cr);
+      var i = schemaInt();
+      var t = $('#contextTable', cr);
+      genTable(t, data, cols[i]);
+      addClickHandlers(t, i);
+    } catch (e) {
+      error('contextSuccess()', e);
+    }
+  }
+
+  // add click handlers (and make small changes to IPC content) for content under t
+  // It appears that subsequently added content under t also gets these click handlers,
+  // without needing to call this again (but the small changes to IPC content requires
+  // this to be called again).
+  function addClickHandlers(t, i) {
+    t.on('click', 'a', viewContext)
+    debug('i = ' + i);
+    switch (i) {
+    case 0: // CPC
+      debug('CPC');
+      t.on('click', 'class-ref[scheme="cpc"]', viewContext);
+      t.on('click', 'class-ref[scheme="ipc"]', viewIpcContext);
+      break;
+
+    case 1: // IPC
+      debug('IPC');
+      // find sref elements in last column of table, add value of @ref as text child to make value visible
+      $.each($('sref', t), function(index, x) {
+        var sref = $(x)
+        if (sref.text().length === 0) { // only append once
+          var v = ipcRefToCPCformat(sref.attr('ref'));
+          // debug('sref[' + index + '] = ' + v);
+          sref.append(v);
+        }
+      });
+      t.on('click', 'sref', viewContext);
+      break;
+    case 2: // USPC 
+      debug('USPC');
+      t.on('click', 'classnum', viewContext);
+      t.on('click', 'subnum', viewUsSubClassContext);
+      t.on('click', 'endnum', viewUsSubClassContext);
+      break;
+    }
+  }
+
+  // Convert from CPC IPC ref format A63H17/273
+  // to IPC symbol format A99AZZZMGGZZZZ (zero padded, 4 digit for main group, 6 digits for group)
+  function cpcRefToIpc(s) {
+    var pos = s.indexOf('/');
+    if (pos >= 0) {
+      return s.slice(0, 4) + String('0000' + s.slice(4, pos)).slice(-4) + String(s.slice(pos + 1) + '000000').slice(0, 6);
+    } else if (s.length > 4) {
+      return s.slice(0, 4) + String('0000' + s.slice(4, pos)).slice(-4) + '000000';
+    } else
+      return s
+  }
+
+  // Inverse of above - convert from IPC symbol with hard to read zero padding to
+  // the CPC style format with a /.
+  function ipcRefToCPCformat(s) {
+    if (s.length != 14)
+      return s;
+    var gre = /0*([1-9]\d*)/;
+    var ga = gre.exec(s.slice(4, 8));
+    // debug('ga = ', ga, 's = ', s);
+    if (ga === null)
+      return s;
+    var sre = /(\d*[1-9])?0*/;
+    var sa = sre.exec(s.slice(8, 14));
+    // debug('sa = ', sa, 's = ', s);
+    if (sa === null)
+      return s;
+    var sg = sa[1] === undefined ? '' : '/' + sa[1];
+    return s.slice(0, 4) + ga[1] + sg;
+  }
+
+  function viewUsSubClassContext(e) {
+    try {
+      var subnum = $(e.target)
+      $('#symbol').val(usClass(subnum.attr('ref')) + '/' + subnum.text());
+      context(e);
+    } catch (e) {
+      error('viewUsSubClassContext()', e);
+    }
+  }
+
+  function usClass(ref) {
+    if (ref.slice(1, 4) === 'PLT')
+      return 'PLT';
+    if (ref.slice(1, 2) === 'D')
+      return 'D' + parseInt(ref.slice(2, 4)); // remove leading zeros
+    return parseInt(ref.slice(1, 4));
+  }
+
+  /* === explore ajaxy stuff === */
+
+  // click handler for explore button
+  // does ajax lookup request, same as for context
+  function explore(e) {
+    try {
+      e.preventDefault();
+      var i = schemaInt();
+      var sName = schemaName(i);
+      var sym = $('#exploreSymbol').val();
+      if (i === 1)
+        sym = cpcRefToIpc(sym); // IPC
+      var url = baseUrl + '/pat-clas-lookup-web/v1.0/' + sName + '/' + sym;
+      debug('explore: schema = ' + sName + ', symbol = ' + sym + ', url = ' + url);
+      $.ajax({
+        url : url,
+        data : 'f=xml',
+        dataType : 'jsonp',
+        success : exploreSuccess,
+        error : ajaxError
+      });
+      var t = $('#exploreResult');
+      var widget = t.data('ui-fancytree');
+      if (widget !== undefined) {
+        var root = new NodeData(sName, {id: 0});
+        t.data(widget.tree.reload([ root ])); // tried removeChildren() but that caused reload errors
+      }
+      addSpinner(t);
+    } catch (e) {
+      error('explore()', e);
+    }
+  }
+
+  function cpcToNodeData(x) {
+    return new NodeData(linkHandler(x.symbol) + '<span class="level">(level ' + x.level + ')</span>' + x.classTitle, {
+      id : x.id,
+      symbol : x.symbol,
+      level : x.level
+    });
+  }
+  function ipcToNodeData(x) {
+    return new NodeData(ipcLinkHandler(x.symbol) + '<span class="level">(level ' + x.level + ', kind ' + x.kind + ')</span>' + ipcHandler(x.textBody), {
+      id : x.id,
+      symbol : x.symbol,
+      level : x.level,
+      kind : x.kind
+    });
+  }
+  function uspcToNodeData(x) {
+    return new NodeData(linkHandler(x.symbol) + (x.classTitle.length ? '<span class="us-class-title">' + x.classTitle + '</span>' : x.subClassTitle + x.subClassDescription), {
+      id : x.id,
+      symbol : x.symbol
+    });
+  }
+  function toNodeData(i) {
+    var jsonToNodeData = [ cpcToNodeData, ipcToNodeData, uspcToNodeData ];
+    return jsonToNodeData[i];
+  }
+
+  // handle successful ajax lookup response
+  function exploreSuccess(data, textStatus, jqXHR) {
+    debug('exploreSuccess: data', data, 'textStatus', textStatus, 'jqXHR', jqXHR);
+    try {
+      var i = schemaInt();
+      var toND = toNodeData(i);
+      // make each successive item a child NodeData of the previous one
+      var root = new NodeData(schemaName(i), {id: 0})
+      var p = root;
+      $.each(data, function(index, x) {
+        var c = toND(x);
+        p.appendChild(c);
+        p = c;
+      })
+      var t = $('#exploreResult');
+      removeSpinner(t);
+
+      var widget = t.data('ui-fancytree');
+      // debug('typeof widget', typeof widget);
+      if (widget === undefined) {
+        t.fancytree({
+          source : [ root ],
+          click : treeClick
+        });
+      } else {
+        t.data(widget.tree.reload([ root ]));
+      }
+      addClickHandlers(t, i)
+    } catch (e) {
+      error('exploreSuccess()', e);
+    }
+  }
+
+  function treeClick(event, data) {
+    try {
+      debug('treeClick: event', event, 'data', data);
+      var node = data.node;
+      if (node.data.state === 0) {
+        var i = schemaInt();
+        var sName = schemaName(i);
+        var id = node.key.id;
+        var url = baseUrl + '/pat-clas-lookup-web/v1.0/' + sName + '/id/' + id + '/*';
+        debug('treeClick: schema = ' + sName + ', id = ' + id + ', url = ' + url);
+        $.ajax({
+          url : url,
+          data : 'f=xml',
+          dataType : 'jsonp',
+          success : function(data, textStatus, jqXHR) {
+            debug('treeClick.success(): data', data, 'textStatus', textStatus, 'jqXHR', jqXHR);
+            treeClickSuccess(i, node, data);
+          },
+          error : ajaxError
+        });
+      }
+    } catch (e) {
+      error('treeClick()', e);
+    }
+    return true; // false to prevent default behavior (i.e. activation, ...)
+  }
+
+  function treeClickSuccess(i, node, data) {
+    debug('treeClickSuccess: node', node);
+    try {
+      var toND = toNodeData(i);
+      node.removeChildren(); // TODO: could keep existing child (and its descendents) and add different children around it?
+      var children = $.map(data, function(x, index) {
+        var c = toND(x);
+        return c;
+      });
+      debug('children', children);
+      node.addChildren(children);
+      var t = $('#exploreResult');
+      addClickHandlers(t, i);
+      node.data.state = 1; // disable fetching children
+    } catch (e) {
+      error('treeClickSuccess()', e);
+    }
+  }
+
+  function schemaSelected(ev) {
+    var s = schemaName(schemaInt()); /* same as ev.target.id */
+    $.each($('#browserLinks > a'), function(index, a) {
+      var v = a.id.indexOf(s) === 0 ? 'shown' : 'hidden';
+      $(a).attr('class', v);
+    });
+  }
+
+  /* === attach functions to static buttons === */
+  $(document).ready(function() {
+    $('#schemaForm > input[name=schema]').on('change', schemaSelected);
+    $('#search').on('click', search);
+    $('#query').onEnter(search);
+    $('#context').on('click', context);
+    $('#symbol').onEnter(context);
+    $('#explore').on('click', explore);
+    $('#exploreSymbol').onEnter(explore);
+  })
+</script>
+
+</head>
+<body>
+  <h1>Patent Classifications</h1>
+
+  <h2>Classification System</h2>
+  <span class="label">Schema:</span>
+  <form id="schemaForm">
+    <input type="radio" name="schema" id="CPC" value="0" checked /><label for="CPC">CPC</label> <input type="radio" name="schema" id="IPC" value="1" /><label for="IPC">IPC</label> <input type="radio" name="schema" id="USPC" value="2" /><label for="USPC">USPC</label>
+  </form>
+  <div id="officialBrowser">
+    <span class="label">Official browser:</span>
+    <span id="browserLinks">
+      <a id="CPCbrowser" class="shown" href="http://worldwide.espacenet.com/classification/" target="_blank">http://worldwide.espacenet.com/classification/</a>
+      <a id="IPCbrowser" class="hidden" href="http://web2.wipo.int/ipcpub/" target="_blank">http://web2.wipo.int/ipcpub/</a>
+      <a id="USPCbrowser" class="hidden" href="http://www.uspto.gov/web/patents/classification/" target="_blank">http://www.uspto.gov/web/patents/classification/</a>
+    </span>
+  </div>
+
+  <h2>Search</h2>
+  <span class="label">Query:</span>
+  <form id="searchForm">
+    <input id="query" type="text" name="query" /> <input id="search" type="button" value="Search">
+  </form>
+  <div id="searchResult">
+    <table id="searchTable"></table>
+  </div>
+
+  <h2>Context</h2>
+  <span class="label">Symbol:</span>
+  <form id="contextForm">
+    <input id="symbol" type="text" name="symbol" /> <input id="context" type="button" value="Context">
+  </form>
+  <div id="contextResult">
+    <table id="contextTable"></table>
+  </div>
+
+  <h2>Explore</h2>
+  <span class="label">Symbol:</span>
+  <form id="exploreForm">
+    <input id="exploreSymbol" type="text" name="symbol" /> <input id="explore" type="button" value="Explore">
+  </form>
+  <div id="exploreResult"></div>
+
+  <!--     <span class="label">Debug:</span> -->
+  <!-- 	<div id="debug"></div> -->
+  <!--     <span class="label">Error:</span> -->
+  <div id="error"></div>
+</body>
+</html>

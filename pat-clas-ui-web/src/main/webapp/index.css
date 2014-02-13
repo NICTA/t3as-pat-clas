@@ -1,0 +1,226 @@
+body {
+	font-family: verdana,helvetica,arial,sans-serif;
+	font-size: 14px;
+    color: #404040;
+}
+
+h1, h2, h3, h4 {
+	color: #98bf21;
+}
+
+#officialBrowser {
+	padding: 5px;
+}
+
+#browserLinks {
+	position: relative;
+}
+
+#browserLinks > a {
+	position: absolute;
+	padding-left: 5px;
+}
+
+#browserLinks > a.hidden {
+	visibility: hidden;
+}
+
+table {
+	border-collapse: collapse;
+	font-size: 14px;
+	border: 1px solid #98bf21;
+}
+
+tr:nth-child(even) {
+	background: white
+}
+
+tr:nth-child(odd) {
+	background: #EAF2D3
+}
+
+th {
+	text-align: left;
+	padding: 3px 7px 3px 7px;
+	background-color: #A7C942;
+	color: white;
+}
+
+td {
+	vertical-align: top;
+	border: 1px solid #98bf21;
+	padding: 2px 5px 2px 5px;
+}
+
+#searchResult {
+	min-height: 50px;
+	max-height: 250px;
+	border: 1px solid #98bf21;
+	overflow: auto;
+}
+
+#searchTable {
+	width: 100%;
+}
+
+#searchTable span.hlight {
+	background-color: yellow;
+}
+
+#contextResult {
+	min-height: 50px;
+	max-height: 300px;
+	border: 1px solid #98bf21;
+	overflow: auto;
+}
+
+#contextTable {
+	width: 100%;
+	word-break: break-word;
+}
+
+.symbol {
+	width: 100px;
+}
+
+.level {
+	width: 37px;
+}
+
+.classTitle {
+	width: 120px;
+}
+
+.kind {
+	width: 35px;
+}
+
+.subClassTitle {
+	width: 100px;
+}
+
+.subClassDescription {
+	width: 100px;
+}
+
+#exploreResult {
+	min-height: 50px;
+	border: 1px solid #98bf21;
+}
+
+ul.fancytree-container {
+	overflow: hidden;
+}
+
+.fancytree-focused span.fancytree-selected .fancytree-title, .fancytree-focused span.fancytree-active .fancytree-title {
+	font-weight: normal;
+}
+
+span.fancytree-title > a {
+	font-weight: bold;
+}
+
+span.fancytree-title > span.level {
+	margin-left: 5px;
+}
+
+span.fancytree-title > class-title {
+	display: block;
+	margin-right: 30px;
+	white-space: normal;
+}
+
+#debug {
+	height: 250px;
+	border: 1px solid #98bf21;
+	overflow: auto;
+}
+
+#error {
+	height: 250px;
+	overflow: auto;
+	color: red;
+}
+
+/* CPC XML elements */
+
+class-ref[scheme="cpc"] {
+	color: blue;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/* TODO: add something other than colour to indicate this is a ref from CPC to IPC! */
+class-ref[scheme="ipc"] {
+	color: red;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/* IPC XML elements */
+titlepart {
+	display: block;
+}
+
+entryreference {
+	display: block;
+	padding-left: 5px;
+}
+
+sref {
+	color: blue;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/* USPC XML elements */
+
+/* TODO: make srecord block and para within it inline */
+para {
+	display: block;
+}
+
+crecord {
+	display: block;
+	padding-left: 5px;
+}
+
+classnum {
+	color: blue;
+	text-decoration: underline;
+	cursor: pointer;
+	padding-right: 5px;
+}
+
+pretext {
+	padding-left: 5px;
+}
+
+/* TODO: add something other than colour to indicate this is a subclass implicitly of the current class */
+subnum {
+	color: green;
+	text-decoration: underline;
+	cursor: pointer;
+	padding-left: 5px;
+}
+
+/* TODO: add something other than colour to indicate this is a end subclass of a range implicitly of the current class */
+endnum {
+	color: red;
+	text-decoration: underline;
+	cursor: pointer;
+	padding-left: 5px;
+}
+
+.fancytree-title > .us-class-title {
+	font-weight: bold;
+	padding-left: 5px;
+}
+
+.fancytree-title > sctitle {
+	padding-left: 5px;
+}
+
+.fancytree-title > scdesc {
+	display: block;
+}
