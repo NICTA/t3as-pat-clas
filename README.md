@@ -22,7 +22,7 @@ The following services are being developed in the given order:
 
 The first two services listed above are implemented in this Maven multi-module Scala project.
 
-taas - the Maven parent project (no code)
+t3as - the Maven parent project (no code)
 
 - pat-clas-api:  Java API for the first 2 services: patent classification lookup and search.
   A factory provides dynamic loading of the implementation (in-process or remote) with no client code change required to switch.
@@ -75,7 +75,7 @@ From the data directory, run download.sh to:
 
 Run the parser to create the database and search indices like this:
 
-		# from taas (project top level dir)
+		# from t3as (project top level dir)
 		cd data
 		java -jar ../pat-clas-parse/target/pat-clas-parse-0.1.one-jar.jar
 		
