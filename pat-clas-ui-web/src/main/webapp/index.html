@@ -530,6 +530,37 @@
 <body>
   <h1>Patent Classifications</h1>
 
+  This is a simple demo page that makes use of two web services for Patent Classification Search and Lookups of the
+  CPC, IPC, and USPC patent classification systems. This project is a part of the
+  <a href="http://nicta.com.au">NICTA</a> <a href="http://t3as.org/">Text Analysis as a Service</a> project.
+
+  <p>To use this web page, simply enter a search term in the Query box and hit search, and if there are any results
+  you can then use the symbol codes in the other fields. For much more detailed instructions please read the
+  <a href="http://t3as.wordpress.com/2014/02/10/text-analytics-for-patent-classification/">blog post</a>
+  for this service.</p>
+
+  <p>Have a look at our other services on our main <a href="http://t3as.org/">t3as project homepage</a>.</p>
+
+
+  <h2>Web services</h2>
+
+  Two web services are used, Lookup and Search. Much more information about how to use these web services is available in
+  the README.md file, but here are two very simple cases:
+
+  <p><strong>Lookup</strong></p>
+
+  <pre>curl --silent http://pat-clas.t3as.org/pat-clas-lookup-web/v1.0/CPC/A01B?f=xml | python -mjson.tool</pre>
+
+  <p><strong>Search</strong></p>
+
+  <pre>curl --silent http://pat-clas.t3as.org/pat-clas-search-web/v1.0/CPC?q=nano | python -mjson.tool</pre>
+
+
+  <h2>Open Source on Github</h2>
+
+  The code for this project is fully open source using the GPLv3 license, and is
+  <a href="https://github.com/NICTA/t3as-pat-clas">available on Github</a>.
+
   <h2>Classification System</h2>
   <span class="label">Schema:</span>
   <form id="schemaForm">
