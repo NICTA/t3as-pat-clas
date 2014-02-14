@@ -4,7 +4,7 @@
 
 This project contains two web services and associated functionality for doing Patent Classification Search and Lookups of the CPC, IPC, and USPC patent classification systems.
 
-Source code is to be released as GPL open source and JSON web services are to be publicly accessible.
+Source code is released as GPL open source and JSON web services are publicly accessible.
 
 # Services
 
