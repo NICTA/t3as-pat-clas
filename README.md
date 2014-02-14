@@ -54,7 +54,9 @@ Example user interface:
 1. Run "mvn" in the 'pat-clas-parse' directory.
 2. Change to the 'data' directory and run the "download.sh".
 3. In the 'data' directory run the command (you may have to adjust the version of the jar file):
+
     java -jar ../pat-clas-parse/target/pat-clas-parse-0.1.one-jar.jar
+
 4. Run "mvn" with no args in the top level directory to build everything.
 
 # Configuring
