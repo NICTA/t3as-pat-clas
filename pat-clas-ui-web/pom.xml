@@ -8,11 +8,11 @@
     <parent>
         <groupId>org.t3as</groupId>
         <artifactId>pat-clas</artifactId>
-        <version>1.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>pat-clas-ui-web</artifactId>
-    <version>1.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <packaging>war</packaging>
 
