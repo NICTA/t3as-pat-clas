@@ -26,9 +26,9 @@
 	</modules>
 
 	<scm>
-		<connection>scm:git:https://github.it.nicta.com.au/nbacon/taas.git</connection>
-		<developerConnection>scm:git:https://github.it.nicta.com.au/nbacon/taas.git</developerConnection>
-		<url>https://github.it.nicta.com.au/nbacon/taas</url>
+		<connection>scm:git:https://github.com/NICTA/t3as-pat-clas.git</connection>
+		<developerConnection>scm:git:https://github.com/NICTA/t3as-pat-clas.git</developerConnection>
+		<url>https://github.com/NICTA/t3as-pat-clas</url>
 	</scm>
 
 	<properties>
