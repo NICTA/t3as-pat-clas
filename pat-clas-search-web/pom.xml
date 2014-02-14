@@ -38,15 +38,13 @@
         <groupId>org.apache.tomcat.maven</groupId>
         <artifactId>tomcat7-maven-plugin</artifactId>
         <version>2.2</version>
-        <!-- <configuration> -->
-        <!-- <url>http://www.mydomain.com:1234/mymanager</url> -->
-        <!-- </configuration> -->
       </plugin>
 
         <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <version>2.4</version>
             <configuration>
+                <finalName>${project.artifactId}-${project.version}</finalName>
                 <appendAssemblyId>false</appendAssemblyId>
                 <descriptors>
                     <descriptor>src/main/assembly/assembly.xml</descriptor>
