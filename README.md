@@ -2,29 +2,24 @@
 
 ## Patent Classification web services
 
-This project contains two web services and associated functionality for doing Patent Classification Search and Lookups of the CPC, IPC, and USPC patent classification systems.
+This project contains two web services for doing Patent Classification Search and Lookups of the CPC, IPC, and USPC patent classification systems.
 
-Source code is released as GPL open source and JSON web services are publicly accessible.
+Source code is released as GPL open source and JSON web services are publicly accessible at <http://pat-clas.t3as.org/>.
 
 # Services
 
-The following services are being developed in the given order:
+The following services are provided:
 
 - Convert CPC/IPC/USPTO code to list of string descriptions, one for the code itself and one for each ancestor in the hierarchy. A very simple database app with XML processing to populate the database.
 
 - Given a text query, find CPC/IPC/USPTO codes that have descriptions matching the query. A very simple Lucene search app.
 
-- Claims segmentation. If it is presented as an optional extra with caveats, I think the consequences of a segmentation error are minor. GATE has a "new BSD" licence, so we need to check whether there is any issue with using it in a GPL'ed project.
-
-- Years ago I wrote some horrible code using Antlr (entirely the wrong hammer for the job now) to recognize references to biological sequences in the text. This is still in use. I'm sure GATE could do a much better job with neater and more maintainable code. A machine learning solution may also be worth looking into. Since the biological sequence part of the Lens is an area where we do provide a unique service, this would be a good thing to improve.
-
 # Source code structure
 
-The first two services listed above are implemented in this Maven multi-module Scala project.
+These services are implemented in a Maven multi-module Scala project.
 
-t3as - the Maven parent project (no code)
-
-- pat-clas-api:  Java API for the first 2 services: patent classification lookup and search.
+- t3as-pat-clas the Maven parent project (no code)
+- pat-clas-api:  Java API for the services: patent classification lookup and search.
   A factory provides dynamic loading of the implementation (in-process or remote) with no client code change required to switch.
 - pat-clas-common:  Shared classes for following projects
 - pat-clas-db:  Slick database layer to create and populate the database and lookup patent classifications.
@@ -47,45 +42,51 @@ Parser + database loader + search indexer:
 
 Example user interface:
 
-- pat-clas-ui:  A web page using jQuery to access the JSON web services. See [pat-clas-ui](pat-clas-ui).
+- pat-clas-ui:  A web page using jQuery to access the JSON web services. See <pat-clas-ui>.
  
 # Building
 
-1. Run "mvn" in the 'pat-clas-parse' directory.
-2. Change to the 'data' directory and run the "download.sh".
-3. In the 'data' directory run the command (you may have to adjust the version of the jar file):
+Just run maven from the top level directory:
 
-    java -jar ../pat-clas-parse/target/pat-clas-parse-0.1.one-jar.jar
-
-4. Run "mvn" with no args in the top level directory to build everything.
+	mvn
 
 # Configuring
 
 The webapps are configured using properties files in the source tree at src/main/resources, which are copied to WEB-INF/classes
 in the webapp. The webapps will preferentially take values from an environment variable with the same name as a property.
-If you use paths other than those shown in the parser example below for the location of the database and
+If you use paths other than defaults used in the parser example below for the location of the database and
 search indices, you'll need to either set environment variables or edit these property files before running the webapps.
 
 # Running
 
 ## Downloading Data
 
-From the data directory, run download.sh to:
+From the data directory, run `download.sh` to:
 
  - download classification source data;
- - download and install the fancytree jQuery widget into pat-clas-ui;
+ - download and install the `fancytree` jQuery widget into `pat-clas-ui`;
  - create an empty US DTD file; and
  - patch corrupt data for US class 560.
 
+## Creating Deployable Packages
+
+Prerequisites are Building and Downloading Data, then from the data directory, run `package.sh` to:
+
+ - parse the data to create the database and search indices (further details provided in the following section)
+ - create tar.gz archives for the dynamic web apps `pat-class-lookup-web` and `pat-clas-search-web`, which
+   contain the war file and the database or search indices it depends on
+ - create a tar.gz archive for `pat-clas-ui`, which contains static files packed inside a .war file just so that
+   it can be deployed using the same mechanism as the dynamic web apps.
+
 ## Parsing
 
-Run the parser to create the database and search indices like this:
+Note: This step is automated by `package.sh` described above.
 
-		# from t3as (project top level dir)
-		cd data
-		java -jar ../pat-clas-parse/target/pat-clas-parse-0.1.one-jar.jar
+From the data directory, run the parser to create the database and search indices like this:
+
+	java -jar ../pat-clas-parse/target/pat-clas-parse-1.0.one-jar.jar
 		
-(use --help option for further instructions).
+(use --help option for further details).
 
 Notes:
 
@@ -120,7 +121,7 @@ Servlet 3.0 compliant app server of your choice.
 
 ## Example user interface
 
-The example user interface [pat-clas-ui](pat-clas-ui) demonstrates AJAX access to the JSON Web Services.
+The example user interface <pat-clas-ui> demonstrates AJAX access to the JSON Web Services.
 
 ## Accessing the web services
 
@@ -179,7 +180,7 @@ Search the text associated with classification symbols:
 		log.info("CPC hits = {}", hits);
 
 Similarly search IPC and USPC symbols by substituting these strings for CPC above. 
-For details on the syntax of queries and queryable fields refer to [pat-clas-ui](pat-clas-ui).
+For details on the syntax of queries and queryable fields refer to <pat-clas-ui>.
 
 # Deployment Choices
 

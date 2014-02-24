@@ -1,5 +1,7 @@
 #! /bin/sh
 
+set -e
+
 D_DIR=`pwd`
 
 # Download CPC, IPC and USPC patent classification schemes.
@@ -23,13 +25,13 @@ touch xclassdef.dtd
 
 # The USPC zip file contains a corrupted entry for class 560.
 # This reproduces a manual edit to produce a fixed version classdefsWith560fixed.zip
-unzip classdefs.zip classdefs201308/class_560.xml
-patch classdefs201308/class_560.xml class_560.xml.diff
+unzip classdefs.zip classdefs201312/class_560.xml
+patch classdefs201312/class_560.xml class_560.xml.diff
 cp classdefs.zip classdefsWith560fixed.zip
-zip -f classdefsWith560fixed.zip classdefs201308/class_560.xml
+zip -f classdefsWith560fixed.zip classdefs201312/class_560.xml
 
 # Install jquery-ui-fancytree to where pat-clas-ui expects it
-#FT_DIR=../pat-clas-ui/fancytree
-#mkdir -p $FT_DIR
-#( cd $FT_DIR; unzip $D_DIR/jquery.fancytree-2.0.0-4.zip )
+FT_DIR=../pat-clas-ui/fancytree
+mkdir -p $FT_DIR
+( cd $FT_DIR; unzip $D_DIR/jquery.fancytree-2.0.0-4.zip )
 

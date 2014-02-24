@@ -6,12 +6,12 @@ Patent Classification Schemes - User Interface
 
 ### Introduction
 
-The web page [index.html](src/main/webapp/index.html) provides a user interface to the JSON web services provided by
+The web page <index.html> provides a user interface to the JSON web services provided by
 <code>pat-clas-lookup-web</code> and <code>pat-clas-search-web</code>.
 
 It uses jQuery's support for [JSONP](http://en.wikipedia.org/wiki/JSONP) to work around the browser's
-[Same Origin Policy](http://en.wikipedia.org/wiki/Same-origin_policy) in order to support cross site mashups. Consequently you can save
-the web page locally, modify it and still access the remotely hosted t3as web services.
+[Same Origin Policy](http://en.wikipedia.org/wiki/Same-origin_policy) in order to support cross site mashups.
+Consequently you can save the web page locally, modify it and still access the remotely hosted t3as web services.
 
 It requires the jQuery-ui plugin "Fancytree" in the dir <code>fancytree/</code> (under same dir as <code>index.html</code>).
 Installation of fancytree is one of the actions automated by <code>data/download.sh</code>;
@@ -45,7 +45,7 @@ The UI consists of the following sections:
    The fields shown in bold:
    
  - are searched by default when the query does not specify any fields; and
- - have stemming applied (a search for <code>activated</code> will match <code>activating</code> and vice-versa).   
+ - have stemming applied (a search for <code>activated</code> will match <code>activating</code> and vice-versa).
    
 #### Context
  
