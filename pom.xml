@@ -22,7 +22,6 @@
 		<module>pat-clas-search-client</module>
 		<module>pat-clas-parse</module>
 		<module>pat-clas-examples</module>
-		<module>pat-clas-ui-web</module>
 	</modules>
 
 	<scm>
