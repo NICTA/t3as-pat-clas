@@ -42,7 +42,7 @@ Parser + database loader + search indexer:
 
 Example user interface:
 
-- pat-clas-ui:  A web page using jQuery to access the JSON web services. See <pat-clas-ui>.
+- pat-clas-ui:  A web page using jQuery to access the JSON web services. See [pat-clas-ui](pat-clas-ui).
  
 # Building
 
@@ -52,7 +52,7 @@ Just run maven from the top level directory:
 
 # Configuring
 
-The webapps are configured using properties files in the source tree at src/main/resources, which are copied to WEB-INF/classes
+The webapps are configured using properties files in the source tree at `src/main/resources`, which are copied to `WEB-INF/classes`
 in the webapp. The webapps will preferentially take values from an environment variable with the same name as a property.
 If you use paths other than defaults used in the parser example below for the location of the database and
 search indices, you'll need to either set environment variables or edit these property files before running the webapps.
@@ -121,7 +121,7 @@ Servlet 3.0 compliant app server of your choice.
 
 ## Example user interface
 
-The example user interface <pat-clas-ui> demonstrates AJAX access to the JSON Web Services.
+The example user interface [pat-clas-ui](pat-clas-ui) demonstrates AJAX access to the JSON Web Services.
 
 ## Accessing the web services
 
@@ -180,7 +180,7 @@ Search the text associated with classification symbols:
 		log.info("CPC hits = {}", hits);
 
 Similarly search IPC and USPC symbols by substituting these strings for CPC above. 
-For details on the syntax of queries and queryable fields refer to <pat-clas-ui>.
+For details on the syntax of queries and queryable fields refer to [pat-clas-ui](pat-clas-ui).
 
 # Deployment Choices
 
