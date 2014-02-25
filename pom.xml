@@ -29,6 +29,19 @@
 		<developerConnection>scm:git:https://github.com/NICTA/t3as-pat-clas.git</developerConnection>
 		<url>https://github.com/NICTA/t3as-pat-clas</url>
 	</scm>
+  
+<!--    <distributionManagement> -->
+<!--     <repository> -->
+<!--       <id>libs-release-local</id> -->
+<!--       <name>NICTA Artifactory Repository</name> -->
+<!--       <url>http://etd-packaging.research.nicta.com.au/artifactory/libs-release-local</url> -->
+<!--     </repository> -->
+<!--     <snapshotRepository> -->
+<!--       <id>libs-snapshot-local</id> -->
+<!--       <name>NICTA Artifactory Repository</name> -->
+<!--       <url>http://etd-packaging.research.nicta.com.au/artifactory/libs-snapshot-local</url> -->
+<!--     </snapshotRepository> -->
+<!--   </distributionManagement> -->
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -69,7 +82,7 @@
 					<args>
 						<arg>-unchecked</arg>
 						<arg>-deprecation</arg>
-						<arg>-explaintypes</arg>
+<!-- 						<arg>-explaintypes</arg> -->
 					</args>
 				</configuration>
 			</plugin>
