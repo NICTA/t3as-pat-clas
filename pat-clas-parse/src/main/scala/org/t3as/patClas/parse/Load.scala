@@ -53,8 +53,8 @@ object Load {
   val log = LoggerFactory.getLogger(getClass)
 
   case class Config(
-    cpcZipFile: File = new File("CPCSchemeXML201309.zip"),
-    ipcZipFile: File = new File("ipcr_scheme_20130101.zip"),
+    cpcZipFile: File = new File("CPCSchemeXML201312.zip"),
+    ipcZipFile: File = new File("ipcr_scheme_20140101.zip"),
     uspcZipFile: File = new File("classdefsWith560fixed.zip"),
     dburl: String = "jdbc:h2:file:patClasDb",
     jdbcDriver: String = "org.h2.Driver",
@@ -77,7 +77,7 @@ object Load {
 
     opt[File]('i', "ipcZipFile") action { (x, c) =>
       c.copy(ipcZipFile = x)
-    } text (s"path to IPC definitions in zipped XML, default ${defValue.ipcZipFile.getPath} (source http://www.wipo.int/classifications/ipc/en/ITsupport/Version20130101/index.html)")
+    } text (s"path to IPC definitions in zipped XML, default ${defValue.ipcZipFile.getPath} (source http://www.wipo.int/classifications/ipc/en/ITsupport/)")
     opt[File]('j', "ipcIndexDir") action { (x, c) =>
       c.copy(ipcIndexDir = x)
     } text (s"path to IPC search index dir, default ${defValue.ipcIndexDir.getPath} (need not pre-exist)")
@@ -142,13 +142,13 @@ object Load {
         val zipFile = new ZipFile(c.cpcZipFile)
         try {
           // load section zip entries
-          val sectionFileNameRE = """^scheme-[A-Z].xml$""".r
+          val sectionFileNameRE = """^cpc-scheme-[A-Z].xml$""".r
           zipFile.entries filter (e => sectionFileNameRE.findFirstIn(e.getName).isDefined) foreach { e =>
             CPCParser.parse(XML.load(zipFile.getInputStream(e))) foreach (process(_, CPCdb.topLevel))
           }
 
           // load subclass zip entries
-          val subclassFileNameRE = """^scheme-[A-Z]\d\d[A-Z].xml$""".r
+          val subclassFileNameRE = """^cpc-scheme-[A-Z]\d\d[A-Z].xml$""".r
           zipFile.entries filter (e => subclassFileNameRE.findFirstIn(e.getName).isDefined) foreach { e =>
             CPCParser.parse(XML.load(zipFile.getInputStream(e))).foreach { n =>
               // each root node should be a level 5 ClassificationItem and should have already been added to the db from a section zip entry

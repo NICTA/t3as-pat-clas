@@ -20,14 +20,16 @@
 package org.t3as.patClas.search.factory
 
 import java.io.File
-
 import org.t3as.patClas.api.{CPC, Search}
 import org.t3as.patClas.api.factory.Factory
 import org.t3as.patClas.common.CPCTypes
 import org.t3as.patClas.common.CPCTypes.IndexFieldName.{ClassTitle, NotesAndWarnings, convert}
 import org.t3as.patClas.search.{Constants, SearchService}
+import org.t3as.patClas.common.Util, Util.{getProperty => get}
 
 class CPCSearchFactoryImpl extends Factory[Search[CPC.Hit]] {
+    
+  implicit val p = Util.properties("/search.properties")
 
   def create = {
     // if "field:query" specified leave as is, else search all text fields (accepting a match in any)
@@ -35,7 +37,7 @@ class CPCSearchFactoryImpl extends Factory[Search[CPC.Hit]] {
       else Seq(ClassTitle, NotesAndWarnings).map(f => s"${f.toString}:(${q})").mkString(" || ")
 
     new SearchService[CPC.Hit](
-      new File(Constants.get("cpc.index.path")),
+      new File(get("cpc.index.path")),
       ClassTitle,
       CPCTypes.hitFields,
       CPCTypes.mkHit _,

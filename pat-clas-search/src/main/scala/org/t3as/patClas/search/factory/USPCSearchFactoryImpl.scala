@@ -26,8 +26,11 @@ import org.t3as.patClas.api.factory.Factory
 import org.t3as.patClas.common.USPCTypes
 import org.t3as.patClas.common.USPCTypes.IndexFieldName._
 import org.t3as.patClas.search.{Constants, SearchService}
+import org.t3as.patClas.common.Util, Util.{getProperty => get}
 
 class USPCSearchFactoryImpl extends Factory[Search[USPC.Hit]] {
+
+  implicit val p = Util.properties("/search.properties")
 
   def create = {
     // if "field:query" specified leave as is, else search all text fields (accepting a match in any)
@@ -35,7 +38,7 @@ class USPCSearchFactoryImpl extends Factory[Search[USPC.Hit]] {
       else Seq(ClassTitle, SubClassTitle, SubClassDescription, Text).map(f => s"${f.toString}:(${q})").mkString(" || ")
     
     new SearchService[USPC.Hit](
-      new File(Constants.get("uspc.index.path")),
+      new File(get("uspc.index.path")),
       ClassTitle,
       USPCTypes.hitFields,
       USPCTypes.mkHit _,

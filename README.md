@@ -53,9 +53,9 @@ Just run maven from the top level directory:
 # Configuring
 
 The webapps are configured using properties files in the source tree at `src/main/resources`, which are copied to `WEB-INF/classes`
-in the webapp. The webapps will preferentially take values from an environment variable with the same name as a property.
+in the webapp. The webapps will preferentially take values from a system property with the same name.
 If you use paths other than defaults used in the parser example below for the location of the database and
-search indices, you'll need to either set environment variables or edit these property files before running the webapps.
+search indices, you'll need to either set system properties or edit these property files before running the webapps.
 
 # Running
 
@@ -103,7 +103,7 @@ You can run a database server and open a SQL GUI in your web browser with:
 
 		java -jar ~/.m2/repository/com/h2database/h2/1.3.173/h2-1.3.173.jar
 		
-(in the GUI enter the dburl that was used with the parser and blank user name and password). Only one process can
+(in the GUI enter the dburl that was used with the parser, READONLY for the user name and a blank password). Only one process can
 have the database open at a time, so stop this server (with Ctrl-C) before starting the <code>pat-clas-lookup-web</code> web app.
 
 ## Running JSON Web Services
@@ -216,7 +216,7 @@ A CPC browser is available at: <http://worldwide.espacenet.com/classification/>
 
 The complete CPC scheme, defined in XML, is available at: 
 <http://www.cooperativepatentclassification.org/cpcSchemeAndDefinitions/Bulk.html>.
-The current version is at the link: <a href="http://www.cooperativepatentclassification.org/cpc/CPCSchemeXML201309.zip">Complete CPC scheme in XML format (2013-09)</a>.
+The current version is at the link: <a href="http://www.cooperativepatentclassification.org/cpc/CPCSchemeXML201312.zip">Complete CPC scheme in XML format (2013-12)</a>.
 
 CPC zip file contents:
 
@@ -253,11 +253,11 @@ IPC documentation is available at:
 
 Following the links <a href="http://www.wipo.int/classifications/ipc/en/support/">Download and IT Support</a>
 then
-<a href="http://www.wipo.int/classifications/ipc/en/ITsupport/Version20130101/index.html">Access current edition: 2013.01</a>
+<a href="http://www.wipo.int/classifications/ipc/en/ITsupport/Version20140101/index.html">Access current edition: 2014.01</a>
 then
-MASTER FILES <a href="http://www.wipo.int/ipc/itos4ipc/ITSupport_and_download_area/20130101/MasterFiles/">Download</a>
+MASTER FILES <a href="http://www.wipo.int/ipc/itos4ipc/ITSupport_and_download_area/20140101/MasterFiles">Download</a>
 gets to the zipped XML definitions:
-<a href="http://www.wipo.int/ipc/itos4ipc/ITSupport_and_download_area/20130101/MasterFiles/ipcr_scheme_20130101.zip">ipcr\_scheme\_20130101.zip</a>.
+<a href="http://www.wipo.int/ipc/itos4ipc/ITSupport_and_download_area/20140101/MasterFiles/ipcr_scheme_20140101.zip">ipcr\_scheme\_20140101.zip</a>.
 
 The DTD is available at:
 <a href="http://www.wipo.int/ipc/itos4ipc/ITSupport_and_download_area/Documentation/20140101/ipcr_scheme_1-02.dtd">ipcr\_scheme_1-02.dtd</a>.
@@ -291,7 +291,7 @@ The nesting of subclasses is not reflected in the numbering, for example, in Cla
 The USPC scheme, defined in what purports to be XML, is available from: 
 <http://www.uspto.gov/products/catalog/additionalpatentdata.jsp#heading-8> by following the links
 <https://eipweb.uspto.gov/2013/ClassDefinitions/> and then
-<a href="https://eipweb.uspto.gov/2013/ClassDefinitions/classdefs.zip">classdefs.zip</a>.
+<a href="https://eipweb.uspto.gov/2013/ClassDefinitions/classdefs.zip">classdefs.zip</a> (last updated 2014-01-22).
 
 ### DTD
 

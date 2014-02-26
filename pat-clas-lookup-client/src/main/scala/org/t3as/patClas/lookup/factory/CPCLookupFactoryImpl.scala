@@ -22,12 +22,13 @@ package org.t3as.patClas.lookup.factory
 import org.t3as.patClas.api.{CPC, Lookup}
 import org.t3as.patClas.api.factory.Factory
 import org.t3as.patClas.lookup.client.LookupWebClient
+import org.t3as.patClas.common.Util, Util.{getProperty => get}
 
-class CPCLookupFactoryImpl extends Factory[Lookup[CPC.Description]] {
+class CPCLookupFactoryImpl extends Factory[Lookup[CPC.Description]] with LCUtil {
 
   def create = new LookupWebClient[CPC.Description](
-    LCUtil.get("cpc.server.url"),
-    (json: String) => LCUtil.mapper.readValue(json)
+    get("cpc.server.url"),
+    (json: String) => mapper.readValue(json)
     )
 
   def close = {}

@@ -19,22 +19,17 @@
 
 package org.t3as.patClas.lookup.factory
 
-import scala.collection.JavaConversions.propertiesAsScalaMap
 import scala.slick.driver.ExtendedProfile
 
 import org.apache.commons.dbcp.BasicDataSource
-
-import org.t3as.patClas.common.Util
+import org.t3as.patClas.common.Util, Util.{getProperty => get}
 
 import javax.sql.DataSource
 
 object LookupProperties {
-  val p = Util.properties("/lookup.properties")
+  implicit val p = Util.properties("/lookup.properties")
   
-  // prefer system property then properties file
-  def get(n: String) = sys.env.getOrElse(n, p(n))
-
-  private[factory] val dataSource: DataSource = {
+  private[factory] val dataSource: DataSource = {    
     val ds = new BasicDataSource
     ds.setDriverClassName(get("jdbc.driverClassName"))
     ds.setUsername(get("jdbc.username"))

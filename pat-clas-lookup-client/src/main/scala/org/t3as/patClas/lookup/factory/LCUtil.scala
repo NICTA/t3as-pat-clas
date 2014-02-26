@@ -19,22 +19,17 @@
 
 package org.t3as.patClas.lookup.factory
 
-import scala.collection.JavaConversions.propertiesAsScalaMap
-
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
 import org.t3as.patClas.common.Util
 
-object LCUtil {
-  val p = Util.properties("/lookup-client.properties")
+trait LCUtil {
+  implicit val p = Util.properties("/lookup-client.properties")
   
   val mapper = {
     val m = new ObjectMapper() with ScalaObjectMapper
     m.registerModule(DefaultScalaModule)
     m
   }
-
-  // prefer system property then properties file
-  def get(n: String) = sys.env.getOrElse(n, p(n))  
 }

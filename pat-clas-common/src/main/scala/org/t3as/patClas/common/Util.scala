@@ -20,10 +20,12 @@
 package org.t3as.patClas.common
 
 import java.util.Properties
-import scala.xml.{Node, Utility, XML}
+import scala.xml.{Utility, XML}
 import org.t3as.patClas.api.Format
+import org.slf4j.LoggerFactory
 
 object Util {
+  val log = LoggerFactory.getLogger(getClass)
   
   def properties(path: String) = {
     val p = new Properties
@@ -31,6 +33,12 @@ object Util {
     try p.load(is)
     finally is.close
     p
+  }
+
+  // prefer system property (environment variable) then properties file
+  def getProperty(name: String)(implicit props: Properties) = {
+    log.info(s"getProperty: name = ${name}, sys value = ${sys.props.get(name)}")
+    sys.props.getOrElse(name, props.getProperty(name))
   }
 
   /** Concatenate all text node descendants */

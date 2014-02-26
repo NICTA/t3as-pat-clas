@@ -23,12 +23,13 @@ import org.t3as.patClas.api.{CPC, Search}
 import org.t3as.patClas.api.factory.Factory
 import org.t3as.patClas.lookup.factory.SCUtil
 import org.t3as.patClas.search.client.SearchServiceWebClient
+import org.t3as.patClas.common.Util, Util.{getProperty => get}
 
-class CPCSearchFactoryImpl extends Factory[Search[CPC.Hit]] {
+class CPCSearchFactoryImpl extends Factory[Search[CPC.Hit]] with SCUtil {
 
   def create = new SearchServiceWebClient(
-    SCUtil.get("cpc.search.server.url"),
-    (json: String) => SCUtil.mapper.readValue(json)
+    get("cpc.search.server.url"),
+    (json: String) => mapper.readValue(json)
     )
 
   def close = {}

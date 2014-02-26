@@ -11,8 +11,8 @@ do
     echo "Downloading $url..."
     wget --no-clobber $url
 done <<'EoF'
-http://www.cooperativepatentclassification.org/cpc/CPCSchemeXML201309.zip
-http://www.wipo.int/ipc/itos4ipc/ITSupport_and_download_area/20130101/MasterFiles/ipcr_scheme_20130101.zip
+http://www.cooperativepatentclassification.org/cpc/CPCSchemeXML201312.zip
+http://www.wipo.int/ipc/itos4ipc/ITSupport_and_download_area/20140101/MasterFiles/ipcr_scheme_20140101.zip
 http://www.wipo.int/ipc/itos4ipc/ITSupport_and_download_area/Documentation/20140101/ipcr_scheme_1-02.dtd
 https://eipweb.uspto.gov/2013/ClassDefinitions/classdefs.zip
 https://github.com/mar10/fancytree/releases/download/v2.0.0-4/jquery.fancytree-2.0.0-4.zip

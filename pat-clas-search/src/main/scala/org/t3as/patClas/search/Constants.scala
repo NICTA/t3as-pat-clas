@@ -19,12 +19,8 @@
 
 package org.t3as.patClas.search
 
-import scala.collection.JavaConversions.propertiesAsScalaMap
-
 import org.apache.lucene.analysis.en.EnglishAnalyzer
 import org.apache.lucene.util.Version
-
-import org.t3as.patClas.common.Util
 
 /**
  * Constants shared by indexer and searcher.
@@ -32,9 +28,4 @@ import org.t3as.patClas.common.Util
 object Constants {
   val version = Version.LUCENE_46
   val analyzer = new EnglishAnalyzer(version)
-
-  val p = Util.properties("/search.properties")
-
-  // prefer system property then properties file
-  def get(n: String) = sys.env.getOrElse(n, p(n))
 }

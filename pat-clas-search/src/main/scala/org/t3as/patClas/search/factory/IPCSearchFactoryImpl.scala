@@ -26,11 +26,14 @@ import org.t3as.patClas.api.factory.Factory
 import org.t3as.patClas.common.IPCTypes
 import org.t3as.patClas.common.IPCTypes.IndexFieldName.{TextBody, convert}
 import org.t3as.patClas.search.{Constants, SearchService}
+import org.t3as.patClas.common.Util, Util.{getProperty => get}
 
 class IPCSearchFactoryImpl extends Factory[Search[IPC.Hit]] {
 
+  implicit val p = Util.properties("/search.properties")
+
   def create = new SearchService[IPC.Hit](
-      new File(Constants.get("ipc.index.path")),
+      new File(get("ipc.index.path")),
       TextBody,
       IPCTypes.hitFields,
       IPCTypes.mkHit _,
