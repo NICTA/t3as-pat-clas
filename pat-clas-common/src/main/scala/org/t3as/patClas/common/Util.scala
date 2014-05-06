@@ -35,7 +35,7 @@ object Util {
     p
   }
 
-  // prefer system property (environment variable) then properties file
+  // prefer system property then properties file
   def getProperty(name: String)(implicit props: Properties) = {
     log.info(s"getProperty: name = ${name}, sys value = ${sys.props.get(name)}")
     sys.props.getOrElse(name, props.getProperty(name))
