@@ -34,10 +34,13 @@
  -->
 
 <script type="text/javascript">
-  /* === debug and error logging === */
-
   // TODO: use namespaces: $.myNamespace = { .. };
   // http://stackoverflow.com/questions/527089/is-it-possible-to-create-a-namespace-in-jquery
+
+  /* === debug and error logging === */
+
+  if (!window.console) console = { log: function(){} }; // ensure console.log exists (for old IEs)
+  
   function debug() {
     // $('#debug').append('DEBUG: ' + s + '<br/>');
     console.log(arguments)
