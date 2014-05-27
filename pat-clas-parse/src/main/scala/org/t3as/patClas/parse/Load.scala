@@ -1,5 +1,5 @@
 /*
-    Copyright 2013 NICTA
+    Copyright 2013, 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -21,26 +21,20 @@ package org.t3as.patClas.parse
 
 import java.io.File
 import java.util.zip.ZipFile
+
 import scala.collection.JavaConversions.enumerationAsScalaIterator
-import scala.slick.driver.H2Driver.simple.{columnBaseToInsertInvoker, ddlToDDLInvoker}
-import scala.slick.driver.H2Driver.simple.Database
-import scala.slick.driver.H2Driver.simple.Database.threadLocalSession
+import scala.slick.jdbc.JdbcBackend.{Database, Session}
+import scala.slick.jdbc.StaticQuery
+import scala.slick.jdbc.meta.MTable
 import scala.util.control.NonFatal
 import scala.xml.XML
+
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.api.T3asException
-import org.t3as.patClas.common.CPCTypes.ClassificationItem
-import org.t3as.patClas.common.IPCTypes.IPCEntry
 import org.t3as.patClas.common.TreeNode
-import org.t3as.patClas.common.USPCTypes.UsClass
 import org.t3as.patClas.common.Util
-import org.t3as.patClas.db.{CPCdb, IPCdb, USPCdb}
-import org.t3as.patClas.search.index.IndexerFactory
-import scala.slick.driver.ExtendedProfile
-import scala.slick.lifted.DDL
-import scala.slick.jdbc.meta.MTable
+import org.t3as.patClas.common.db.{CPCdb, IPCdb, USPCdb}
 
-
+import resource.managed
 
 /** Load CPC into a database and search index.
   *
@@ -106,8 +100,8 @@ object Load {
 
   def main(args: Array[String]): Unit = {
     parser.parse(args, Config()) map { c =>
-      Database.forURL(c.dburl, driver = c.jdbcDriver) withSession {
-        DDL(Seq("CREATE USER IF NOT EXISTS READONLY PASSWORD ''"), Nil).create
+      Database.forURL(c.dburl, driver = c.jdbcDriver) withSession { implicit session =>
+        StaticQuery.updateNA("CREATE USER IF NOT EXISTS READONLY PASSWORD ''").execute
         doCPC(c);
         doIPC(c);
         doUSPC(c);
@@ -116,31 +110,31 @@ object Load {
     log.info(" ... done.")
   }
 
-  def doCPC(c: Config) {
+  def doCPC(c: Config)(implicit session: Session) {
     if (c.cpcZipFile.exists()) {
       log.info(s"Parsing ${c.cpcZipFile} ...")
-      val indexer = IndexerFactory.getCPCIndexer(c.cpcIndexDir)
-      try {
+      for (indexer <- managed(IndexerFactory.getCPCIndexer(c.cpcIndexDir))) {
         val dao = new CPCdb(Util.getObject(c.slickDriver))
-        import dao.CPC
+        import dao.profile.simple._
+        import dao.cpcs
+        import org.t3as.patClas.common.CPCTypes.ClassificationItem
 
         // Create the table(s), indices etc.
-        if (!MTable.getTables("cpc").list.isEmpty) CPC.ddl.drop
-        CPC.ddl.create
-        DDL(Seq("""GRANT SELECT ON "cpc" TO READONLY"""), Nil).create
+        if (!MTable.getTables("cpc").list.isEmpty) cpcs.ddl.drop
+        cpcs.ddl.create
+        StaticQuery.updateNA("""GRANT SELECT ON "cpc" TO READONLY""").execute
 
         // An item for top level ClassificationItems to refer to as their "parent" (to satisfy the foreign key constraint)
-        // Specifying the primary key (which is an autoInc column) works with H2, but won't work with mysql and some other databases.
+        // forceInsert overrides the autoInc id, works with H2 but may not work on all databases
         // With these databases some other means will be required to insert this row.
-        CPC insert new ClassificationItem(Some(CPCdb.topLevel), CPCdb.topLevel, false, false, false, "2013-01-01", 0, "parent", "<text>none</text>", "<text>none</text>")
+        cpcs forceInsert ClassificationItem(Some(CPCdb.topLevel), CPCdb.topLevel, false, false, false, "2013-01-01", 0, "parent", "<text>none</text>", "<text>none</text>")
 
         def process(t: TreeNode[ClassificationItem], parentId: Int) = {
           dao.insertTree(t, parentId) // insert tree of ClassificationItems into db
           indexer.addTree(t) // add to search index
         }
 
-        val zipFile = new ZipFile(c.cpcZipFile)
-        try {
+        for (zipFile <- managed(new ZipFile(c.cpcZipFile))) {
           // load section zip entries
           val sectionFileNameRE = """^cpc-scheme-[A-Z].xml$""".r
           zipFile.entries filter (e => sectionFileNameRE.findFirstIn(e.getName).isDefined) foreach { e =>
@@ -153,46 +147,46 @@ object Load {
             CPCParser.parse(XML.load(zipFile.getInputStream(e))).foreach { n =>
               // each root node should be a level 5 ClassificationItem and should have already been added to the db from a section zip entry
               val c = n.value
-              if (c.level != 5) throw new T3asException(s"Subclass file root node not level 5: ${c}")
-              val parent = dao.compiled.getBySymbolLevel(c.symbol, c.level).firstOption.getOrElse(throw new T3asException(s"Subclass file root node not in db: ${c}"))
-              n.children foreach (process(_, parent.id.getOrElse(throw new T3asException(s"Missing id from db record: ${parent}"))))
+              if (c.level != 5) throw new Exception(s"Subclass file root node not level 5: ${c}")
+              val parent = dao.compiled.getBySymbolLevel(c.symbol, c.level).firstOption.getOrElse(throw new Exception(s"Subclass file root node not in db: ${c}"))
+              n.children foreach (process(_, parent.id.getOrElse(throw new Exception(s"Missing id from db record: ${parent}"))))
             }
           }
-        } finally zipFile.close
-      } finally indexer.close
+        }
+      }
 
     } else log.info(s"File ${c.cpcZipFile} not found, so skipping CPC load")
   }
 
-  def doIPC(c: Config) {
+  def doIPC(c: Config)(implicit session: Session) {
     if (c.ipcZipFile.exists()) {
       log.info(s"Parsing ${c.ipcZipFile} ...")
-      val indexer = IndexerFactory.getIPCIndexer(c.ipcIndexDir)
-      try {
+      for (indexer <- managed(IndexerFactory.getIPCIndexer(c.ipcIndexDir))) {
         val dao = new IPCdb(Util.getObject(c.slickDriver))
-        import dao.IPC
+        import dao.profile.simple._
+        import dao.ipcs
+        import org.t3as.patClas.common.IPCTypes.IPCEntry
 
-        if (!MTable.getTables("ipc").list.isEmpty) IPC.ddl.drop
-        IPC.ddl.create
-        DDL(Seq("""GRANT SELECT ON "ipc" TO READONLY"""), Nil).create
+        if (!MTable.getTables("ipc").list.isEmpty) ipcs.ddl.drop
+        ipcs.ddl.create
+        StaticQuery.updateNA("""GRANT SELECT ON "ipc" TO READONLY""").execute
 
-        IPC insert new IPCEntry(Some(IPCdb.topLevel), IPCdb.topLevel, 0, "", "symbol", None, "<text>none</text>")
+        ipcs forceInsert IPCEntry(Some(IPCdb.topLevel), IPCdb.topLevel, 0, "", "symbol", None, "<text>none</text>")
 
         def process(t: TreeNode[IPCEntry], parentId: Int) = {
           dao.insertTree(t, parentId) // insert tree of IPCEntry into db
           indexer.addTree(t) // add to search index
         }
 
-        val zipFile = new ZipFile(c.ipcZipFile)
-        try {
+        for(zipFile <- managed(new ZipFile(c.ipcZipFile))) {
           zipFile.entries foreach { e =>
             // parent for English IPCEntries (skipping French for now)
             val parent = (XML.load(zipFile.getInputStream(e)) \ "revisionPeriod" \ "ipcEdition" \ "en" \ "staticIpc")(0)
             IPCParser.parse(parent) foreach (process(_, IPCdb.topLevel))
           }
-        } finally zipFile.close
+        }
 
-      } finally indexer.close
+      }
 
     } else log.info(s"File ${c.ipcZipFile} not found, so skipping IPC load")
   }
@@ -201,23 +195,24 @@ object Load {
    * The US data is dirty and can't all be successfully processed, so we need to minimize the impact by
    * catching and logging errors and carrying on.
    */
-  def doUSPC(c: Config) {
+  def doUSPC(c: Config)(implicit session: Session) {
     if (c.uspcZipFile.exists()) {
       log.info(s"Parsing ${c.uspcZipFile} ...")
-      val indexer = IndexerFactory.getUSPCIndexer(c.uspcIndexDir)
-      try {
+      for (indexer <- managed(IndexerFactory.getUSPCIndexer(c.uspcIndexDir))) {
         val dao = new USPCdb(Util.getObject(c.slickDriver))
-        import dao.USPC
+        import dao.profile.simple._
+        import dao.uspcs
+        import org.t3as.patClas.common.USPCTypes.UsClass
 
-        if (!MTable.getTables("uspc").list.isEmpty) USPC.ddl.drop
-        USPC.ddl.create
-        DDL(Seq("""GRANT SELECT ON "uspc" TO READONLY"""), Nil).create
+        if (!MTable.getTables("uspc").list.isEmpty) uspcs.ddl.drop
+        uspcs.ddl.create
+        StaticQuery.updateNA("""GRANT SELECT ON "uspc" TO READONLY""").execute
         
-        USPC insert new UsClass(Some(USPCdb.topId), USPCdb.topXmlId, USPCdb.topXmlId, "symbol", None, None, None, "<text>none</text>")
+        uspcs forceInsert UsClass(Some(USPCdb.topId), USPCdb.topXmlId, USPCdb.topXmlId, "symbol", None, None, None, "<text>none</text>")
 
         def process(c: UsClass) = {
           try {
-            USPC.forInsert insert c // insert UsClass into db
+            uspcs += c // insert UsClass into db
             indexer.add(c) // add to search index
           } catch {
             case NonFatal(e) => log.error("Can't load: " + c, e)
@@ -228,8 +223,7 @@ object Load {
         // org.xml.sax.SAXParseException; lineNumber: 1645; columnNumber: 3; The element type "graphic" must be terminated by the matching end-tag "</graphic>".
         val saxp = new org.ccil.cowan.tagsoup.jaxp.SAXFactoryImpl().newSAXParser()
 
-        val zipFile = new ZipFile(c.uspcZipFile)
-        try {
+        for (zipFile <- managed(new ZipFile(c.uspcZipFile))) {
           zipFile.entries filter (_.getName.endsWith(".xml")) foreach { ze =>
             log.info(s"Processing ${ze.getName}...")
             try {
@@ -241,9 +235,9 @@ object Load {
               case NonFatal(e) => log.error("Can't process zip entry: " + ze.getName, e)
             }
           }
-        } finally zipFile.close
+        }
 
-      } finally indexer.close
+      }
 
     } else log.info(s"File ${c.uspcZipFile} not found, so skipping USPC load")
   }

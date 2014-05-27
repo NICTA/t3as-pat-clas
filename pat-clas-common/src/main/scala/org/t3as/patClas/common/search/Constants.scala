@@ -1,5 +1,5 @@
 /*
-    Copyright 2013 NICTA
+    Copyright 2013, 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -17,22 +17,15 @@
     along with t3as.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.t3as.patClas.common
+package org.t3as.patClas.common.search
 
-import scala.collection.JavaConversions._
-import org.scalatest.{Matchers, FlatSpec}
+import org.apache.lucene.analysis.en.EnglishAnalyzer
+import org.apache.lucene.util.Version
 
-class TestUtil extends FlatSpec with Matchers {
-
-  "properties" should "load from classpath" in {
-    val p = Util.properties("/util-test.properties")
-    p("name") should be ("value")
-  }
-  
-  "toText" should "concatenate all text node descendents in document order, trimming whitespace" in {
-    val xml = """<a> text1 <text>text  2</text>   <b>text   3<text>text 4</text>  </b>  <text>text 5</text>text    6</a>"""
-    val s = Util.toText(xml)  
-    s should be ("text1\ntext 2\ntext 3\ntext 4\ntext 5\ntext 6")
-  }
-
+/**
+ * Constants shared by indexer and searcher.
+ */
+object Constants {
+  val version = Version.LUCENE_48
+  val analyzer = new EnglishAnalyzer(version)
 }

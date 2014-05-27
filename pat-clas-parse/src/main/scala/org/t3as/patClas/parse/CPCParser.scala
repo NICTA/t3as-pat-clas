@@ -1,5 +1,5 @@
 /*
-    Copyright 2013 NICTA
+    Copyright 2013, 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -21,7 +21,6 @@ package org.t3as.patClas.parse
 
 import scala.xml.Node
 
-import org.t3as.patClas.api.T3asException
 import org.t3as.patClas.common.CPCTypes.ClassificationItem
 import org.t3as.patClas.common.TreeNode
 
@@ -34,7 +33,7 @@ object CPCParser {
     n \ "classification-item" map (c => mkTree(c)))
 
   def classificationItem(n: Node) = {
-    def attr(n: Node, name: String) = n.attribute(name).map(_(0).text).getOrElse(throw new T3asException("classification-item missing @" + name))
+    def attr(n: Node, name: String) = n.attribute(name).map(_(0).text).getOrElse(throw new Exception("classification-item missing @" + name))
     
     ClassificationItem(None, 0,
         attr(n, "breakdown-code") == "true", 

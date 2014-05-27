@@ -1,5 +1,5 @@
 /*
-    Copyright 2013 NICTA
+    Copyright 2013, 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -20,7 +20,6 @@
 package org.t3as.patClas.parse
 
 import scala.xml.Node
-import org.t3as.patClas.api.T3asException
 import org.t3as.patClas.common.TreeNode
 import org.t3as.patClas.common.USPCTypes.UsClass
 import scala.collection.mutable.HashMap
@@ -30,14 +29,13 @@ import scala.xml.Text
 import scala.xml.TextBuffer
 import scala.xml.NodeSeq
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.api.USPC
 import org.t3as.patClas.common.USPCTypes
-import org.t3as.patClas.db.USPCdb
+import org.t3as.patClas.common.db.USPCdb
 
 object USPCParser {
   val log = LoggerFactory.getLogger(getClass)
 
-  def fail(msg: String) = throw new T3asException(msg)
+  def fail(msg: String) = throw new Exception(msg)
   def attr(n: Node, name: String) = n.attribute(name).map(_(0).text).getOrElse(fail("missing @" + name))
 
   /** Parse a US Patent Classification class XML representation.

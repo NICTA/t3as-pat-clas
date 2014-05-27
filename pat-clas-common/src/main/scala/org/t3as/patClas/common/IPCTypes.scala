@@ -19,14 +19,12 @@
 
 package org.t3as.patClas.common
 
-import org.t3as.patClas.api.IPC
-
 object IPCTypes {
 
   // removed entryType because it is always K
-  case class Description(id: Int, symbol: String, level: Int, kind: String, textBody: String) extends IPC.Description
+  case class Description(id: Int, symbol: String, level: Int, kind: String, textBody: String)
 
-  case class Hit(score: Float, symbol: String, level: Int, kind: String, textBodyHighlights: String) extends IPC.Hit
+  case class Hit(score: Float, symbol: String, level: Int, kind: String, textBodyHighlights: String) extends HitBase
   
   /** Names of CPC fields in the Lucene index. */
   object IndexFieldName extends Enumeration {

@@ -1,5 +1,5 @@
 /*
-    Copyright 2013 NICTA
+    Copyright 2013, 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -17,22 +17,13 @@
     along with t3as.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.t3as.patClas.common
+package org.t3as.patClas.service
 
-import scala.collection.JavaConversions._
-import org.scalatest.{Matchers, FlatSpec}
+import javax.servlet.{ServletContextEvent, ServletContextListener}
 
-class TestUtil extends FlatSpec with Matchers {
+class MyContextListener extends ServletContextListener {
 
-  "properties" should "load from classpath" in {
-    val p = Util.properties("/util-test.properties")
-    p("name") should be ("value")
-  }
+  override def contextInitialized(event: ServletContextEvent) = PatClasService.init
   
-  "toText" should "concatenate all text node descendents in document order, trimming whitespace" in {
-    val xml = """<a> text1 <text>text  2</text>   <b>text   3<text>text 4</text>  </b>  <text>text 5</text>text    6</a>"""
-    val s = Util.toText(xml)  
-    s should be ("text1\ntext 2\ntext 3\ntext 4\ntext 5\ntext 6")
-  }
-
+  override def contextDestroyed(event: ServletContextEvent) = PatClasService.close
 }

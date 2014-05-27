@@ -1,5 +1,5 @@
 /*
-    Copyright 2013 NICTA
+    Copyright 2013, 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -20,8 +20,10 @@
 package org.t3as.patClas.common
 
 import java.util.Properties
+
+import scala.collection.JavaConversions.propertiesAsScalaMap
 import scala.xml.{Utility, XML}
-import org.t3as.patClas.api.Format
+
 import org.slf4j.LoggerFactory
 
 object Util {
@@ -32,13 +34,15 @@ object Util {
     val is = getClass.getResourceAsStream(path)
     try p.load(is)
     finally is.close
+    log.info(s"Util.properties: loaded ${propertiesAsScalaMap(p)}")
     p
   }
 
-  // prefer system property then properties file
-  def getProperty(name: String)(implicit props: Properties) = {
-    log.info(s"getProperty: name = ${name}, sys value = ${sys.props.get(name)}")
-    sys.props.getOrElse(name, props.getProperty(name))
+  /** prefer system property then properties file */
+  def get(name: String)(implicit props: Properties) = {
+    val v = sys.props.getOrElse(name, props.getProperty(name))
+    log.info(s"Util.get: name = ${name}, sys value = ${sys.props.get(name)}, returned value = $v")
+    v
   }
 
   /** Concatenate all text node descendants */
@@ -50,11 +54,6 @@ object Util {
     } yield n.text) mkString("\n")
   }
   
-  /** Get a function to transform xml text.
-    * If f == Format.XML return the null transform (which preserves the markup), else return toText (which strips out the tags leaving just the text).
-   */
-  def getToText(f: Format) = if (f == Format.XML) (xml: String) => xml else toText _ 
-
   /**
    * Get a Scala singleton Object.
    * @param fqn object's fully qualified name

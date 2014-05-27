@@ -1,5 +1,5 @@
 /*
-    Copyright 2013 NICTA
+    Copyright 2013, 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -21,7 +21,6 @@ package org.t3as.patClas.parse
 
 import scala.xml.Node
 
-import org.t3as.patClas.api.T3asException
 import org.t3as.patClas.common.IPCTypes.IPCEntry
 import org.t3as.patClas.common.TreeNode
 
@@ -35,7 +34,7 @@ object IPCParser {
 
   def ipcEntry(n: Node, level: Int): IPCEntry = {
     def attrOption(n: Node, name: String) = n.attribute(name).map(_(0).text)
-    def attr(n: Node, name: String) = attrOption(n, name).getOrElse(throw new T3asException("ipcEntry missing @" + name))
+    def attr(n: Node, name: String) = attrOption(n, name).getOrElse(throw new Exception("ipcEntry missing @" + name))
 
     IPCEntry(None, 0, level,
       // attr(n, "entryType"), always K, so omit

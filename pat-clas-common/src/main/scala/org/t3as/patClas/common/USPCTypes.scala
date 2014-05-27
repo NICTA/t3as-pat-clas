@@ -19,14 +19,11 @@
 
 package org.t3as.patClas.common
 
-import org.t3as.patClas.api.USPC
-import org.t3as.patClas.api.Format
-
 object USPCTypes {
 
-  case class Description(id: Int, symbol: String, classTitle: String, subClassTitle: String, subClassDescription: String, text: String) extends USPC.Description
+  case class Description(id: Int, symbol: String, classTitle: String, subClassTitle: String, subClassDescription: String, text: String)
 
-  case class Hit(score: Float, symbol: String, classTitleHighlights: String, subClassTitleHighlights: String, subClassDescriptionHighlights: String, textHighlights: String) extends USPC.Hit
+  case class Hit(score: Float, symbol: String, classTitleHighlights: String, subClassTitleHighlights: String, subClassDescriptionHighlights: String, textHighlights: String)  extends HitBase
 
   /** Names of USPC fields in the Lucene index. */
   object IndexFieldName extends Enumeration {

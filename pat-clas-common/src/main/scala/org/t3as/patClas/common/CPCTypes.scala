@@ -19,14 +19,11 @@
 
 package org.t3as.patClas.common
 
-import org.t3as.patClas.api.CPC
-import org.t3as.patClas.api.Format
-
 object CPCTypes {
 
-  case class Description(id: Int, symbol: String, level: Int, classTitle: String, notesAndWarnings: String) extends CPC.Description
+  case class Description(id: Int, symbol: String, level: Int, classTitle: String, notesAndWarnings: String)
 
-  case class Hit(score: Float, symbol: String, level: Int, classTitleHighlights: String, notesAndWarningsHighlights: String) extends CPC.Hit
+  case class Hit(score: Float, symbol: String, level: Int, classTitleHighlights: String, notesAndWarningsHighlights: String) extends HitBase
   
   /** Names of CPC fields in the Lucene index. */
   object IndexFieldName extends Enumeration {
