@@ -9,13 +9,14 @@
     <version>1.0.4-SNAPSHOT</version>
   </parent>
 
-  <artifactId>pat-clas-search-client</artifactId>
+  <artifactId>pat-clas-client</artifactId>
   <packaging>jar</packaging>
 
-  <name>Patent Classification Search Client</name>
-  <description>Client implementation using JSON web service  pat-clas-search-web </description>
+  <name>Patent Classification Client</name>
+  <description>Client of JSON web service pat-clas-service</description>
 
   <build>
+    <!-- TODO: is this enough to get Eclipse to set up the proper build path? Should it be moved to parent pom? -->
     <sourceDirectory>src/main/scala</sourceDirectory>
     <testSourceDirectory>src/test/scala</testSourceDirectory>
   </build>
@@ -28,15 +29,19 @@
     </dependency>
 
     <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.fasterxml.jackson.module</groupId>
       <artifactId>jackson-module-scala_2.10</artifactId>
-      <version>2.2.3</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.3.1</version>
+      <version>${jackson.version}</version>
     </dependency>
   </dependencies>
 

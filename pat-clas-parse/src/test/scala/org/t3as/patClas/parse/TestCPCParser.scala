@@ -23,13 +23,13 @@ import org.scalatest.{FlatSpec, Matchers}
 
 import org.slf4j.LoggerFactory
 
-import org.t3as.patClas.common.CPCTypes.ClassificationItem
+import org.t3as.patClas.common.CPC.ClassificationItem
 import org.t3as.patClas.common.TreeNode
 
 class TestCPCParser extends FlatSpec with Matchers {
   val log = LoggerFactory.getLogger(getClass)
 
-  "cpc xml" should "parse OK" in {
+  "CPCParser" should "parse" in {
     val elem = <class-scheme><classification-item breakdown-code="false" not-allocatable="true" level="5" additional-only="false" sort-key="B29C" date-revised="2013-01-01">
     		<classification-symbol>B29C</classification-symbol>
     		<class-title date-revised="2013-01-01">

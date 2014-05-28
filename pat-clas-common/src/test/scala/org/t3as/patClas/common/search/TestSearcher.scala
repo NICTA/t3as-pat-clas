@@ -27,10 +27,8 @@ import org.apache.lucene.index.DirectoryReader
 import org.apache.lucene.search.IndexSearcher
 import org.scalatest.{FlatSpec, Matchers}
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.common.CPCTypes
-import org.t3as.patClas.common.CPCTypes.{hitFields, mkHit}
-import org.t3as.patClas.common.CPCTypes.IndexFieldName.{ClassTitle, NotesAndWarnings, convert}
-import org.t3as.patClas.common.HitBase
+import org.t3as.patClas.common.CPC, CPC.{hitFields, mkHit, Hit}, CPC.IndexFieldName.{ClassTitle, NotesAndWarnings, convert}
+import org.t3as.patClas.common.API.HitBase
 
 import resource.managed
 
@@ -42,7 +40,7 @@ class TestSearcher extends FlatSpec with Matchers {
 
   "Searcher" should "search" in {
     val dir = RAMIndex.makeTestIndex
-    for (searcher <- managed(new Searcher[CPCTypes.Hit](new File("not.used"), ClassTitle, hitFields, mkHit, expandQuery) {
+    for (searcher <- managed(new Searcher[Hit](new File("not.used"), ClassTitle, hitFields, mkHit, expandQuery) {
       override def open = new IndexSearcher(DirectoryReader.open(dir))
     })) {
       {

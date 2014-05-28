@@ -22,7 +22,7 @@ package org.t3as.patClas.common.db
 import scala.slick.driver.JdbcProfile
 import org.slf4j.LoggerFactory
 import scala.annotation.tailrec
-import org.t3as.patClas.common.USPCTypes.UsClass
+import org.t3as.patClas.common.USPC.UsClass
 
 /** Data Access Layer
   */

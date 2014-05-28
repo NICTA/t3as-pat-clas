@@ -8,8 +8,8 @@ import org.apache.lucene.document.StringField
 import org.apache.lucene.index.IndexWriter
 import org.apache.lucene.store.{Directory, RAMDirectory}
 import org.t3as.patClas.common.{TreeNode, Util}
-import org.t3as.patClas.common.CPCTypes.ClassificationItem
-import org.t3as.patClas.common.CPCTypes.IndexFieldName.{ClassTitle, Level, NotesAndWarnings, Symbol, convert}
+import org.t3as.patClas.common.CPC.ClassificationItem
+import org.t3as.patClas.common.CPC.IndexFieldName.{ClassTitle, Level, NotesAndWarnings, Symbol, convert}
 
 import Indexer.highlightFieldType
 import resource.managed

@@ -19,17 +19,11 @@
 
 package org.t3as.patClas.parse
 
-import scala.xml.Node
-import org.t3as.patClas.common.TreeNode
-import org.t3as.patClas.common.USPCTypes.UsClass
-import scala.collection.mutable.HashMap
-import scala.xml.Elem
-import scala.xml.Elem
-import scala.xml.Text
-import scala.xml.TextBuffer
-import scala.xml.NodeSeq
+import scala.language.postfixOps
+import scala.xml.{Elem, Node, NodeSeq, Text, TextBuffer}
+
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.common.USPCTypes
+import org.t3as.patClas.common.USPC.UsClass
 import org.t3as.patClas.common.db.USPCdb
 
 object USPCParser {

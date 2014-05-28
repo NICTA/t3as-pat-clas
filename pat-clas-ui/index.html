@@ -15,7 +15,7 @@
 <link href="fancytree/skin-lion/ui.fancytree.css" rel="stylesheet" type="text/css" />
 
 <!-- 
-    Copyright 2013 NICTA
+    Copyright 2013, 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -162,8 +162,9 @@
 
   /* === search ajaxy stuff === */
 
-  var baseUrl = 'http://pat-clas.t3as.org'
+  // var baseUrl = 'http://pat-clas.t3as.org'
   // var baseUrl = ''
+  var baseUrl = 'http://localhost:8080/pat-clas-service/rest/v1.0'
 
   // click handler for search button
   // does ajax search request
@@ -171,12 +172,12 @@
     try {
       e.preventDefault();
       var sName = schemaName(schemaInt());
-      var url = baseUrl + '/pat-clas-search-web/v1.0/' + sName;
+      var url = baseUrl + '/' + sName + '/search';
       debug('schema = ' + sName + ', query = ' + $('#query').val() + ', url = ' + url);
       $.ajax({
         url : url,
-        data : 'q=' + $('#query').val(),
-        dataType : 'jsonp',
+        data : { q: $('#query').val() },
+        dataType : 'json',
         success : searchSuccess,
         error : ajaxError
       });
@@ -249,12 +250,12 @@
       var sym = $('#symbol').val();
       if (i === 1)
         sym = cpcRefToIpc(sym); // IPC
-      var url = baseUrl + '/pat-clas-lookup-web/v1.0/' + sName + '/' + sym;
+      var url = baseUrl + '/' + sName + '/ancestorsAndSelf';
       debug('schema = ' + sName + ', symbol = ' + sym + ', url = ' + url);
       $.ajax({
         url : url,
-        data : 'f=xml',
-        dataType : 'jsonp',
+        data : { symbol: sym, format: 'xml' },
+        dataType : 'json',
         success : contextSuccess,
         error : ajaxError
       });
@@ -383,12 +384,12 @@
       var sym = $('#exploreSymbol').val();
       if (i === 1)
         sym = cpcRefToIpc(sym); // IPC
-      var url = baseUrl + '/pat-clas-lookup-web/v1.0/' + sName + '/' + sym;
+      var url = baseUrl + '/' + sName + '/ancestorsAndSelf';
       debug('explore: schema = ' + sName + ', symbol = ' + sym + ', url = ' + url);
       $.ajax({
         url : url,
-        data : 'f=xml',
-        dataType : 'jsonp',
+        data : { symbol: sym, format: 'xml' },
+        dataType : 'json',
         success : exploreSuccess,
         error : ajaxError
       });
@@ -471,12 +472,12 @@
         var i = schemaInt();
         var sName = schemaName(i);
         var id = node.key.id;
-        var url = baseUrl + '/pat-clas-lookup-web/v1.0/' + sName + '/id/' + id + '/*';
+        var url = baseUrl + '/' + sName + '/children';
         debug('treeClick: schema = ' + sName + ', id = ' + id + ', url = ' + url);
         $.ajax({
           url : url,
-          data : 'f=xml',
-          dataType : 'jsonp',
+          data : { parentId: id, format: 'xml' }, 
+          dataType : 'json',
           success : function(data, textStatus, jqXHR) {
             debug('treeClick.success(): data', data, 'textStatus', textStatus, 'jqXHR', jqXHR);
             treeClickSuccess(i, node, data);

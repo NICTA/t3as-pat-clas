@@ -19,9 +19,10 @@
 
 package org.t3as.patClas.parse
 
+import scala.language.postfixOps
 import scala.xml.Node
 
-import org.t3as.patClas.common.IPCTypes.IPCEntry
+import org.t3as.patClas.common.IPC.IPCEntry
 import org.t3as.patClas.common.TreeNode
 
 object IPCParser {

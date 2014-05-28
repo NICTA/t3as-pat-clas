@@ -1,5 +1,5 @@
 /*
-    Copyright 2013 NICTA
+    Copyright 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -17,20 +17,19 @@
     along with t3as.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.t3as.patClas.search.factory
+package org.t3as.patClas.client
 
-import org.t3as.patClas.api.{Search, USPC}
-import org.t3as.patClas.api.factory.Factory
-import org.t3as.patClas.lookup.factory.SCUtil
-import org.t3as.patClas.search.client.SearchServiceWebClient
-import org.t3as.patClas.common.Util, Util.{getProperty => get}
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
+import com.fasterxml.jackson.module.scala.DefaultScalaModule
+import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
 
-class USPCSearchFactoryImpl extends Factory[Search[USPC.Hit]] with SCUtil {
-
-  def create = new SearchServiceWebClient(
-    get("uspc.search.server.url"),
-    (json: String) => mapper.readValue(json)
-    )
-
-  def close = {}
+object ScalaJacksonJsonProvider {
+  val mapper = {
+    val m = new ObjectMapper with ScalaObjectMapper
+    m.registerModule(DefaultScalaModule)
+    m
+  }
 }
+
+class ScalaJacksonJsonProvider extends JacksonJsonProvider(ScalaJacksonJsonProvider.mapper)

@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory
 class TestIPCParser extends FlatSpec with Matchers {
   val log = LoggerFactory.getLogger(getClass)
 
-  "ipc xml" should "parse OK" in {
+  "IPCParser" should "parse" in {
     val elem = <staticIpc edition="20130101" lang="EN" documentRoot="">
                  <ipcEntry kind="s" symbol="A" ipcLevel="A" entryType="K" lang="EN">
                    <textBody>

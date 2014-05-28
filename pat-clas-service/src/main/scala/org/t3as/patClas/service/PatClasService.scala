@@ -20,18 +20,21 @@
 package org.t3as.patClas.service
 
 import java.io.File
+
+import javax.ws.rs.{GET, Path, PathParam, Produces, QueryParam}
+import javax.ws.rs.core.MediaType
+
 import scala.language.implicitConversions
 import scala.slick.driver.JdbcProfile
 import scala.slick.jdbc.JdbcBackend.Database
+
 import org.apache.commons.dbcp2.BasicDataSource
 import org.slf4j.LoggerFactory
+
 import org.t3as.patClas.common.Util
-import javax.ws.rs.{GET, Path, PathParam, Produces, QueryParam}
-import javax.ws.rs.core.MediaType
-import PatClasService._
+import org.t3as.patClas.common.{CPC, IPC, USPC, API}, API.{SearchService, LookupService}
 import org.t3as.patClas.common.search.Searcher
 
-// TODO: how do we set a shutdown hook to close the database DataSource and Lucene Searcher?
 object PatClasService {
   import Util.get
   
@@ -72,47 +75,30 @@ object PatClasService {
   def getToText(f: String) = if ("xml".equalsIgnoreCase(f)) (xml: String) => xml else Util.toText _ 
   
   val cpcSearcher = {
-    import org.t3as.patClas.common.CPCTypes, CPCTypes.IndexFieldName.{ClassTitle, NotesAndWarnings, convert}
+    import CPC._, IndexFieldName._
 
     // if "field:query" specified leave as is, else search all text fields (accepting a match in any)
     def mkQ(q: String) = if (q.contains(":")) q
       else Seq(ClassTitle, NotesAndWarnings).map(f => s"${f.toString}:(${q})").mkString(" || ")
 
-    new Searcher[CPCTypes.Hit](
-      new File(get("cpc.index.path")),
-      ClassTitle,
-      CPCTypes.hitFields,
-      CPCTypes.mkHit _,
-      mkQ
-      )
+    new Searcher[Hit](new File(get("cpc.index.path")), ClassTitle, hitFields, mkHit, mkQ)
   }
 
   val ipcSearcher = {
-    import org.t3as.patClas.common.IPCTypes, IPCTypes.IndexFieldName.{TextBody, convert}
+    import IPC._, IndexFieldName._
 
-    new Searcher[IPCTypes.Hit](
-      new File(get("ipc.index.path")),
-      TextBody,
-      IPCTypes.hitFields,
-      IPCTypes.mkHit _,
-      (q: String) => q
-      )
+    new Searcher[Hit](
+      new File(get("ipc.index.path")), TextBody, hitFields, mkHit, (q: String) => q)
   }
 
   val uspcSearcher = {
-    import org.t3as.patClas.common.USPCTypes, USPCTypes.IndexFieldName.{ClassTitle, SubClassTitle, SubClassDescription, Text, convert}
+    import USPC._, IndexFieldName._
 
     // if "field:query" specified leave as is, else search all text fields (accepting a match in any)
     def mkQ(q: String) = if (q.contains(":")) q
       else Seq(ClassTitle, SubClassTitle, SubClassDescription, Text).map(f => s"${f.toString}:(${q})").mkString(" || ")
     
-    new Searcher[USPCTypes.Hit](
-      new File(get("uspc.index.path")),
-      ClassTitle,
-      USPCTypes.hitFields,
-      USPCTypes.mkHit _,
-      mkQ
-      )
+    new Searcher[Hit](new File(get("uspc.index.path")), ClassTitle, hitFields, mkHit, mkQ)
   }
 
   
@@ -126,30 +112,31 @@ object PatClasService {
     uspcSearcher.close
   }
 }
-
+import PatClasService._
 
 @Path("/v1.0/CPC")
-class CPCService {
+class CPCService extends SearchService[CPC.Hit] with LookupService[CPC.Description] {
 
+  @Path("search")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  def query(@QueryParam("q") q: String) = cpcSearcher.search(q)
+  override def search(@QueryParam("q") q: String) = cpcSearcher.search(q)
   
-  @Path("{symbol}/ancestorsAndSelf")
+  @Path("ancestorsAndSelf")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  def getAncestors(@PathParam("symbol") symbol: String, @QueryParam("f") f: String) = {
-    val fmt = getToText(f)
+  override def ancestorsAndSelf(@QueryParam("symbol") symbol: String, @QueryParam("format") format: String) = {
+    val fmt = getToText(format)
     database withSession { implicit session =>
       cpcDb.getSymbolWithAncestors(symbol).map(_.toDescription(fmt))
     }
   }
 
-  @Path("{parentId}/children")
+  @Path("children")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  def getChildren(@PathParam("parentId") parentId: Int, @QueryParam("f") f: String) = {
-    val fmt = getToText(f)
+  override def children(@QueryParam("parentId") parentId: Int, @QueryParam("format") format: String) = {
+    val fmt = getToText(format)
     database withSession { implicit session =>
       cpcDb.getChildren(parentId).map(_.toDescription(fmt))
     }
@@ -157,27 +144,28 @@ class CPCService {
 }
 
 @Path("/v1.0/IPC")
-class IPCService {
+class IPCService extends SearchService[IPC.Hit] with LookupService[IPC.Description] {
   
+  @Path("search")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  def query(@QueryParam("q") q: String) = ipcSearcher.search(q)
+  override def search(@QueryParam("q") q: String) = ipcSearcher.search(q)
 
-  @Path("{symbol}/ancestorsAndSelf")
+  @Path("ancestorsAndSelf")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  def getAncestors(@PathParam("symbol") symbol: String, @QueryParam("f") f: String) = {
-    val fmt = getToText(f)
+  override def ancestorsAndSelf(@QueryParam("symbol") symbol: String, @QueryParam("format") format: String) = {
+    val fmt = getToText(format)
     database withSession { implicit session =>
       ipcDb.getSymbolWithAncestors(symbol).map(_.toDescription(fmt))
     }
   }
 
-  @Path("{parentId}/children")
+  @Path("children")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  def getChildren(@PathParam("parentId") parentId: Int, @QueryParam("f") f: String) = {
-    val fmt = getToText(f)
+  override def children(@QueryParam("parentId") parentId: Int, @QueryParam("format") format: String) = {
+    val fmt = getToText(format)
     database withSession { implicit session =>
       ipcDb.getChildren(parentId).map(_.toDescription(fmt))
     }
@@ -185,17 +173,18 @@ class IPCService {
 }
 
 @Path("/v1.0/USPC")
-class USPCService {
+class USPCService extends SearchService[USPC.Hit] with LookupService[USPC.Description] {
   
+  @Path("search")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  def query(@QueryParam("q") q: String) = uspcSearcher.search(q)
+  override def search(@QueryParam("q") q: String) = uspcSearcher.search(q)
 
-  @Path("{symbol}/ancestorsAndSelf")
+  @Path("ancestorsAndSelf")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  def getAncestors(@PathParam("symbol") symbol: String, @QueryParam("f") f: String) = {
-    val fmt = getToText(f)
+  override def ancestorsAndSelf(@QueryParam("symbol") symbol: String, @QueryParam("format") format: String) = {
+    val fmt = getToText(format)
     database withSession { implicit session =>
       uspcDb.getSymbolWithAncestors(symbol).map(_.toDescription(fmt))
     }
@@ -204,8 +193,8 @@ class USPCService {
   @Path("{parentId}/children")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  def getChildren(@PathParam("parentId") parentId: Int, @QueryParam("f") f: String) = {
-    val fmt = getToText(f)
+  override def children(@QueryParam("parentId") parentId: Int, @QueryParam("format") format: String) = {
+    val fmt = getToText(format)
     database withSession { implicit session =>
       uspcDb.getChildren(parentId).map(_.toDescription(fmt))
     }

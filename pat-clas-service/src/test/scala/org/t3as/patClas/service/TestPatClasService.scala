@@ -23,7 +23,7 @@ import scala.collection.JavaConversions.asScalaBuffer
 
 import org.scalatest.{FlatSpec, Matchers}
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.common.CPCTypes.ClassificationItem
+import org.t3as.patClas.common.CPC.ClassificationItem
 import org.t3as.patClas.common.TreeNode
 import org.t3as.patClas.common.db.CPCdb
 
@@ -32,7 +32,7 @@ import PatClasService.cpcDb, cpcDb.profile.simple._
 class TestPatClasService extends FlatSpec with Matchers {
   val log = LoggerFactory.getLogger(getClass)
 
-  "LookupService" should "retrieve ancestors" in {
+  "CPCService" should "retrieve ancestorsAndSelf" in {
 
     val l8 = TreeNode(ClassificationItem(None, -1, false, true, false, "2013-01-01", 8, "B29C31/002", "title8", "notes8"), Seq())
     val l7 = TreeNode(ClassificationItem(None, -1, false, true, false, "2013-01-01", 7, "B29C31/00", "title7", "notes7"), Seq(l8))
@@ -53,7 +53,7 @@ class TestPatClasService extends FlatSpec with Matchers {
 
       cpcDb.insertTree(l5, CPCdb.topLevel)
 
-      srv.getAncestors("B29C31/00", "xml") zip Seq(l5, l6, l7) foreach {
+      srv.ancestorsAndSelf("B29C31/00", "xml") zip Seq(l5, l6, l7) foreach {
         case (desc, n) => {
           desc.symbol should be(n.value.symbol)
           desc.level should be(n.value.level)

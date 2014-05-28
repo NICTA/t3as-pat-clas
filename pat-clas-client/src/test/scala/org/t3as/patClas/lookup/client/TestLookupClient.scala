@@ -1,5 +1,5 @@
 /*
-    Copyright 2013 NICTA
+    Copyright 2013, 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -17,20 +17,16 @@
     along with t3as.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.t3as.patClas.search.factory
+package org.t3as.patClas.lookup.client
 
-import org.t3as.patClas.api.{IPC, Search}
-import org.t3as.patClas.api.factory.Factory
-import org.t3as.patClas.lookup.factory.SCUtil
-import org.t3as.patClas.search.client.SearchServiceWebClient
-import org.t3as.patClas.common.Util, Util.{getProperty => get}
+import scala.collection.JavaConversions._
 
-class IPCSearchFactoryImpl extends Factory[Search[IPC.Hit]] with SCUtil {
+import org.scalatest.{FlatSpec, Matchers}
+import org.slf4j.LoggerFactory
 
-  def create = new SearchServiceWebClient(
-    get("ipc.search.server.url"),
-    (json: String) => mapper.readValue(json)
-    )
 
-  def close = {}
+class TestLookupClient extends FlatSpec with Matchers {
+  val log = LoggerFactory.getLogger(getClass)
+  
+
 }

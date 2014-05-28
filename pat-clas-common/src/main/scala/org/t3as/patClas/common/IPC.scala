@@ -19,17 +19,19 @@
 
 package org.t3as.patClas.common
 
-object IPCTypes {
+import scala.language.implicitConversions
+
+object IPC {
 
   // removed entryType because it is always K
   case class Description(id: Int, symbol: String, level: Int, kind: String, textBody: String)
 
-  case class Hit(score: Float, symbol: String, level: Int, kind: String, textBodyHighlights: String) extends HitBase
+  case class Hit(score: Float, symbol: String, level: Int, kind: String, textBodyHighlights: String) extends API.HitBase
   
   /** Names of CPC fields in the Lucene index. */
   object IndexFieldName extends Enumeration {
     type IndexFieldName = Value
-    val ID, Symbol, Level, Kind, TextBody = Value
+    val Symbol, Level, Kind, TextBody = Value
 
     implicit def convert(f: IndexFieldName) = f.toString
   }

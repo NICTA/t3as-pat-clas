@@ -19,9 +19,10 @@
 
 package org.t3as.patClas.parse
 
+import scala.language.postfixOps
 import scala.xml.Node
 
-import org.t3as.patClas.common.CPCTypes.ClassificationItem
+import org.t3as.patClas.common.CPC.ClassificationItem
 import org.t3as.patClas.common.TreeNode
 
 object CPCParser {

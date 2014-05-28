@@ -45,6 +45,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <scala.version>2.10.4</scala.version>
     <lucene.version>4.8.1</lucene.version>
+    <!-- works with jersey 2.7 and jackson 2.4.0-rc2 -->
+    <jersey.version>2.9</jersey.version>
+    <jackson.version>2.3.2</jackson.version> <!-- See: https://jersey.java.net/project-info/2.9/jersey/project/json-jackson/dependencies.html -->
   </properties>
 
   <build>
@@ -81,6 +84,7 @@
           <args>
             <arg>-unchecked</arg>
             <arg>-deprecation</arg>
+            <arg>-feature</arg>
             <!-- <arg>-explaintypes</arg> -->
           </args>
         </configuration>
@@ -164,12 +168,12 @@
     <dependency>
       <groupId>org.scalatest</groupId>
       <artifactId>scalatest_2.10</artifactId>
-      <version>2.2.0-M1</version>
+      <version>2.2.0-M1</version> <!-- this brings in old scala-reflect 2.10.3 -->
       <scope>test</scope>
       <exclusions>
         <exclusion>
           <groupId>org.scala-lang</groupId>
-          <artifactId>scala-reflect</artifactId> <!-- this brings in old 2.10.3 -->
+          <artifactId>scala-reflect</artifactId>
         </exclusion>
       </exclusions>
     </dependency>

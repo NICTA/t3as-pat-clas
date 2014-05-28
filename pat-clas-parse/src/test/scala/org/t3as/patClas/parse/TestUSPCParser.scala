@@ -21,7 +21,7 @@ package org.t3as.patClas.parse
 
 import org.scalatest.{ FlatSpec, Matchers }
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.common.USPCTypes.UsClass
+import org.t3as.patClas.common.USPC.UsClass
 import scala.collection.immutable.IndexedSeq
 import scala.xml.XML
 import java.io.StringReader
@@ -29,14 +29,14 @@ import java.io.StringReader
 class TestUSPCParser extends FlatSpec with Matchers {
   val log = LoggerFactory.getLogger(getClass)
 
-    "UsClass as Scala XML" should "parse OK" in {
+    "USPCParser" should "parse UsClass as Scala XML" in {
       nextId = 0
       USPCParser.parse(elem, check)
     }
   
     // We need tag soup because zip entry: classdefs201308/class_106.xml (and others) have unclosed graphics tags:
     //   org.xml.sax.SAXParseException; lineNumber: 1645; columnNumber: 3; The element type "graphic" must be terminated by the matching end-tag "</graphic>"
-    "UsClass as string" should "parse with tagsoup" in {
+   it should "parse with tagsoup" in {
       nextId = 0
       USPCParser.parse(
           XML.withSAXParser(new org.ccil.cowan.tagsoup.jaxp.SAXFactoryImpl().newSAXParser()).
@@ -44,7 +44,7 @@ class TestUSPCParser extends FlatSpec with Matchers {
       	check)
     }
 
-  "class_100.xml file" should "parse with tagsoup" in {
+  it should "parse class_100.xml file with tagsoup" in {
     val f = new org.ccil.cowan.tagsoup.jaxp.SAXFactoryImpl()
     def l(name: String) = log.debug(s"feature $name = ${f.getFeature("http://www.ccil.org/~cowan/tagsoup/features/" + name)}")
     l("ignore-bogons")
@@ -68,7 +68,7 @@ class TestUSPCParser extends FlatSpec with Matchers {
     in.close
   }
   
-  "checkId" should "generate xmlIds" in {
+  it should "generate xmlIds" in {
     Seq(
         // test classnum variation
         ("C001S104130", "1", "104.13", "C001S104130"),

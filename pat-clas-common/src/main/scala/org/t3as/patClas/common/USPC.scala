@@ -19,16 +19,18 @@
 
 package org.t3as.patClas.common
 
-object USPCTypes {
+import scala.language.implicitConversions
+
+object USPC {
 
   case class Description(id: Int, symbol: String, classTitle: String, subClassTitle: String, subClassDescription: String, text: String)
 
-  case class Hit(score: Float, symbol: String, classTitleHighlights: String, subClassTitleHighlights: String, subClassDescriptionHighlights: String, textHighlights: String)  extends HitBase
+  case class Hit(score: Float, symbol: String, classTitleHighlights: String, subClassTitleHighlights: String, subClassDescriptionHighlights: String, textHighlights: String)  extends API.HitBase
 
   /** Names of USPC fields in the Lucene index. */
   object IndexFieldName extends Enumeration {
     type IndexFieldName = Value
-    val ID, Symbol, ClassTitle, SubClassTitle, SubClassDescription, Text = Value
+    val Symbol, ClassTitle, SubClassTitle, SubClassDescription, Text = Value
 
     implicit def convert(f: IndexFieldName) = f.toString
   }
