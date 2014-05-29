@@ -37,7 +37,7 @@ public class JavaExample {
         doit(new ServiceFactory());
 
         // client that makes HTTP requests to remote (inter-process) service (which has to be running elsewhere)
-        doit(new ClientFactory());
+        doit(new ClientFactory("http://localhost:8080/pat-clas-service/rest/v1.0"));
     }
     
     private static void doit(Factory f) {

@@ -18,7 +18,8 @@ object ScalaExample {
 //    finally PatClasService.close
     
     // client that makes HTTP requests to remote (inter-process) service (which has to be running elsewhere)
-    doit(new CPCClient, new IPCClient)
+    val path = "http://localhost:8080/pat-clas-service/rest/v1.0"
+    doit(new CPCClient(path + "/CPC"), new IPCClient(path + "/IPC"))
   }
 
   def doit(cpc: SearchService[CPC.Hit] with LookupService[CPC.Description], ipc: SearchService[IPC.Hit] with LookupService[IPC.Description]) = {

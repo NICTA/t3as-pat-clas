@@ -22,4 +22,5 @@ package org.t3as.patClas.client.javaApi
 import org.t3as.patClas.client.{CPCClient, IPCClient, USPCClient}
 import org.t3as.patClas.common.javaApi.Factory
 
-class ClientFactory extends Factory(new CPCClient, new IPCClient, new USPCClient)
+// path = "http://localhost:8080/pat-clas-service/rest/v1.0"
+class ClientFactory(path: String) extends Factory(new CPCClient(path + "/CPC"), new IPCClient(path + "/IPC"), new USPCClient(path + "/USPC"))

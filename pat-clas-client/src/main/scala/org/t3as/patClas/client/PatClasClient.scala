@@ -29,17 +29,14 @@ import javax.ws.rs.core.MediaType
 
 object PatClasClient {
   val log = LoggerFactory.getLogger(getClass)
-  
-  val client = {
-    val config = (new ClientConfig(classOf[ScalaJacksonJsonProvider])).getConfiguration
-    ClientBuilder.newClient(config).target("http://localhost:8080").path("pat-clas-service/rest/v1.0")
-  }
-  
+  val config = (new ClientConfig(classOf[ScalaJacksonJsonProvider])).getConfiguration
 }
+import PatClasClient._
 
-class PatClasClient[H <: HitBase, D](xpc: String) extends SearchService[H] with LookupService[D] {
+// path = "http://localhost:8080/pat-clas-service/rest/v1.0/CPC"
+class PatClasClient[H <: HitBase, D](path: String) extends SearchService[H] with LookupService[D] {
 
-  val c = PatClasClient.client.path(xpc)
+  val c = ClientBuilder.newClient(config).target(path)
   
   override def search(q: String) = c.path("search")
     .queryParam("q", q)
@@ -60,6 +57,6 @@ class PatClasClient[H <: HitBase, D](xpc: String) extends SearchService[H] with 
   
 }
 
-class CPCClient extends PatClasClient[CPC.Hit, CPC.Description]("CPC")
-class IPCClient extends PatClasClient[IPC.Hit, IPC.Description]("IPC")
-class USPCClient extends PatClasClient[USPC.Hit, USPC.Description]("USPC")
+class CPCClient(path: String) extends PatClasClient[CPC.Hit, CPC.Description](path)
+class IPCClient(path: String) extends PatClasClient[IPC.Hit, IPC.Description](path)
+class USPCClient(path: String) extends PatClasClient[USPC.Hit, USPC.Description](path)
