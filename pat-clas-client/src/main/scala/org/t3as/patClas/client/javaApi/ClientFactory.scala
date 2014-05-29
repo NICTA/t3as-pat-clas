@@ -17,13 +17,9 @@
     along with t3as.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.t3as.patClas.service
+package org.t3as.patClas.client.javaApi
 
-import javax.servlet.{ServletContextEvent, ServletContextListener}
+import org.t3as.patClas.client.{CPCClient, IPCClient, USPCClient}
+import org.t3as.patClas.common.javaApi.Factory
 
-class MyContextListener extends ServletContextListener {
-
-  override def contextInitialized(event: ServletContextEvent) = PatClasService.init
-  
-  override def contextDestroyed(event: ServletContextEvent) = PatClasService.close
-}
+class ClientFactory extends Factory(new CPCClient, new IPCClient, new USPCClient)

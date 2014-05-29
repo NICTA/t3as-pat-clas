@@ -35,10 +35,6 @@ object PatClasClient {
     ClientBuilder.newClient(config).target("http://localhost:8080").path("pat-clas-service/rest/v1.0")
   }
   
-//  def main(args: Array[String]) {
-//    val x = new CPCClient().children(0, "XML")
-//    println(s"x = $x")
-//  }
 }
 
 class PatClasClient[H <: HitBase, D](xpc: String) extends SearchService[H] with LookupService[D] {

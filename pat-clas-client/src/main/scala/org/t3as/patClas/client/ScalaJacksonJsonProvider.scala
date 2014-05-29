@@ -23,13 +23,19 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
+import org.slf4j.LoggerFactory
 
 object ScalaJacksonJsonProvider {
+  val log = LoggerFactory.getLogger(getClass)
+  
   val mapper = {
     val m = new ObjectMapper with ScalaObjectMapper
     m.registerModule(DefaultScalaModule)
     m
   }
 }
+import ScalaJacksonJsonProvider._
 
-class ScalaJacksonJsonProvider extends JacksonJsonProvider(ScalaJacksonJsonProvider.mapper)
+class ScalaJacksonJsonProvider extends JacksonJsonProvider(mapper) {
+  log.debug("ScalaJacksonJsonProvider:ctor")
+}

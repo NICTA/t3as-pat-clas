@@ -116,6 +116,9 @@ import PatClasService._
 
 @Path("/v1.0/CPC")
 class CPCService extends SearchService[CPC.Hit] with LookupService[CPC.Description] {
+  
+  def searchService: SearchService[CPC.Hit] = this
+  def lookupService: LookupService[CPC.Description] = this
 
   @Path("search")
   @GET
