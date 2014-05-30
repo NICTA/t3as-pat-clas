@@ -16,6 +16,11 @@
   <description>Common dependencies for Patent Classification modules</description>
 
   <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>pat-clas-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <!-- database -->
     <dependency>

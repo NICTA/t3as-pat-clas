@@ -1,3 +1,9 @@
 target/
 *.iml
 .idea
+bin/
+.cache
+.classpath
+.project
+.settings/
+.hsenv

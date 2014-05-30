@@ -29,7 +29,7 @@ import scala.slick.jdbc.JdbcBackend.{ Database, Session }
 import org.slf4j.LoggerFactory
 
 import org.t3as.patClas.common.TreeNode
-import org.t3as.patClas.common.CPC.ClassificationItem
+import org.t3as.patClas.api.CPC.ClassificationItem
 
 
 class TestCPCdb extends FlatSpec with Matchers {

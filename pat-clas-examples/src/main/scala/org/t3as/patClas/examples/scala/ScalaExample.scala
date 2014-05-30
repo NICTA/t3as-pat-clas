@@ -1,34 +1,33 @@
 package org.t3as.patClas.examples.scala
 
-import org.t3as.patClas.service.CPCService
-import org.t3as.patClas.service.IPCService
-import org.t3as.patClas.client.CPCClient
-import org.t3as.patClas.client.IPCClient
 import org.t3as.patClas.service.PatClasService
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.common.{CPC, IPC}
-import org.t3as.patClas.common.API.{HitBase, SearchService, LookupService}
+import org.t3as.patClas.api.{CPC, IPC}
+import org.t3as.patClas.api.API.{HitBase, SearchService, LookupService, Factory}
+import org.t3as.patClas.client.PatClasClient
 
 object ScalaExample {
   val log = LoggerFactory.getLogger(getClass)
 
   def main(args: Array[String]) = {
     // local (in-process) service
-//    try doit(new CPCService, new IPCService)
-//    finally PatClasService.close
+    val local = PatClasService.factory
+    try doit(local)
+    finally local.close
     
     // client that makes HTTP requests to remote (inter-process) service (which has to be running elsewhere)
-    val path = "http://localhost:8080/pat-clas-service/rest/v1.0"
-    doit(new CPCClient(path + "/CPC"), new IPCClient(path + "/IPC"))
+    val remote = new PatClasClient("http://localhost:8080/pat-clas-service/rest/v1.0")
+    try doit(remote)
+    finally remote.close
   }
 
-  def doit(cpc: SearchService[CPC.Hit] with LookupService[CPC.Description], ipc: SearchService[IPC.Hit] with LookupService[IPC.Description]) = {
-      val hits = cpc.search("locomotive")
+  def doit(f: Factory) = {
+      val hits = f.cpc.search("locomotive")
       log.info(s"top score: ${hits(0).score}")
       log.info(s"hits: $hits")
 
-      val descr = ipc.children(0, "XML")
-      log.info("descr: $descr")
+      val descr = f.ipc.children(0, "XML")
+      log.info(s"descr: $descr")
   }
 
 }

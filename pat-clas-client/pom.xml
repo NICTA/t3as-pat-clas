@@ -24,7 +24,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>pat-clas-common</artifactId>
+      <artifactId>pat-clas-api</artifactId>
       <version>${project.version}</version>
     </dependency>
 

@@ -117,7 +117,7 @@ object Load {
         val dao = new CPCdb(Util.getObject(c.slickDriver))
         import dao.profile.simple._
         import dao.cpcs
-        import org.t3as.patClas.common.CPC.ClassificationItem
+        import org.t3as.patClas.api.CPC.ClassificationItem
 
         // Create the table(s), indices etc.
         if (!MTable.getTables("cpc").list.isEmpty) cpcs.ddl.drop
@@ -165,7 +165,7 @@ object Load {
         val dao = new IPCdb(Util.getObject(c.slickDriver))
         import dao.profile.simple._
         import dao.ipcs
-        import org.t3as.patClas.common.IPC.IPCEntry
+        import org.t3as.patClas.api.IPC.IPCEntry
 
         if (!MTable.getTables("ipc").list.isEmpty) ipcs.ddl.drop
         ipcs.ddl.create
@@ -202,7 +202,7 @@ object Load {
         val dao = new USPCdb(Util.getObject(c.slickDriver))
         import dao.profile.simple._
         import dao.uspcs
-        import org.t3as.patClas.common.USPC.UsClass
+        import org.t3as.patClas.api.USPC.UsClass
 
         if (!MTable.getTables("uspc").list.isEmpty) uspcs.ddl.drop
         uspcs.ddl.create

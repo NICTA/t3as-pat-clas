@@ -32,7 +32,7 @@ import org.apache.commons.dbcp2.BasicDataSource
 import org.slf4j.LoggerFactory
 
 import org.t3as.patClas.common.Util
-import org.t3as.patClas.common.{CPC, IPC, USPC, API}, API.{SearchService, LookupService}
+import org.t3as.patClas.api.{CPC, IPC, USPC, API}, API.{SearchService, LookupService, Factory}
 import org.t3as.patClas.common.search.Searcher
 
 object PatClasService {
@@ -111,6 +111,17 @@ object PatClasService {
     ipcSearcher.close
     uspcSearcher.close
   }
+  
+  // for local (in-process) use
+  def factory = new Factory {
+    val cpc = new CPCService
+    val ipc = new IPCService
+    val uspc = new USPCService
+    override def close = PatClasService.close
+  }
+  
+  import org.t3as.patClas.api.javaApi.{Factory => JF}
+  def toJavaApi = new JF(factory)
 }
 import PatClasService._
 

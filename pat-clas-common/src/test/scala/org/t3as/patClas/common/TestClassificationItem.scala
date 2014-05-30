@@ -20,7 +20,7 @@
 package org.t3as.patClas.common
 
 import org.scalatest.{Matchers, FlatSpec}
-import CPC.ClassificationItem
+import org.t3as.patClas.api.CPC, CPC.ClassificationItem
 
 class TestClassificationItem extends FlatSpec with Matchers {
 

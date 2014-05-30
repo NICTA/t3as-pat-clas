@@ -26,14 +26,14 @@ import org.apache.lucene.document.StringField
 import org.t3as.patClas.common.Util.toText
 import org.t3as.patClas.common.search.Indexer
 import org.t3as.patClas.common.search.Indexer.highlightFieldType
-import org.t3as.patClas.common.CPC.ClassificationItem
-import org.t3as.patClas.common.IPC.IPCEntry
-import org.t3as.patClas.common.USPC.UsClass
+import org.t3as.patClas.api.CPC.ClassificationItem
+import org.t3as.patClas.api.IPC.IPCEntry
+import org.t3as.patClas.api.USPC.UsClass
 
 object IndexerFactory {
 
   private def cpcToDoc(c: ClassificationItem) = {
-    import org.t3as.patClas.common.CPC.IndexFieldName._
+    import org.t3as.patClas.api.CPC.IndexFieldName._
     
     val doc = new Document
     doc add new StringField(Symbol, c.symbol, Store.YES)
@@ -51,7 +51,7 @@ object IndexerFactory {
   def getCPCIndexer(indexDir: File) = new Indexer[ClassificationItem](indexDir, cpcToDoc)
   
   private def ipcToDoc(c: IPCEntry) = {
-    import org.t3as.patClas.common.IPC.IndexFieldName._
+    import org.t3as.patClas.api.IPC.IndexFieldName._
 
     val doc = new Document
     doc add new StringField(Symbol, c.symbol, Store.YES)
@@ -67,7 +67,7 @@ object IndexerFactory {
   def getIPCIndexer(indexDir: File) = new Indexer[IPCEntry](indexDir, ipcToDoc)
   
   private def uspcToDoc(c: UsClass) = {
-    import org.t3as.patClas.common.USPC.IndexFieldName._
+    import org.t3as.patClas.api.USPC.IndexFieldName._
 
     val doc = new Document
     doc add new StringField(Symbol, c.symbol, Store.YES)

@@ -1,5 +1,5 @@
 /*
-    Copyright 2014 NICTA
+    Copyright 2013, 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -17,11 +17,31 @@
     along with t3as.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.t3as.patClas.service.javaApi
+package org.t3as.patClas.api
 
-import org.t3as.patClas.common.javaApi.Factory
-import org.t3as.patClas.service.{CPCService, IPCService, PatClasService, USPCService}
+import java.io.Closeable
 
-class ServiceFactory extends Factory(new CPCService, new IPCService, new USPCService) {
-  override def close = PatClasService.close
+object API {
+
+  trait HitBase {
+    def score: Float
+    def symbol: String
+  }
+
+  trait SearchService[H <: HitBase] {
+    def search(q: String): List[H]
+  }
+
+  trait LookupService[D] {
+    def ancestorsAndSelf(symbol: String, format: String): List[D]
+    def children(parentId: Int, format: String): List[D]
+  }
+  
+  trait Factory extends Closeable {
+    val cpc: SearchService[CPC.Hit] with LookupService[CPC.Description]
+    val ipc: SearchService[IPC.Hit] with LookupService[IPC.Description]
+    val uspc: SearchService[USPC.Hit] with LookupService[USPC.Description]
+    
+    def close = {}
+  }
 }

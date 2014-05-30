@@ -10,15 +10,11 @@
   <name>Patent Classification Parent</name>
 
   <modules>
-<!--     <module>pat-clas-api</module> -->
+    <module>pat-clas-api</module>
     <module>pat-clas-common</module>
     <module>pat-clas-parse</module>
     <module>pat-clas-service</module>
-<!--     <module>pat-clas-lookup-web</module> -->
     <module>pat-clas-client</module>
-<!--     <module>pat-clas-search</module> -->
-<!--     <module>pat-clas-search-web</module> -->
-<!--     <module>pat-clas-search-client</module> -->
     <module>pat-clas-examples</module>
   </modules>
 

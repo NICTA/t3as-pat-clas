@@ -27,8 +27,8 @@ import org.apache.lucene.index.DirectoryReader
 import org.apache.lucene.search.IndexSearcher
 import org.scalatest.{FlatSpec, Matchers}
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.common.CPC, CPC.{hitFields, mkHit, Hit}, CPC.IndexFieldName.{ClassTitle, NotesAndWarnings, convert}
-import org.t3as.patClas.common.API.HitBase
+import org.t3as.patClas.api.CPC, CPC.{hitFields, mkHit, Hit}, CPC.IndexFieldName.{ClassTitle, NotesAndWarnings, convert}
+import org.t3as.patClas.api.API.HitBase
 
 import resource.managed
 

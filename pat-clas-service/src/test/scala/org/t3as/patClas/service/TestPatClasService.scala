@@ -23,7 +23,7 @@ import scala.collection.JavaConversions.asScalaBuffer
 
 import org.scalatest.{FlatSpec, Matchers}
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.common.CPC.ClassificationItem
+import org.t3as.patClas.api.CPC.ClassificationItem
 import org.t3as.patClas.common.TreeNode
 import org.t3as.patClas.common.db.CPCdb
 

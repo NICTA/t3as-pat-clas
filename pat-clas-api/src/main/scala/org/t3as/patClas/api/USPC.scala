@@ -1,5 +1,5 @@
 /*
-    Copyright 2013 NICTA
+    Copyright 2013, 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -17,7 +17,7 @@
     along with t3as.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.t3as.patClas.common
+package org.t3as.patClas.api
 
 import scala.language.implicitConversions
 

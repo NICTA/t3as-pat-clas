@@ -21,42 +21,46 @@ package org.t3as.patClas.client
 
 import org.glassfish.jersey.client.ClientConfig
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.common.{CPC, IPC, USPC}
-import org.t3as.patClas.common.API.{HitBase, LookupService, SearchService}
-
+import org.t3as.patClas.api.{ CPC, IPC, USPC }
+import org.t3as.patClas.api.API.{ HitBase, LookupService, SearchService, Factory }
 import javax.ws.rs.client.ClientBuilder
 import javax.ws.rs.core.MediaType
 
-object PatClasClient {
+// path = "http://localhost:8080/pat-clas-service/rest/v1.0"
+class PatClasClient(path: String) extends Factory {
   val log = LoggerFactory.getLogger(getClass)
   val config = (new ClientConfig(classOf[ScalaJacksonJsonProvider])).getConfiguration
+
+  // path = "http://localhost:8080/pat-clas-service/rest/v1.0/CPC"
+  class Client[H <: HitBase, D](path: String) extends SearchService[H] with LookupService[D] {
+    val c = ClientBuilder.newClient(config).target(path)
+
+    override def search(q: String) = c.path("search")
+      .queryParam("q", q)
+      .request(MediaType.APPLICATION_JSON_TYPE)
+      .get(classOf[Array[H]]).toList
+
+    override def ancestorsAndSelf(symbol: String, format: String) = c.path("ancestorsAndSelf")
+      .queryParam("symbol", symbol)
+      .queryParam("format", format)
+      .request(MediaType.APPLICATION_JSON_TYPE)
+      .get(classOf[Array[D]]).toList
+
+    override def children(parentId: Int, format: String) = c.path("children")
+      .queryParam("parentId", parentId.toString)
+      .queryParam("format", format)
+      .request(MediaType.APPLICATION_JSON_TYPE)
+      .get(classOf[Array[D]]).toList
+  }
+
+  val cpc = new Client[CPC.Hit, CPC.Description](path + "/CPC")
+
+  val ipc = new Client[IPC.Hit, IPC.Description](path + "/IPC")
+
+  val uspc = new Client[USPC.Hit, USPC.Description](path + "/USPC")
 }
-import PatClasClient._
 
-// path = "http://localhost:8080/pat-clas-service/rest/v1.0/CPC"
-class PatClasClient[H <: HitBase, D](path: String) extends SearchService[H] with LookupService[D] {
-
-  val c = ClientBuilder.newClient(config).target(path)
-  
-  override def search(q: String) = c.path("search")
-    .queryParam("q", q)
-    .request(MediaType.APPLICATION_JSON_TYPE)
-    .get(classOf[List[H]])
-  
-  override def ancestorsAndSelf(symbol: String, format: String) = c.path("ancestorsAndSelf")
-    .queryParam("symbol", symbol)
-    .queryParam("format", format)
-    .request(MediaType.APPLICATION_JSON_TYPE)
-    .get(classOf[List[D]])
-
-  override def children(parentId: Int, format: String) = c.path("children")
-    .queryParam("parentId", parentId.toString)
-    .queryParam("format", format)
-    .request(MediaType.APPLICATION_JSON_TYPE)
-    .get(classOf[List[D]])
-  
+object PatClasClient {
+  import org.t3as.patClas.api.javaApi.{Factory => JF}
+  def toJavaApi(path: String) = new JF(new PatClasClient(path))
 }
-
-class CPCClient(path: String) extends PatClasClient[CPC.Hit, CPC.Description](path)
-class IPCClient(path: String) extends PatClasClient[IPC.Hit, IPC.Description](path)
-class USPCClient(path: String) extends PatClasClient[USPC.Hit, USPC.Description](path)

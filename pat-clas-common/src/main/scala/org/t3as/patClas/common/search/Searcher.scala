@@ -32,7 +32,7 @@ import org.apache.lucene.search.{IndexSearcher, Query}
 import org.apache.lucene.search.postingshighlight.{DefaultPassageFormatter, PostingsHighlighter}
 import org.apache.lucene.store.FSDirectory
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.common.API.HitBase
+import org.t3as.patClas.api.API.HitBase
 
 /** Search text associated with a classification code.
   * @param indexDir path to search index
