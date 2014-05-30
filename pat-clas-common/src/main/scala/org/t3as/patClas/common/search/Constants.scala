@@ -19,13 +19,40 @@
 
 package org.t3as.patClas.common.search
 
+import scala.language.implicitConversions
+import scala.collection.JavaConversions._
 import org.apache.lucene.analysis.en.EnglishAnalyzer
 import org.apache.lucene.util.Version
+import org.apache.lucene.analysis.core.KeywordAnalyzer
+import org.apache.lucene.analysis.Analyzer
+import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper
 
 /**
  * Constants shared by indexer and searcher.
  */
 object Constants {
   val version = Version.LUCENE_48
-  val analyzer = new EnglishAnalyzer(version)
+  private val analyzer: Analyzer = new EnglishAnalyzer(version)
+  private val keywordAnalyzer = new KeywordAnalyzer
+  
+  private def mkAnalyzer(textFields: String*) = {
+    val x = textFields.map((_, analyzer)).toMap
+    new PerFieldAnalyzerWrapper(keywordAnalyzer, x)
+  }
+  
+  val cpcAnalyzer = {
+    import org.t3as.patClas.api.CPC.IndexFieldName._
+    mkAnalyzer(ClassTitle, NotesAndWarnings)
+  }
+ 
+  val ipcAnalyzer = {
+    import org.t3as.patClas.api.IPC.IndexFieldName._
+    mkAnalyzer(TextBody)
+  }
+  
+  val uspcAnalyzer = {
+    import org.t3as.patClas.api.USPC.IndexFieldName._
+    mkAnalyzer(ClassTitle, SubClassTitle, SubClassDescription, Text)
+  }
+  
 }

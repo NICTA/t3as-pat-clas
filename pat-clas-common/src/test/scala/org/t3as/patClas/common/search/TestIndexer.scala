@@ -44,7 +44,15 @@ class TestIndexer extends FlatSpec with Matchers {
       }
       
       {
-      val qp = new QueryParser(Constants.version, ClassTitle, Constants.analyzer)
+      val qp = new QueryParser(Constants.version, ClassTitle, Constants.cpcAnalyzer)
+      val q = qp.parse(Symbol + """:B29C31\/00""")
+      log.debug("q = {}", q)
+      val td = searcher.search(q, 10) // analyzer should make this match "faking"
+      td.totalHits should be (2)
+      }
+      
+      {
+      val qp = new QueryParser(Constants.version, ClassTitle, Constants.cpcAnalyzer)
       val q = qp.parse("FAKED")
       log.debug("q = {}", q)
       val td = searcher.search(q, 10) // analyzer should make this match "faking"
@@ -52,7 +60,7 @@ class TestIndexer extends FlatSpec with Matchers {
       }
       
       {
-      val qp = new QueryParser(Constants.version, NotesAndWarnings, Constants.analyzer)
+      val qp = new QueryParser(Constants.version, NotesAndWarnings, Constants.cpcAnalyzer)
       val q = qp.parse("Attention")
       log.debug("q = {}", q)
       val td = searcher.search(q, 10)

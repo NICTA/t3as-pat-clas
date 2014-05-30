@@ -11,7 +11,7 @@ import org.t3as.patClas.common.{TreeNode, Util}
 import org.t3as.patClas.api.CPC.ClassificationItem
 import org.t3as.patClas.api.CPC.IndexFieldName.{ClassTitle, Level, NotesAndWarnings, Symbol, convert}
 
-import Indexer.highlightFieldType
+import Indexer.textFieldType
 import resource.managed
 
 object RAMIndex {
@@ -47,15 +47,15 @@ object RAMIndex {
     doc add new StringField(Symbol, c.symbol, Store.YES)
     doc add new StringField(Level, c.level.toString, Store.YES)
 
-    if (!c.classTitle.isEmpty()) doc.add(new Field(ClassTitle, Util.toText(c.classTitle), highlightFieldType))
-    if (!c.notesAndWarnings.isEmpty()) doc.add(new Field(NotesAndWarnings, Util.toText(c.notesAndWarnings), highlightFieldType))
+    if (!c.classTitle.isEmpty()) doc.add(new Field(ClassTitle, Util.toText(c.classTitle), textFieldType))
+    if (!c.notesAndWarnings.isEmpty()) doc.add(new Field(NotesAndWarnings, Util.toText(c.notesAndWarnings), textFieldType))
     doc
   }
 
   def makeTestIndex: Directory = {
     val dir = new RAMDirectory
     
-    for (indexer <- managed(new Indexer[ClassificationItem](new File("not.used"), toDoc) {
+    for (indexer <- managed(new Indexer[ClassificationItem](new File("not.used"), Constants.cpcAnalyzer, toDoc) {
       override def open = new IndexWriter(dir, indexWriterConfig)
     })) {
       val title8 = xml

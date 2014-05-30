@@ -30,13 +30,14 @@ import java.io.Closeable
 import org.apache.lucene.document.FieldType
 import org.apache.lucene.document.Field
 import org.apache.lucene.index.FieldInfo
+import org.apache.lucene.analysis.Analyzer
 
 object Indexer {
 
-  val highlightFieldType = {
+  private def mkFieldType(tokenized: Boolean) = {
     val t = new FieldType
     t.setIndexed(true)
-    t.setTokenized(true)
+    t.setTokenized(tokenized)
     // _AND_OFFSETS needed for PostingsHighlighter, not included by default
     t.setIndexOptions(FieldInfo.IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS)
     t.setStored(true) // TODO: I think field must be stored, but if not remove
@@ -44,9 +45,11 @@ object Indexer {
     t
   }
   
+  val keywordFieldType = mkFieldType(false)
+  val textFieldType = mkFieldType(true)
 }
 
-class Indexer[T](indexDir: File, mkDoc: T => Document) extends Closeable {
+class Indexer[T](indexDir: File, analyzer: Analyzer, mkDoc: T => Document) extends Closeable {
   val log = LoggerFactory.getLogger(getClass)
 
   val writer = open  
@@ -56,7 +59,7 @@ class Indexer[T](indexDir: File, mkDoc: T => Document) extends Closeable {
     // This analyzer is used with TextFields, but not with StringFields.
     // It uses the following Lucene components:
     // StandardTokenizer, StandardFilter, EnglishPossessiveFilter, LowerCaseFilter, StopFilter, PorterStemFilter.
-    val c = new IndexWriterConfig(Constants.version, Constants.analyzer)
+    val c = new IndexWriterConfig(Constants.version, analyzer)
     c.setOpenMode(CREATE)
     c
   }

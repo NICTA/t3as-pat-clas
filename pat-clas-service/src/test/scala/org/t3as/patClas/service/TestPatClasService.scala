@@ -29,6 +29,7 @@ import org.t3as.patClas.common.db.CPCdb
 
 import PatClasService.cpcDb, cpcDb.profile.simple._
 
+// TODO: although this uses an in-memory test database it tries to open, but not actually use, the real Lucene indexes. Needs to work without them. 
 class TestPatClasService extends FlatSpec with Matchers {
   val log = LoggerFactory.getLogger(getClass)
 

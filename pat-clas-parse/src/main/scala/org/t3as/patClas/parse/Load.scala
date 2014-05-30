@@ -50,7 +50,7 @@ object Load {
     cpcZipFile: File = new File("CPCSchemeXML201312.zip"),
     ipcZipFile: File = new File("ipcr_scheme_20140101.zip"),
     uspcZipFile: File = new File("classdefsWith560fixed.zip"),
-    dburl: String = "jdbc:h2:file:patClasDb",
+    dburl: String = "jdbc:h2:file:./patClasDb",
     jdbcDriver: String = "org.h2.Driver",
     slickDriver: String = "scala.slick.driver.H2Driver",
     cpcIndexDir: File = new File("cpcIndex"),

@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory
 
 import org.t3as.patClas.common.Util
 import org.t3as.patClas.api.{CPC, IPC, USPC, API}, API.{SearchService, LookupService, Factory}
-import org.t3as.patClas.common.search.Searcher
+import org.t3as.patClas.common.search.{Constants, Searcher}
 
 object PatClasService {
   import Util.get
@@ -81,14 +81,14 @@ object PatClasService {
     def mkQ(q: String) = if (q.contains(":")) q
       else Seq(ClassTitle, NotesAndWarnings).map(f => s"${f.toString}:(${q})").mkString(" || ")
 
-    new Searcher[Hit](new File(get("cpc.index.path")), ClassTitle, hitFields, mkHit, mkQ)
+    new Searcher[Hit](new File(get("cpc.index.path")), ClassTitle, Constants.cpcAnalyzer, hitFields, mkHit, mkQ)
   }
 
   val ipcSearcher = {
     import IPC._, IndexFieldName._
 
     new Searcher[Hit](
-      new File(get("ipc.index.path")), TextBody, hitFields, mkHit, (q: String) => q)
+      new File(get("ipc.index.path")), TextBody, Constants.ipcAnalyzer, hitFields, mkHit, (q: String) => q)
   }
 
   val uspcSearcher = {
@@ -98,7 +98,7 @@ object PatClasService {
     def mkQ(q: String) = if (q.contains(":")) q
       else Seq(ClassTitle, SubClassTitle, SubClassDescription, Text).map(f => s"${f.toString}:(${q})").mkString(" || ")
     
-    new Searcher[Hit](new File(get("uspc.index.path")), ClassTitle, hitFields, mkHit, mkQ)
+    new Searcher[Hit](new File(get("uspc.index.path")), ClassTitle, Constants.uspcAnalyzer, hitFields, mkHit, mkQ)
   }
 
   
@@ -128,9 +128,6 @@ import PatClasService._
 @Path("/v1.0/CPC")
 class CPCService extends SearchService[CPC.Hit] with LookupService[CPC.Description] {
   
-  def searchService: SearchService[CPC.Hit] = this
-  def lookupService: LookupService[CPC.Description] = this
-
   @Path("search")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))

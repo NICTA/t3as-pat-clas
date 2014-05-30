@@ -40,7 +40,7 @@ class TestSearcher extends FlatSpec with Matchers {
 
   "Searcher" should "search" in {
     val dir = RAMIndex.makeTestIndex
-    for (searcher <- managed(new Searcher[Hit](new File("not.used"), ClassTitle, hitFields, mkHit, expandQuery) {
+    for (searcher <- managed(new Searcher[Hit](new File("not.used"), ClassTitle, Constants.cpcAnalyzer, hitFields, mkHit, expandQuery) {
       override def open = new IndexSearcher(DirectoryReader.open(dir))
     })) {
       {

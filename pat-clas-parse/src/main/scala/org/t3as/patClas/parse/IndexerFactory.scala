@@ -25,10 +25,11 @@ import org.apache.lucene.document.Field.Store
 import org.apache.lucene.document.StringField
 import org.t3as.patClas.common.Util.toText
 import org.t3as.patClas.common.search.Indexer
-import org.t3as.patClas.common.search.Indexer.highlightFieldType
+import org.t3as.patClas.common.search.Indexer.{keywordFieldType, textFieldType}
 import org.t3as.patClas.api.CPC.ClassificationItem
 import org.t3as.patClas.api.IPC.IPCEntry
 import org.t3as.patClas.api.USPC.UsClass
+import org.t3as.patClas.common.search.Constants
 
 object IndexerFactory {
 
@@ -36,41 +37,41 @@ object IndexerFactory {
     import org.t3as.patClas.api.CPC.IndexFieldName._
     
     val doc = new Document
-    doc add new StringField(Symbol, c.symbol, Store.YES)
-    doc add new StringField(Level, c.level.toString, Store.YES)
+    doc add new Field(Symbol, c.symbol, keywordFieldType)
+    doc add new Field(Level, c.level.toString, keywordFieldType)
 
     if (!c.classTitle.isEmpty())
-      doc add new Field(ClassTitle, toText(c.classTitle), highlightFieldType)
+      doc add new Field(ClassTitle, toText(c.classTitle), textFieldType)
 
     if (!c.notesAndWarnings.isEmpty())
-      doc add new Field(NotesAndWarnings, toText(c.notesAndWarnings), highlightFieldType)
+      doc add new Field(NotesAndWarnings, toText(c.notesAndWarnings), textFieldType)
 
     doc
   }
 
-  def getCPCIndexer(indexDir: File) = new Indexer[ClassificationItem](indexDir, cpcToDoc)
+  def getCPCIndexer(indexDir: File) = new Indexer[ClassificationItem](indexDir, Constants.cpcAnalyzer, cpcToDoc)
   
   private def ipcToDoc(c: IPCEntry) = {
     import org.t3as.patClas.api.IPC.IndexFieldName._
 
     val doc = new Document
-    doc add new StringField(Symbol, c.symbol, Store.YES)
-    doc add new StringField(Level, c.level.toString, Store.YES)
-    doc add new StringField(Kind, c.kind.toString, Store.YES)
+    doc add new Field(Symbol, c.symbol, keywordFieldType)
+    doc add new Field(Level, c.level.toString, keywordFieldType)
+    doc add new Field(Kind, c.kind.toString, keywordFieldType)
 
     if (!c.textBody.isEmpty())
-      doc.add(new Field(TextBody, toText(c.textBody), highlightFieldType))
+      doc.add(new Field(TextBody, toText(c.textBody), textFieldType))
       
     doc
   }
 
-  def getIPCIndexer(indexDir: File) = new Indexer[IPCEntry](indexDir, ipcToDoc)
+  def getIPCIndexer(indexDir: File) = new Indexer[IPCEntry](indexDir, Constants.ipcAnalyzer, ipcToDoc)
   
   private def uspcToDoc(c: UsClass) = {
     import org.t3as.patClas.api.USPC.IndexFieldName._
 
     val doc = new Document
-    doc add new StringField(Symbol, c.symbol, Store.YES)
+    doc add new Field(Symbol, c.symbol, keywordFieldType)
     
     Seq(
         (c.classTitle, ClassTitle, (s: String) => s), 
@@ -78,14 +79,14 @@ object IndexerFactory {
         (c.subClassDescription, SubClassDescription, toText _),
         (Some(c.text), Text, toText _)
     ) foreach {
-      case(Some(text), field, format) => if (!text.isEmpty) doc add new Field(field, format(text), highlightFieldType)
+      case(Some(text), field, format) => if (!text.isEmpty) doc add new Field(field, format(text), textFieldType)
       case _ =>
     }
     
     doc
   }
 
-  def getUSPCIndexer(indexDir: File) = new Indexer[UsClass](indexDir, uspcToDoc)
+  def getUSPCIndexer(indexDir: File) = new Indexer[UsClass](indexDir, Constants.uspcAnalyzer, uspcToDoc)
   
 }
 

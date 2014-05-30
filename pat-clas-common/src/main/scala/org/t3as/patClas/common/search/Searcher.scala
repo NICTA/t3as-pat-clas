@@ -20,12 +20,10 @@
 package org.t3as.patClas.common.search
 
 import java.io.{Closeable, File}
-
 import scala.Array.canBuildFrom
 import scala.Option.option2Iterable
 import scala.collection.JavaConversions.{asScalaBuffer, mapAsScalaMap, mutableSetAsJavaSet, setAsJavaSet}
 import scala.collection.mutable.HashSet
-
 import org.apache.lucene.index.{DirectoryReader, Term}
 import org.apache.lucene.queryparser.classic.QueryParser
 import org.apache.lucene.search.{IndexSearcher, Query}
@@ -33,6 +31,7 @@ import org.apache.lucene.search.postingshighlight.{DefaultPassageFormatter, Post
 import org.apache.lucene.store.FSDirectory
 import org.slf4j.LoggerFactory
 import org.t3as.patClas.api.API.HitBase
+import org.apache.lucene.analysis.Analyzer
 
 /** Search text associated with a classification code.
   * @param indexDir path to search index
@@ -43,6 +42,7 @@ import org.t3as.patClas.api.API.HitBase
 class Searcher[Hit <: HitBase](
   indexDir: File,
   defaultSearchField: String,
+  analyzer: Analyzer,
   fieldsToLoad: Set[String],
   mkHit: (Float, Map[String, String], Map[String, String]) => Hit,
   mkQuery: String => String) extends Closeable {
@@ -52,7 +52,8 @@ class Searcher[Hit <: HitBase](
   val indexSearcher = open
   protected def open = new IndexSearcher(DirectoryReader.open(FSDirectory.open(indexDir)))
   
-  val qparser = new QueryParser(Constants.version, defaultSearchField, Constants.analyzer)
+  // not thread-safe so use a new one each time
+  def qparser = new QueryParser(Constants.version, defaultSearchField, analyzer)
 
   def search(query: String) = {
     val q = {

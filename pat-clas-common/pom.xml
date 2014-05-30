@@ -31,7 +31,13 @@
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>1.3.173</version>
+      <version>1.3.176</version>
+      <!-- 1.4 introduces new MVStore.
+           Tried 1.4.178: db much larger (439M -> 2.4G).
+           Webapp startup gets  Exception in thread "MVStore background writer nio:/home/neil/sw/t3as-pat-clas/data/patClasDb.mv.db"
+           java.lang.NoClassDefFoundError: org/h2/mvstore/WriteBuffer
+           despite the fact that this is in WEB-INF/lib/h2-1.4.178.jar
+           -->
     </dependency>
     
     <!-- search -->
