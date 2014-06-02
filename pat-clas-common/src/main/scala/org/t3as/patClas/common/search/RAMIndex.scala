@@ -3,17 +3,21 @@ package org.t3as.patClas.common.search
 import java.io.File
 
 import org.apache.lucene.document.{Document, Field}
-import org.apache.lucene.document.Field.Store
-import org.apache.lucene.document.StringField
 import org.apache.lucene.index.IndexWriter
 import org.apache.lucene.store.{Directory, RAMDirectory}
-import org.t3as.patClas.common.{TreeNode, Util}
 import org.t3as.patClas.api.CPC.ClassificationItem
 import org.t3as.patClas.api.CPC.IndexFieldName.{ClassTitle, Level, NotesAndWarnings, Symbol, convert}
+import org.t3as.patClas.common.{TreeNode, Util}
 
-import Indexer.textFieldType
+import Indexer.{keywordFieldType, textFieldType}
 import resource.managed
 
+/**
+ * Only for testing of pat-clas-common and pat-clas-service.
+ * TODO: Shared test code should really go in src/test/scala and be built into a test-jar,
+ * but this is the only item for such a test-jar so far, so to save that bother its currently
+ * in src/main/scala and build into the main jar.
+ */
 object RAMIndex {
 
   val xml = """<class-title date-revised="2013-01-01">
@@ -44,8 +48,8 @@ object RAMIndex {
 
   def toDoc(c: ClassificationItem) = {
     val doc = new Document
-    doc add new StringField(Symbol, c.symbol, Store.YES)
-    doc add new StringField(Level, c.level.toString, Store.YES)
+    doc add new Field(Symbol, c.symbol.toLowerCase, keywordFieldType)
+    doc add new Field(Level, c.level.toString, keywordFieldType)
 
     if (!c.classTitle.isEmpty()) doc.add(new Field(ClassTitle, Util.toText(c.classTitle), textFieldType))
     if (!c.notesAndWarnings.isEmpty()) doc.add(new Field(NotesAndWarnings, Util.toText(c.notesAndWarnings), textFieldType))

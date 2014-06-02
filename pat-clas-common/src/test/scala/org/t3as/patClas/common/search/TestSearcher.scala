@@ -20,29 +20,21 @@
 package org.t3as.patClas.common.search
 
 import java.io.File
-
 import scala.annotation.tailrec
-
 import org.apache.lucene.index.DirectoryReader
 import org.apache.lucene.search.IndexSearcher
 import org.scalatest.{FlatSpec, Matchers}
 import org.slf4j.LoggerFactory
 import org.t3as.patClas.api.CPC, CPC.{hitFields, mkHit, Hit}, CPC.IndexFieldName.{ClassTitle, NotesAndWarnings, convert}
 import org.t3as.patClas.api.API.HitBase
-
 import resource.managed
+import org.apache.lucene.analysis.core.KeywordAnalyzer
 
 class TestSearcher extends FlatSpec with Matchers {
   val log = LoggerFactory.getLogger(getClass)
 
-  // if "field:" specified leave as is, else search ClassTitle and NotesAndWarnings fields (accepting a match in either)
-  def expandQuery(q: String) = if (q.contains(":")) q else s"${ClassTitle.toString}:(${q}) || ${NotesAndWarnings.toString}:(${q})"
-
   "Searcher" should "search" in {
-    val dir = RAMIndex.makeTestIndex
-    for (searcher <- managed(new Searcher[Hit](new File("not.used"), ClassTitle, Constants.cpcAnalyzer, hitFields, mkHit, expandQuery) {
-      override def open = new IndexSearcher(DirectoryReader.open(dir))
-    })) {
+    for (searcher <- managed(new Searcher[Hit](Array(ClassTitle, NotesAndWarnings), Constants.cpcAnalyzer, hitFields, RAMIndex.makeTestIndex, mkHit))) {
       {
         val hits = searcher.search(s"${ClassTitle.toString}:FAKED") // analyzer should make this match "faking"
         hits.size should be(3)
@@ -62,8 +54,8 @@ class TestSearcher extends FlatSpec with Matchers {
       }
       {
         val hits = searcher.search("FAKED Attention") // Attention matches one doc in NotesAndWarnings, "FAKED" other 3 docs in ClassTitle
-        hits.size should be(4)
         log.debug(s"hits = $hits")
+        hits.size should be(4)
         isDescending(hits) should be(true)
         
         hits count { h =>
@@ -73,8 +65,14 @@ class TestSearcher extends FlatSpec with Matchers {
           h.notesAndWarningsHighlights.contains("""<span class="hlight">""")
         } should be(1)
       }
-
-      // , search both ClassTitle and NotesAndWarnings
+      {
+        val hits = searcher.search("fak*")
+        log.debug(s"hits = $hits")
+      }
+      {
+        val hits = searcher.search("Symbol:B29C3*")
+        log.debug(s"hits = $hits")
+      }
     }
   }
 

@@ -36,9 +36,15 @@ object CPC {
   }
   import IndexFieldName._
   
-  val hitFields: Set[String] = Set(Symbol, Level)
+  val textFields: Array[String] = Array(ClassTitle, NotesAndWarnings)
+  val hitFields: Set[String] = Set(Symbol, Level, ClassTitle, NotesAndWarnings)
   
-  def mkHit(score: Float, f: Map[String, String], h: Map[String, String]) = Hit(score, f(Symbol), f(Level).toInt, h.getOrElse(ClassTitle, ""), h.getOrElse(NotesAndWarnings, ""))
+  
+  def mkHit(score: Float, f: Map[String, String], h: Map[String, String]) = {
+    def getH(s: String) = h.getOrElse(s, f.getOrElse(s, ""))
+    def getHU(s: String) = h.getOrElse(s, f.getOrElse(s, "").toUpperCase)
+    Hit(score, getHU(Symbol)/*f(Symbol).toUpperCase*/, f(Level).toInt, getH(ClassTitle), getH(NotesAndWarnings))
+  }
 
   /** Entity class mapping to a database row representing a CPC Classification Symbol.
     * TODO: make notesAndWarnings an Option? classTitle too if it is sometimes empty.

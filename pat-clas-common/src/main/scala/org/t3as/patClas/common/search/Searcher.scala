@@ -19,19 +19,22 @@
 
 package org.t3as.patClas.common.search
 
-import java.io.{Closeable, File}
+import java.io.Closeable
+
 import scala.Array.canBuildFrom
 import scala.Option.option2Iterable
 import scala.collection.JavaConversions.{asScalaBuffer, mapAsScalaMap, mutableSetAsJavaSet, setAsJavaSet}
 import scala.collection.mutable.HashSet
+import scala.language.postfixOps
+
+import org.apache.lucene.analysis.Analyzer
 import org.apache.lucene.index.{DirectoryReader, Term}
-import org.apache.lucene.queryparser.classic.QueryParser
-import org.apache.lucene.search.{IndexSearcher, Query}
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser
+import org.apache.lucene.search.{IndexSearcher, MultiTermQuery, Query}
 import org.apache.lucene.search.postingshighlight.{DefaultPassageFormatter, PostingsHighlighter}
-import org.apache.lucene.store.FSDirectory
+import org.apache.lucene.store.Directory
 import org.slf4j.LoggerFactory
 import org.t3as.patClas.api.API.HitBase
-import org.apache.lucene.analysis.Analyzer
 
 /** Search text associated with a classification code.
   * @param indexDir path to search index
@@ -40,37 +43,50 @@ import org.apache.lucene.analysis.Analyzer
   * @param mkQuery how to modify the query string if necessary
   */
 class Searcher[Hit <: HitBase](
-  indexDir: File,
-  defaultSearchField: String,
+  defaultFields: Array[String],
   analyzer: Analyzer,
   fieldsToLoad: Set[String],
-  mkHit: (Float, Map[String, String], Map[String, String]) => Hit,
-  mkQuery: String => String) extends Closeable {
+  dir: Directory,
+  mkHit: (Float, Map[String, String], Map[String, String]) => Hit) extends Closeable {
 
   val log = LoggerFactory.getLogger(getClass)
 
-  val indexSearcher = open
-  protected def open = new IndexSearcher(DirectoryReader.open(FSDirectory.open(indexDir)))
-  
-  // not thread-safe so use a new one each time
-  def qparser = new QueryParser(Constants.version, defaultSearchField, analyzer)
+  val indexSearcher = new IndexSearcher(DirectoryReader.open(dir))
+
+  // QueryParser note on wild cards:
+  // For a wild-card query (e.g. "Quer*") it doesn't use the analyzer,
+  // but (unless you do setLowercaseExpandedTerms(true)) it does lowercase the query.
+  // This is handy if the indexing analyzer lowercased it too (e.g. text fields like Title),
+  // but causes it to fail on uppercase content (e.g. keyword values like Symbol).
+  // The rational for not using the Analyzer is that if you are using a stemming Analyzer,
+  // it will make "dogs*" match "doggy". Evidently it gets worse with a German stemmer.
+  // So you can:
+  // 1) lowercase all your keyword fields, use QueryParser, and have "dogs*" not match "doggy"; or
+  // 2) leave keyword fields in the correct case, use AnalyzingQueryParser, and "dogs*" will match "doggy" and German users will be particularly unhappy.
+  // The first alternative appears to be generally preferred on forums, so we lower case keywords on indexing and uppercase them on search.
+
+  // Not thread-safe so use a new one each time.
+  def qparser = {
+    val qp = new MultiFieldQueryParser(Constants.version, defaultFields, analyzer)
+    qp.setMultiTermRewriteMethod(MultiTermQuery.SCORING_BOOLEAN_QUERY_REWRITE);
+    qp
+  }
 
   def search(query: String) = {
     val q = {
       log.debug("input query = {}", query)
-      val q1 = mkQuery(query)
-      log.debug("expanded query = {}", q1)
-      val q2 = qparser.parse(q1)
-      log.debug("parsed query = {}", q2)
-      val q3 = q2.rewrite(indexSearcher.getIndexReader())
-      log.debug("rewritten query = {}", q3)
-      q3
+      val q1 = qparser.parse(query)
+      log.debug("parsed query = {}", q1)
+      val q2 = q1.rewrite(indexSearcher.getIndexReader())
+      log.debug("rewritten query = {}", q2)
+      q2
     }
     val topDocs = indexSearcher.search(q, 50)
     log.debug("totalHits = {}", topDocs.totalHits)
     val results = topDocs.scoreDocs.toList
     val docIds = results.map(_.doc)
     val allHlights = highlights(q, docIds).toMap
+    log.debug("allHlights = {}", allHlights.map(e => (e._1, e._2.toList)))
     results.zipWithIndex map {
       case (scoreDoc, idx) =>
         val fields = indexSearcher.doc(scoreDoc.doc, fieldsToLoad).getFields.map(f => f.name -> f.stringValue).toMap
@@ -83,10 +99,10 @@ class Searcher[Hit <: HitBase](
     }
   }
 
-  /** @param q query in rewrite form (needed by extractTerms)
+  /** @param q query (must be in rewrite form for extractTerms)
     * @return Map field -> array where item i is highlights for docIds[i]
     */
-  def highlights(q: Query, docIds: List[Int]) = {
+  def highlights(q: Query, docIds: List[Int]): Map[String, Array[String]] = {
 
     def getFields(q: Query) = {
       val terms = new HashSet[Term]
@@ -94,13 +110,36 @@ class Searcher[Hit <: HitBase](
       terms.map(_.field()).toArray
     }
 
+    val re = """<\/?span[^>]*>|&hellip;<br><br>"""r
+
+    def symbolToUpper(t: String) = {
+      val buf = new StringBuilder
+      val end = re.findAllMatchIn(t).foldLeft(0) {
+        case (pos, m) =>
+          buf append t.substring(pos, m.start).toUpperCase append m.matched
+          m.end
+      }
+      buf append t.substring(end).toUpperCase
+      buf.toString
+    }
+    
+    def highlighSymbolToUpper(e: (String, Array[String])) =
+      if ("Symbol" == e._1) (e._1, e._2.map(symbolToUpper))
+      else e
+    
     val fieldsIn = getFields(q)
     log.debug("fieldsIn = {}", fieldsIn)
-    val maxPassagesIn = fieldsIn map (_ => 3)
-    new PostingsHighlighter(1000000) {
-      val f = new DefaultPassageFormatter("""<span class="hlight">""", "</span>", "&hellip;<br><br>", false)
-      override def getFormatter(field: String) = f
-    }.highlightFields(fieldsIn, q, indexSearcher, docIds.toArray, maxPassagesIn).toMap
+    if (docIds.isEmpty || fieldsIn.isEmpty) Map.empty
+    else {
+      val ph = new PostingsHighlighter(1000000) {
+        val f = new DefaultPassageFormatter("""<span class="hlight">""", "</span>", "&hellip;<br><br>", false)
+        override def getFormatter(field: String) = f
+      }
+      val maxPassagesIn = fieldsIn map (_ => 3)
+      val re = """<\/?span[^>]*>"""r
+      val x = ph.highlightFields(fieldsIn, q, indexSearcher, docIds.toArray, maxPassagesIn).toMap.map(highlighSymbolToUpper)
+      x
+    }
   }
 
   def close = indexSearcher.getIndexReader.close

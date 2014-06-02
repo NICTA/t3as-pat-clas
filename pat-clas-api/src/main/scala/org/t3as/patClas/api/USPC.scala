@@ -36,9 +36,10 @@ object USPC {
   }
   import IndexFieldName._
   
+  val textFields: Array[String] = Array(ClassTitle, SubClassTitle, SubClassDescription, Text)
   val hitFields: Set[String] = Set(Symbol)
   
-  def mkHit(score: Float, f: Map[String, String], h: Map[String, String]) = Hit(score, f(Symbol), h.getOrElse(ClassTitle, ""), h.getOrElse(SubClassTitle, ""), h.getOrElse(SubClassDescription, ""), h.getOrElse(Text, ""))
+  def mkHit(score: Float, f: Map[String, String], h: Map[String, String]) = Hit(score, f(Symbol).toUpperCase, h.getOrElse(ClassTitle, ""), h.getOrElse(SubClassTitle, ""), h.getOrElse(SubClassDescription, ""), h.getOrElse(Text, ""))
 
   /** Entity class mapping to a database row representing a USPC Symbol.
     */

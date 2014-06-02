@@ -37,9 +37,10 @@ object IPC {
   }
   import IndexFieldName._
   
+  val textFields: Array[String] = Array(TextBody)
   val hitFields: Set[String] = Set(Symbol, Level, Kind)
   
-  def mkHit(score: Float, f: Map[String, String], h: Map[String, String]) = Hit(score, f(Symbol), f(Level).toInt, f(Kind), h.getOrElse(TextBody, ""))
+  def mkHit(score: Float, f: Map[String, String], h: Map[String, String]) = Hit(score, f(Symbol).toUpperCase, f(Level).toInt, f(Kind), h.getOrElse(TextBody, ""))
   
   /** Entity class mapping to a database row representing a IPCEntry
     */

@@ -20,14 +20,12 @@
 package org.t3as.patClas.service
 
 import scala.collection.JavaConversions.asScalaBuffer
-
 import org.scalatest.{FlatSpec, Matchers}
 import org.slf4j.LoggerFactory
 import org.t3as.patClas.api.CPC.ClassificationItem
 import org.t3as.patClas.common.TreeNode
 import org.t3as.patClas.common.db.CPCdb
-
-import PatClasService.cpcDb, cpcDb.profile.simple._
+import org.t3as.patClas.common.search.RAMIndex
 
 // TODO: although this uses an in-memory test database it tries to open, but not actually use, the real Lucene indexes. Needs to work without them. 
 class TestPatClasService extends FlatSpec with Matchers {
@@ -40,11 +38,13 @@ class TestPatClasService extends FlatSpec with Matchers {
     val l6 = TreeNode(ClassificationItem(None, -1, false, true, false, "2013-01-01", 6, "B29C31/00", "title6", "notes6"), Seq(l7))
     val l5 = TreeNode(ClassificationItem(None, -1, false, false, false, "2013-01-01", 5, "B29C", "title5", "notes5"), Seq(l6))
 
-    PatClasService.init
+    PatClasService.testInit(new PatClasService { override def indexDir(prop: String) = RAMIndex.makeTestIndex } )
+    val svc = PatClasService.service
+    import svc._
+    import cpcDb.profile.simple._
+    
     val srv = new CPCService
-    PatClasService.database withSession { implicit session =>
-      import PatClasService.cpcDb
-      import cpcDb.profile.simple._
+    database withSession { implicit session =>
 
       // Create the table(s), indices etc.
       cpcDb.cpcs.ddl.create

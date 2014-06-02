@@ -20,28 +20,37 @@
 package org.t3as.patClas.service
 
 import java.io.File
-
 import javax.ws.rs.{GET, Path, PathParam, Produces, QueryParam}
 import javax.ws.rs.core.MediaType
-
 import scala.language.implicitConversions
 import scala.slick.driver.JdbcProfile
 import scala.slick.jdbc.JdbcBackend.Database
-
 import org.apache.commons.dbcp2.BasicDataSource
 import org.slf4j.LoggerFactory
-
-import org.t3as.patClas.common.Util
+import org.t3as.patClas.common.Util, Util.get
 import org.t3as.patClas.api.{CPC, IPC, USPC, API}, API.{SearchService, LookupService, Factory}
-import org.t3as.patClas.common.search.{Constants, Searcher}
+import org.t3as.patClas.common.search.{Constants, Searcher, RAMIndex}
+import org.apache.lucene.store.{Directory, FSDirectory}
 
 object PatClasService {
-  import Util.get
+  var s: Option[PatClasService] = None
   
+  /** methods invoked by ServletListener configured in web.xml */
+  def init = s = Some(new PatClasService)
+  def close = s.map(_.close)
+
+  def testInit(p: PatClasService) = s = Some(p)
+
+  def service = s.getOrElse(throw new Exception("not initialised"))
+}
+
+class PatClasService {
   val log = LoggerFactory.getLogger(getClass)
+  
+  log.debug("PatClasService:ctor")
 
   implicit val props = Util.properties("/patClasService.properties")
-
+  
   val datasource = {
     val ds = new BasicDataSource
     ds.setDriverClassName(get("jdbc.driver"))
@@ -74,36 +83,23 @@ object PatClasService {
    */
   def getToText(f: String) = if ("xml".equalsIgnoreCase(f)) (xml: String) => xml else Util.toText _ 
   
+  def indexDir(prop: String): Directory = FSDirectory.open(new File(get(prop)))
+  
   val cpcSearcher = {
     import CPC._, IndexFieldName._
-
-    // if "field:query" specified leave as is, else search all text fields (accepting a match in any)
-    def mkQ(q: String) = if (q.contains(":")) q
-      else Seq(ClassTitle, NotesAndWarnings).map(f => s"${f.toString}:(${q})").mkString(" || ")
-
-    new Searcher[Hit](new File(get("cpc.index.path")), ClassTitle, Constants.cpcAnalyzer, hitFields, mkHit, mkQ)
+    new Searcher[Hit](textFields, Constants.cpcAnalyzer, hitFields, indexDir("cpc.index.path"), mkHit)
   }
 
   val ipcSearcher = {
     import IPC._, IndexFieldName._
-
-    new Searcher[Hit](
-      new File(get("ipc.index.path")), TextBody, Constants.ipcAnalyzer, hitFields, mkHit, (q: String) => q)
+    new Searcher[Hit](textFields, Constants.ipcAnalyzer, hitFields, indexDir("ipc.index.path"), mkHit)
   }
 
   val uspcSearcher = {
     import USPC._, IndexFieldName._
-
-    // if "field:query" specified leave as is, else search all text fields (accepting a match in any)
-    def mkQ(q: String) = if (q.contains(":")) q
-      else Seq(ClassTitle, SubClassTitle, SubClassDescription, Text).map(f => s"${f.toString}:(${q})").mkString(" || ")
-    
-    new Searcher[Hit](new File(get("uspc.index.path")), ClassTitle, Constants.uspcAnalyzer, hitFields, mkHit, mkQ)
+    new Searcher[Hit](textFields, Constants.uspcAnalyzer, hitFields, indexDir("uspc.index.path"), mkHit)
   }
-
-  
-  def init = {}
-  
+ 
   def close = {
     log.info("Closing datasource and search indices")
     datasource.close
@@ -123,10 +119,14 @@ object PatClasService {
   import org.t3as.patClas.api.javaApi.{Factory => JF}
   def toJavaApi = new JF(factory)
 }
-import PatClasService._
+
 
 @Path("/v1.0/CPC")
 class CPCService extends SearchService[CPC.Hit] with LookupService[CPC.Description] {
+  val svc = PatClasService.service // PatClasService must be initialised first!
+  import svc._
+  
+  log.debug("CPCService:ctor")
   
   @Path("search")
   @GET
@@ -156,6 +156,8 @@ class CPCService extends SearchService[CPC.Hit] with LookupService[CPC.Descripti
 
 @Path("/v1.0/IPC")
 class IPCService extends SearchService[IPC.Hit] with LookupService[IPC.Description] {
+  val svc = PatClasService.service
+  import svc._
   
   @Path("search")
   @GET
@@ -185,6 +187,8 @@ class IPCService extends SearchService[IPC.Hit] with LookupService[IPC.Descripti
 
 @Path("/v1.0/USPC")
 class USPCService extends SearchService[USPC.Hit] with LookupService[USPC.Description] {
+  val svc = PatClasService.service
+  import svc._
   
   @Path("search")
   @GET

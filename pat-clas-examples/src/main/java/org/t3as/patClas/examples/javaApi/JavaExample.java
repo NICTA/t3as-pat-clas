@@ -26,14 +26,16 @@ import org.slf4j.LoggerFactory;
 import org.t3as.patClas.api.CPC;
 import org.t3as.patClas.api.IPC;
 import org.t3as.patClas.api.javaApi.Factory;
+import org.t3as.patClas.service.PatClasService$; // PatClasService$.MODULE$ is how to access a Scala "object" singleton
+import org.t3as.patClas.client.PatClasClient$;
 
 public class JavaExample {
     static final Logger log = LoggerFactory.getLogger(JavaExample.class);
 
     public static void main(String[] args) {
         // local (in-process) service
-        // the "$.MODULE$" bit is how to access a Scala "object" singleton
-        Factory local = org.t3as.patClas.service.PatClasService$.MODULE$.toJavaApi();
+        PatClasService$.MODULE$.init();
+        Factory local = PatClasService$.MODULE$.service().toJavaApi();
         try {
             doit(local);
         } finally {
@@ -42,7 +44,7 @@ public class JavaExample {
 
         // client that makes HTTP requests to remote (inter-process) service
         // (which has to be running elsewhere)
-        Factory remote = org.t3as.patClas.client.PatClasClient$.MODULE$.toJavaApi("http://localhost:8080/pat-clas-service/rest/v1.0");
+        Factory remote = PatClasClient$.MODULE$.toJavaApi("http://localhost:8080/pat-clas-service/rest/v1.0");
         try {
             doit(remote);
         } finally {

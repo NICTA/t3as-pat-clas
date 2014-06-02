@@ -25,7 +25,6 @@ import org.apache.lucene.search.{IndexSearcher, TermQuery}
 import org.scalatest.{FlatSpec, Matchers}
 import org.slf4j.LoggerFactory
 import org.t3as.patClas.api.CPC.IndexFieldName.{ClassTitle, NotesAndWarnings, Symbol, convert}
-
 import resource.managed
 
 class TestIndexer extends FlatSpec with Matchers {
@@ -39,13 +38,13 @@ class TestIndexer extends FlatSpec with Matchers {
       val searcher: IndexSearcher = new IndexSearcher(reader)
       
       {
-      val td = searcher.search(new TermQuery(new Term(Symbol, "B29C31/00")), 10)
+      val td = searcher.search(new TermQuery(new Term(Symbol, "B29C31/00".toLowerCase)), 10)
       td.totalHits should be (2)
       }
       
       {
       val qp = new QueryParser(Constants.version, ClassTitle, Constants.cpcAnalyzer)
-      val q = qp.parse(Symbol + """:B29C31\/00""")
+      val q = qp.parse(Symbol + """:B29C31\/00""".toLowerCase)
       log.debug("q = {}", q)
       val td = searcher.search(q, 10) // analyzer should make this match "faking"
       td.totalHits should be (2)
