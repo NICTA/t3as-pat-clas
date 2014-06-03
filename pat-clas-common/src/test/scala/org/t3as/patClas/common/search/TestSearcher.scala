@@ -25,7 +25,7 @@ import org.apache.lucene.index.DirectoryReader
 import org.apache.lucene.search.IndexSearcher
 import org.scalatest.{FlatSpec, Matchers}
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.api.CPC, CPC.{hitFields, mkHit, Hit}, CPC.IndexFieldName.{ClassTitle, NotesAndWarnings, convert}
+import org.t3as.patClas.api.CPC, CPC.{hitFields, textFields, mkHit, Hit}, CPC.IndexFieldName.{ClassTitle, NotesAndWarnings, convert}
 import org.t3as.patClas.api.API.HitBase
 import resource.managed
 import org.apache.lucene.analysis.core.KeywordAnalyzer
@@ -34,7 +34,7 @@ class TestSearcher extends FlatSpec with Matchers {
   val log = LoggerFactory.getLogger(getClass)
 
   "Searcher" should "search" in {
-    for (searcher <- managed(new Searcher[Hit](Array(ClassTitle, NotesAndWarnings), Constants.cpcAnalyzer, hitFields, RAMIndex.makeTestIndex, mkHit))) {
+    for (searcher <- managed(new Searcher[Hit](textFields, Constants.cpcAnalyzer, hitFields, RAMIndex.makeTestIndex, mkHit))) {
       {
         val hits = searcher.search(s"${ClassTitle.toString}:FAKED") // analyzer should make this match "faking"
         hits.size should be(3)
@@ -66,12 +66,14 @@ class TestSearcher extends FlatSpec with Matchers {
         } should be(1)
       }
       {
-        val hits = searcher.search("fak*")
+        val hits = searcher.search("fak* atten*")
         log.debug(s"hits = $hits")
+        hits.size should be(4) // as above
       }
       {
         val hits = searcher.search("Symbol:B29C3*")
         log.debug(s"hits = $hits")
+        hits.size should be(3) // matches 2 x "B29C31/00", 1 x "B29C31/002", 0 x "B29C"
       }
     }
   }

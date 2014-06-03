@@ -32,7 +32,12 @@ import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper
  */
 object Constants {
   val version = Version.LUCENE_48
+  
+  // the analyzer is used with TextFields (textFieldType), but not with StringFields (keywordFieldType).
+  // It uses the following Lucene components:
+  // StandardTokenizer, StandardFilter, EnglishPossessiveFilter, LowerCaseFilter, StopFilter, PorterStemFilter.
   private val analyzer: Analyzer = new EnglishAnalyzer(version)
+  
   private val keywordAnalyzer = new KeywordAnalyzer
   
   private def mkAnalyzer(textFields: String*) = {

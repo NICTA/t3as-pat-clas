@@ -26,21 +26,52 @@ object IPC {
   // removed entryType because it is always K
   case class Description(id: Int, symbol: String, level: Int, kind: String, textBody: String)
 
-  case class Hit(score: Float, symbol: String, level: Int, kind: String, textBodyHighlights: String) extends API.HitBase
+  case class Hit(score: Float, symbol: API.Symbol, level: Int, kind: String, textBodyHighlights: String) extends API.HitBase
   
-  /** Names of CPC fields in the Lucene index. */
+  /**
+   * Names of IPC fields in the Lucene index.
+   * 
+   * IPC symbols in the source data have format:
+   *   A99AZMMMGGGGGZ (Z = zero padded, ZMMM = 4 digit left padded main group, GGGGGZ = 6 digit right padded sub group)
+   * which is harder to read and inconsistent with the format of ref's to IPCs in the CPC:
+   *   A99AMM/GG.
+   * We display and allow searching in this second format stored in the Symbol field; but also store the original format in SymbolRaw
+   * because that format is used in database lookups.
+   */
   object IndexFieldName extends Enumeration {
     type IndexFieldName = Value
-    val Symbol, Level, Kind, TextBody = Value
+    val Symbol, SymbolRaw, Level, Kind, TextBody = Value
 
     implicit def convert(f: IndexFieldName) = f.toString
   }
   import IndexFieldName._
   
   val textFields: Array[String] = Array(TextBody)
-  val hitFields: Set[String] = Set(Symbol, Level, Kind)
+  val hitFields: Set[String] = Set(Symbol, SymbolRaw, Level, Kind, TextBody)
   
-  def mkHit(score: Float, f: Map[String, String], h: Map[String, String]) = Hit(score, f(Symbol).toUpperCase, f(Level).toInt, f(Kind), h.getOrElse(TextBody, ""))
+  private val re = """(\p{Upper}\p{Digit}{2}\p{Upper})(\p{Digit}{4})(\p{Digit}{6})""".r
+  
+  def toCpcFormat(s: String) = {
+    import API.{ltrim, rtrim}
+    
+    if (s.length != 14) s
+    else {
+      s match {
+        case re(sectionClassSubclass, mainGroup, subGroup) => {
+          val sg = rtrim(subGroup, '0')
+          if (sg.isEmpty) sectionClassSubclass + ltrim(mainGroup, '0')
+          else sectionClassSubclass + ltrim(mainGroup, '0') + '/' + sg
+        }
+        case _ => s
+      }
+    }
+  }
+  
+  def mkHit(score: Float, f: Map[String, String], h: Map[String, String]) = {
+    def getH(s: String) = h.getOrElse(s, f.getOrElse(s, ""))
+    def getHU(s: String) = h.getOrElse(s, f.getOrElse(s, "").toUpperCase)
+    Hit(score, API.Symbol(f(SymbolRaw), getHU(Symbol)), f(Level).toInt, f(Kind), getH(TextBody))
+  }
   
   /** Entity class mapping to a database row representing a IPCEntry
     */

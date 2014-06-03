@@ -1,5 +1,5 @@
 /*
-    Copyright 2013 NICTA
+    Copyright 2013, 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -30,14 +30,15 @@ import org.t3as.patClas.api.CPC.ClassificationItem
 import org.t3as.patClas.api.IPC.IPCEntry
 import org.t3as.patClas.api.USPC.UsClass
 import org.t3as.patClas.common.search.Constants
+import org.apache.lucene.store.FSDirectory
 
 object IndexerFactory {
 
-  private def cpcToDoc(c: ClassificationItem) = {
+  def cpcToDoc(c: ClassificationItem) = {
     import org.t3as.patClas.api.CPC.IndexFieldName._
     
     val doc = new Document
-    doc add new Field(Symbol, c.symbol, keywordFieldType)
+    doc add new Field(Symbol, c.symbol.toLowerCase, keywordFieldType)
     doc add new Field(Level, c.level.toString, keywordFieldType)
 
     if (!c.classTitle.isEmpty())
@@ -49,13 +50,15 @@ object IndexerFactory {
     doc
   }
 
-  def getCPCIndexer(indexDir: File) = new Indexer[ClassificationItem](indexDir, Constants.cpcAnalyzer, cpcToDoc)
+  def getCPCIndexer(indexDir: File) = new Indexer[ClassificationItem](Constants.cpcAnalyzer, FSDirectory.open(indexDir), cpcToDoc)
   
-  private def ipcToDoc(c: IPCEntry) = {
+  def ipcToDoc(c: IPCEntry) = {
+    import org.t3as.patClas.api.IPC.toCpcFormat
     import org.t3as.patClas.api.IPC.IndexFieldName._
 
     val doc = new Document
-    doc add new Field(Symbol, c.symbol, keywordFieldType)
+    doc add new Field(Symbol, toCpcFormat(c.symbol).toLowerCase, keywordFieldType)
+    doc add new Field(SymbolRaw, c.symbol, keywordFieldType)
     doc add new Field(Level, c.level.toString, keywordFieldType)
     doc add new Field(Kind, c.kind.toString, keywordFieldType)
 
@@ -65,13 +68,13 @@ object IndexerFactory {
     doc
   }
 
-  def getIPCIndexer(indexDir: File) = new Indexer[IPCEntry](indexDir, Constants.ipcAnalyzer, ipcToDoc)
+  def getIPCIndexer(indexDir: File) = new Indexer[IPCEntry](Constants.ipcAnalyzer, FSDirectory.open(indexDir), ipcToDoc)
   
-  private def uspcToDoc(c: UsClass) = {
+  def uspcToDoc(c: UsClass) = {
     import org.t3as.patClas.api.USPC.IndexFieldName._
 
     val doc = new Document
-    doc add new Field(Symbol, c.symbol, keywordFieldType)
+    doc add new Field(Symbol, c.symbol.toLowerCase, keywordFieldType)
     
     Seq(
         (c.classTitle, ClassTitle, (s: String) => s), 
@@ -86,7 +89,7 @@ object IndexerFactory {
     doc
   }
 
-  def getUSPCIndexer(indexDir: File) = new Indexer[UsClass](indexDir, Constants.uspcAnalyzer, uspcToDoc)
+  def getUSPCIndexer(indexDir: File) = new Indexer[UsClass](Constants.uspcAnalyzer, FSDirectory.open(indexDir), uspcToDoc)
   
 }
 

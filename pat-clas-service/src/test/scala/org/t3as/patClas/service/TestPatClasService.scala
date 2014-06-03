@@ -27,25 +27,33 @@ import org.t3as.patClas.common.TreeNode
 import org.t3as.patClas.common.db.CPCdb
 import org.t3as.patClas.common.search.RAMIndex
 
-// TODO: although this uses an in-memory test database it tries to open, but not actually use, the real Lucene indexes. Needs to work without them. 
 class TestPatClasService extends FlatSpec with Matchers {
   val log = LoggerFactory.getLogger(getClass)
 
   "CPCService" should "retrieve ancestorsAndSelf" in {
-
     val l8 = TreeNode(ClassificationItem(None, -1, false, true, false, "2013-01-01", 8, "B29C31/002", "title8", "notes8"), Seq())
     val l7 = TreeNode(ClassificationItem(None, -1, false, true, false, "2013-01-01", 7, "B29C31/00", "title7", "notes7"), Seq(l8))
     val l6 = TreeNode(ClassificationItem(None, -1, false, true, false, "2013-01-01", 6, "B29C31/00", "title6", "notes6"), Seq(l7))
     val l5 = TreeNode(ClassificationItem(None, -1, false, false, false, "2013-01-01", 5, "B29C", "title5", "notes5"), Seq(l6))
 
-    PatClasService.testInit(new PatClasService { override def indexDir(prop: String) = RAMIndex.makeTestIndex } )
+    // initialize singleton used by CPCService
+    PatClasService.testInit(new PatClasService {
+      override def indexDir(prop: String) = RAMIndex.makeTestIndex 
+    } )
+    
     val svc = PatClasService.service
-    import svc._
+    import svc.{cpcDb, database}
     import cpcDb.profile.simple._
     
     val srv = new CPCService
+    
+    {    
+      val hits = srv.search("Symbol:B29C3*")
+      log.debug(s"hits = $hits")
+      hits.size should be(3) // matches 2 x "B29C31/00", 1 x "B29C31/002", 0 x "B29C"
+    }
+ 
     database withSession { implicit session =>
-
       // Create the table(s), indices etc.
       cpcDb.cpcs.ddl.create
 
@@ -62,8 +70,8 @@ class TestPatClasService extends FlatSpec with Matchers {
           desc.notesAndWarnings should be(n.value.notesAndWarnings)
         }
       }
-
     }
+    
     PatClasService.close
   }
 }

@@ -59,9 +59,7 @@ object RAMIndex {
   def makeTestIndex: Directory = {
     val dir = new RAMDirectory
     
-    for (indexer <- managed(new Indexer[ClassificationItem](new File("not.used"), Constants.cpcAnalyzer, toDoc) {
-      override def open = new IndexWriter(dir, indexWriterConfig)
-    })) {
+    for (indexer <- managed(new Indexer[ClassificationItem](Constants.cpcAnalyzer, dir, toDoc))) {
       val title8 = xml
         
       val notes = """<notes-and-warnings date-revised="2013-01-01"><note type="note"><note-paragraph><pre><br/>

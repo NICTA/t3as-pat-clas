@@ -75,27 +75,6 @@
     this.handler = handler; // a function mapping field data => content of table/tr/td
   }
 
-  // Some functions to use for Col.handler
-
-  function defHandler(v) {
-    return v;
-  }
-
-  function linkHandler(v) {
-    return '<a href="' + v + '">' + v + '</a>';
-  }
-
-  function ipcLinkHandler(v) {
-    return '<a href="' + v + '">' + ipcRefToCPCformat(v) + '</a>';
-  }
-
-  function ipcHandler(v) {
-    // html content model for <title> has only text children
-    // to keep element content we have to rename it before adding it to the DOM
-    // we could change emdash to something visible afterwards, but may as well do it now
-    return v.replace("<title>", "<ipcTitle>").replace("</title>", "</ipcTitle>").replace("<emdash/>", "-");
-  }
-
   // generate table content
   function genTable(t, data, cols) {
     t.empty();
@@ -198,16 +177,37 @@
     $('div.spinner', parent).remove();
   }
 
+  // Some functions to use for Col.handler
+
+  function defHandler(v) {
+    return v;
+  }
+
+  function symbolHandler(v) {
+    return '<a href="' + v.raw + '">' + v.formatted + '</a>';
+  }
+
+  function ipcSymbolHandler(v) {
+    return '<a href="' + v.raw + '">' + ipcRefToCPCformat(v.raw) + '</a>';
+  }
+
+  function ipcHandler(v) {
+    // html content model for <title> has only text children
+    // to keep element content we have to rename it before adding it to the DOM
+    // we could change emdash to something visible afterwards, but may as well do it now
+    return v.replace("<title>", "<ipcTitle>").replace("</title>", "</ipcTitle>").replace("<emdash/>", "-");
+  }
+
   // handle successful ajax search response
   function searchSuccess(data, textStatus, jqXHR) {
     debug('searchSuccess: textStatus', textStatus, 'jqXHR', jqXHR);
     try {
       var cols = [
-          [ new Col('CPC Symbol', 'symbol', linkHandler), new Col('Level', 'level', defHandler), new Col('Rank', 'score', defHandler),
+          [ new Col('CPC Symbol', 'symbol', symbolHandler), new Col('Level', 'level', defHandler), new Col('Rank', 'score', defHandler),
             new Col('Class Title Highlights', 'classTitleHighlights', defHandler), new Col('Notes And Warnings Highlights', 'notesAndWarningsHighlights', defHandler) ],
-          [ new Col('IPC Symbol', 'symbol', ipcLinkHandler), new Col('Level', 'level', defHandler), new Col('Kind', 'kind', defHandler), new Col('Rank', 'score', defHandler),
+          [ new Col('IPC Symbol', 'symbol', ipcSymbolHandler), new Col('Level', 'level', defHandler), new Col('Kind', 'kind', defHandler), new Col('Rank', 'score', defHandler),
             new Col('Text Highlights', 'textBodyHighlights', defHandler) ],
-          [ new Col('USPC Symbol', 'symbol', linkHandler), new Col('Rank', 'score', defHandler),
+          [ new Col('USPC Symbol', 'symbol', symbolHandler), new Col('Rank', 'score', defHandler),
             new Col('Class Title Highlights', 'classTitleHighlights', defHandler), new Col('Subclass Title Highlights', 'subClassTitleHighlights', defHandler),
             new Col('Subclass Description Highlights', 'subClassDescriptionHighlights', defHandler), new Col('Text Highlights', 'textHighlights', defHandler) ] ];
       var i = schemaInt();
@@ -267,14 +267,31 @@
     }
   }
 
+  // Some functions to use for Col.handler
+
+  function lookupSymbolHandler(v) {
+    return '<a href="' + v + '">' + v + '</a>';
+  }
+
+  function lookupIpcSymbolHandler(v) {
+    return '<a href="' + v + '">' + ipcRefToCPCformat(v) + '</a>';
+  }
+
+  function ipcHandler(v) {
+    // html content model for <title> has only text children
+    // to keep element content we have to rename it before adding it to the DOM
+    // we could change emdash to something visible afterwards, but may as well do it now
+    return v.replace("<title>", "<ipcTitle>").replace("</title>", "</ipcTitle>").replace("<emdash/>", "-");
+  }
+
   // handle successful ajax lookup response
   function contextSuccess(data, textStatus, jqXHR) {
     debug('contextSuccess: textStatus = ', textStatus, 'jqXHR', jqXHR);
     try {
       var cols = [
-          [ new Col('CPC Symbol', 'symbol', linkHandler), new Col('Level', 'level', defHandler), new Col('Class Title', 'classTitle', defHandler), new Col('Notes and Warnings', 'notesAndWarnings', defHandler) ],
-          [ new Col('IPC Symbol', 'symbol', ipcLinkHandler), new Col('Level', 'level', defHandler), new Col('Kind', 'kind', defHandler), new Col('Text', 'textBody', ipcHandler) ],
-          [ new Col('USPC Symbol', 'symbol', linkHandler), new Col('Class Title', 'classTitle', defHandler), new Col('Subclass Title', 'subClassTitle', defHandler), new Col('Subclass Description', 'subClassDescription', defHandler),
+          [ new Col('CPC Symbol', 'symbol', lookupSymbolHandler), new Col('Level', 'level', defHandler), new Col('Class Title', 'classTitle', defHandler), new Col('Notes and Warnings', 'notesAndWarnings', defHandler) ],
+          [ new Col('IPC Symbol', 'symbol', lookupIpcSymbolHandler), new Col('Level', 'level', defHandler), new Col('Kind', 'kind', defHandler), new Col('Text', 'textBody', ipcHandler) ],
+          [ new Col('USPC Symbol', 'symbol', lookupSymbolHandler), new Col('Class Title', 'classTitle', defHandler), new Col('Subclass Title', 'subClassTitle', defHandler), new Col('Subclass Description', 'subClassDescription', defHandler),
               new Col('Text', 'text', defHandler) ] ];
       var cr = $('#contextResult');
       removeSpinner(cr);
@@ -335,8 +352,8 @@
       return s
   }
 
-  // Inverse of above - convert from IPC symbol with hard to read zero padding to
-  // the CPC style format with a /.
+  // Convert from IPC symbol format A99AZMMMGGGGGZ (Z = zero padded, ZMMM = 4 digit left padded main group, GGGGGZ = 6 digit right padded sub group)
+  // to the more humanly readable CPC IPC ref format A99AMM/GG.
   function ipcRefToCPCformat(s) {
     if (s.length != 14)
       return s;
@@ -406,14 +423,14 @@
   }
 
   function cpcToNodeData(x) {
-    return new NodeData(linkHandler(x.symbol) + '<span class="level">(level ' + x.level + ')</span>' + x.classTitle, {
+    return new NodeData(lookupSymbolHandler(x.symbol) + '<span class="level">(level ' + x.level + ')</span>' + x.classTitle, {
       id : x.id,
       symbol : x.symbol,
       level : x.level
     });
   }
   function ipcToNodeData(x) {
-    return new NodeData(ipcLinkHandler(x.symbol) + '<span class="level">(level ' + x.level + ', kind ' + x.kind + ')</span>' + ipcHandler(x.textBody), {
+    return new NodeData(lookupIpcSymbolHandler(x.symbol) + '<span class="level">(level ' + x.level + ', kind ' + x.kind + ')</span>' + ipcHandler(x.textBody), {
       id : x.id,
       symbol : x.symbol,
       level : x.level,
@@ -421,7 +438,7 @@
     });
   }
   function uspcToNodeData(x) {
-    return new NodeData(linkHandler(x.symbol) + (x.classTitle.length ? '<span class="us-class-title">' + x.classTitle + '</span>' : x.subClassTitle + x.subClassDescription), {
+    return new NodeData(lookupSymbolHandler(x.symbol) + (x.classTitle.length ? '<span class="us-class-title">' + x.classTitle + '</span>' : x.subClassTitle + x.subClassDescription), {
       id : x.id,
       symbol : x.symbol
     });

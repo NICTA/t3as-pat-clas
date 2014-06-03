@@ -23,9 +23,23 @@ import java.io.Closeable
 
 object API {
 
+  /** trim leading c's from s */
+  def ltrim(s: String, c: Char) = {
+    val i = s.indexWhere(_ != c)
+    if (i == -1) "" else s.substring(i)
+  }
+  
+  /** trim trailing c's from s */
+  def rtrim(s: String, c: Char) = {
+    val i = s.lastIndexWhere(_ != c)
+    s.substring(0, i + 1)
+  }
+
+  case class Symbol(raw: String, formatted: String)
+
   trait HitBase {
     def score: Float
-    def symbol: String
+    def symbol: Symbol
   }
 
   trait SearchService[H <: HitBase] {
@@ -36,12 +50,12 @@ object API {
     def ancestorsAndSelf(symbol: String, format: String): List[D]
     def children(parentId: Int, format: String): List[D]
   }
-  
+
   trait Factory extends Closeable {
     val cpc: SearchService[CPC.Hit] with LookupService[CPC.Description]
     val ipc: SearchService[IPC.Hit] with LookupService[IPC.Description]
     val uspc: SearchService[USPC.Hit] with LookupService[USPC.Description]
-    
+
     def close = {}
   }
 }

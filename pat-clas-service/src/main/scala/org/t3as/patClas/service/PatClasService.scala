@@ -83,6 +83,7 @@ class PatClasService {
    */
   def getToText(f: String) = if ("xml".equalsIgnoreCase(f)) (xml: String) => xml else Util.toText _ 
   
+  // tests can override with a RAMDirectory
   def indexDir(prop: String): Directory = FSDirectory.open(new File(get(prop)))
   
   val cpcSearcher = {
@@ -108,7 +109,7 @@ class PatClasService {
     uspcSearcher.close
   }
   
-  // for local (in-process) use
+  // for local (in-process) use from Scala
   def factory = new Factory {
     val cpc = new CPCService
     val ipc = new IPCService
@@ -116,14 +117,16 @@ class PatClasService {
     override def close = PatClasService.close
   }
   
+  // for local (in-process) use from Java
   import org.t3as.patClas.api.javaApi.{Factory => JF}
   def toJavaApi = new JF(factory)
 }
 
 
+// no-args ctor used by Jersey, not sure whether it could create multiple instances, but its OK if it does
 @Path("/v1.0/CPC")
 class CPCService extends SearchService[CPC.Hit] with LookupService[CPC.Description] {
-  val svc = PatClasService.service // PatClasService must be initialised first!
+  val svc = PatClasService.service // singleton for things that must be shared across multiple instances; must be initialised first
   import svc._
   
   log.debug("CPCService:ctor")

@@ -25,7 +25,7 @@ object USPC {
 
   case class Description(id: Int, symbol: String, classTitle: String, subClassTitle: String, subClassDescription: String, text: String)
 
-  case class Hit(score: Float, symbol: String, classTitleHighlights: String, subClassTitleHighlights: String, subClassDescriptionHighlights: String, textHighlights: String)  extends API.HitBase
+  case class Hit(score: Float, symbol: API.Symbol, classTitleHighlights: String, subClassTitleHighlights: String, subClassDescriptionHighlights: String, textHighlights: String)  extends API.HitBase
 
   /** Names of USPC fields in the Lucene index. */
   object IndexFieldName extends Enumeration {
@@ -37,9 +37,13 @@ object USPC {
   import IndexFieldName._
   
   val textFields: Array[String] = Array(ClassTitle, SubClassTitle, SubClassDescription, Text)
-  val hitFields: Set[String] = Set(Symbol)
+  val hitFields: Set[String] = Set(Symbol, ClassTitle, SubClassTitle, SubClassDescription, Text)
   
-  def mkHit(score: Float, f: Map[String, String], h: Map[String, String]) = Hit(score, f(Symbol).toUpperCase, h.getOrElse(ClassTitle, ""), h.getOrElse(SubClassTitle, ""), h.getOrElse(SubClassDescription, ""), h.getOrElse(Text, ""))
+  def mkHit(score: Float, f: Map[String, String], h: Map[String, String]) = {
+    def getH(s: String) = h.getOrElse(s, f.getOrElse(s, ""))
+    def getHU(s: String) = h.getOrElse(s, f.getOrElse(s, "").toUpperCase)
+    Hit(score, API.Symbol(f(Symbol).toUpperCase, getHU(Symbol)), getH(ClassTitle), getH(SubClassTitle), getH(SubClassDescription), getH(Text))
+  }
 
   /** Entity class mapping to a database row representing a USPC Symbol.
     */

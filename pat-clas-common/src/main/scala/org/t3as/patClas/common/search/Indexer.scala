@@ -31,6 +31,7 @@ import org.apache.lucene.document.FieldType
 import org.apache.lucene.document.Field
 import org.apache.lucene.index.FieldInfo
 import org.apache.lucene.analysis.Analyzer
+import org.apache.lucene.store.Directory
 
 object Indexer {
 
@@ -49,16 +50,12 @@ object Indexer {
   val textFieldType = mkFieldType(true)
 }
 
-class Indexer[T](indexDir: File, analyzer: Analyzer, mkDoc: T => Document) extends Closeable {
+class Indexer[T](analyzer: Analyzer, dir: Directory, mkDoc: T => Document) extends Closeable {
   val log = LoggerFactory.getLogger(getClass)
 
-  val writer = open  
-  protected def open = new IndexWriter(FSDirectory.open(indexDir), indexWriterConfig)
+  val writer = new IndexWriter(dir, indexWriterConfig)
 
   protected def indexWriterConfig = {
-    // This analyzer is used with TextFields, but not with StringFields.
-    // It uses the following Lucene components:
-    // StandardTokenizer, StandardFilter, EnglishPossessiveFilter, LowerCaseFilter, StopFilter, PorterStemFilter.
     val c = new IndexWriterConfig(Constants.version, analyzer)
     c.setOpenMode(CREATE)
     c
