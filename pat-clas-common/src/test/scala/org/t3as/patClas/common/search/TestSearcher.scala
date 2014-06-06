@@ -67,15 +67,20 @@ class TestSearcher extends FlatSpec with Matchers {
       }
       {
         val hits = searcher.search("fak* atten*")
-        log.debug(s"hits = $hits")
+        // log.debug(s"hits = $hits")
         hits.size should be(4) // as above
       }
       {
         val hits = searcher.search("Symbol:B29C3*")
-        log.debug(s"hits = $hits")
+        // log.debug(s"hits = $hits")
         hits.size should be(3) // matches 2 x "B29C31/00", 1 x "B29C31/002", 0 x "B29C"
       }
-    }
+      {
+        val hits = searcher.search(s"${ClassTitle.toString}:FAKED", Some("B29C3"))
+        // log.debug(s"hits = $hits")
+        hits.size should be(2)
+      }
+   }
   }
 
   def isDescending[H <: HitBase](list: List[H]) = isSorted(Nil ++ list, (a: H, b: H) => a.score >= b.score)

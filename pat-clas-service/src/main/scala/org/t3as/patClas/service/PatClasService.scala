@@ -134,7 +134,7 @@ class CPCService extends SearchService[CPC.Hit] with LookupService[CPC.Descripti
   @Path("search")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  override def search(@QueryParam("q") q: String) = cpcSearcher.search(q)
+  override def search(@QueryParam("q") q: String, @QueryParam("symbol") symbol: String = null) = cpcSearcher.search(q, Option(symbol))
   
   @Path("ancestorsAndSelf")
   @GET
@@ -165,7 +165,7 @@ class IPCService extends SearchService[IPC.Hit] with LookupService[IPC.Descripti
   @Path("search")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  override def search(@QueryParam("q") q: String) = ipcSearcher.search(q)
+  override def search(@QueryParam("q") q: String, @QueryParam("symbol") symbol: String = null) = ipcSearcher.search(q, Option(symbol))
 
   @Path("ancestorsAndSelf")
   @GET
@@ -196,7 +196,7 @@ class USPCService extends SearchService[USPC.Hit] with LookupService[USPC.Descri
   @Path("search")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  override def search(@QueryParam("q") q: String) = uspcSearcher.search(q)
+  override def search(@QueryParam("q") q: String, @QueryParam("symbol") symbol: String = null) = uspcSearcher.search(q, Option(symbol))
 
   @Path("ancestorsAndSelf")
   @GET

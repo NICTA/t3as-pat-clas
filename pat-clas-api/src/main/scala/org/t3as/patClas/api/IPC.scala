@@ -28,6 +28,7 @@ object IPC {
 
   case class Hit(score: Float, symbol: API.Symbol, level: Int, kind: String, textBodyHighlights: String) extends API.HitBase
   
+  // TODO: move IndexFieldName, textFields, hitFields, toCpcFormat, mkHit to common.IPCUtil
   /**
    * Names of IPC fields in the Lucene index.
    * 

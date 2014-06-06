@@ -1,5 +1,5 @@
 /*
-    Copyright 2013 NICTA
+    Copyright 2013, 2014 NICTA
     
     This file is part of t3as (Text Analysis As A Service).
 
@@ -20,12 +20,21 @@
 package org.t3as.patClas.parse
 
 import org.apache.lucene.store.RAMDirectory
+import scala.collection.JavaConversions._
 import org.scalatest.{ FlatSpec, Matchers }
 import org.slf4j.LoggerFactory
 import org.t3as.patClas.api.IPC.{ Hit, IPCEntry, hitFields, mkHit, textFields }
 import org.t3as.patClas.common.search.{ Constants, Indexer, Searcher }
-
 import resource.managed
+import org.apache.lucene.index.TermsEnum
+import org.apache.lucene.index.DocsEnum
+import org.apache.lucene.util.Bits
+import org.apache.lucene.search.DocIdSetIterator
+import org.apache.lucene.search.FieldCacheTermsFilter
+import org.t3as.patClas.common.search.PrefixFilter
+import org.apache.lucene.search.{PrefixFilter => lPrefixFilter}
+import org.apache.lucene.search.Query
+import org.apache.lucene.search.MatchAllDocsQuery
 
 class TestIndexerFactory extends FlatSpec with Matchers {
   val log = LoggerFactory.getLogger(getClass)
@@ -40,18 +49,49 @@ class TestIndexerFactory extends FlatSpec with Matchers {
     }
 
     for (searcher <- managed(new Searcher[Hit](textFields, Constants.cpcAnalyzer, hitFields, dir, mkHit))) {
-      {
-        val hits = searcher search "text"
+        import org.t3as.patClas.api.IPC.IndexFieldName.Symbol
+//      {
+//        val hits = searcher search "text"
+//        log.debug(s"hits = $hits")
+//        hits.size should be(2)
+//      }
+//      {
+//        val hits = searcher search """Symbol:A01B12\/9*"""
+//        log.debug(s"hits = $hits")
+//        hits.size should be(2)
+//      }
+//      {
+//        
+//        val c = searcher.indexSearcher.getIndexReader.getContext
+//        log.debug(s"docBaseInParent = ${c.docBaseInParent},  ordInParent = ${c.ordInParent}, isTopLevel = ${c.isTopLevel}")
+//        for (cc <- c.leaves) {
+//          log.debug(s"docBaseInParent = ${cc.docBaseInParent},  ordInParent = ${cc.ordInParent}, isTopLevel = ${cc.isTopLevel}")
+//          val dv = cc.reader.getSortedDocValues(Symbol)
+//          val te = dv.termsEnum
+//          var docsEnum: DocsEnum = null
+//          val bits = new Bits.MatchAllBits(cc.reader.maxDoc)
+//          for (term <- termIter(te)) {
+//            log.debug(s"term = $term")
+//            
+//// java.lang.UnsupportedOperationException:
+////  at org.apache.lucene.index.SortedDocValuesTermsEnum.docs(SortedDocValuesTermsEnum.java:119)
+////  at org.apache.lucene.index.TermsEnum.docs(TermsEnum.java:149)            
+////            docsEnum = te.docs(bits, docsEnum)
+////            log.debug(s"term = $term, docIds = ${docIter(docsEnum).toList}")
+//// Also same exception from: te.docFreq
+//          }
+//        }
+        
+        val f = new PrefixFilter(Symbol, "A01B12".toLowerCase)
+        val hits = searcher.indexSearcher.search(new MatchAllDocsQuery, f, 100)
         log.debug(s"hits = $hits")
-        hits.size should be(2)
-      }
-      {
-        val hits = searcher search """Symbol:A01B12\/9*"""
-        log.debug(s"hits = $hits")
-        hits.size should be(2)
-      }
+      
     }
   }
+
+  def termIter(te: TermsEnum) = Iterator.continually(te.next).takeWhile(_ != null).map(b => b.utf8ToString)
+  
+  def docIter(de: DocsEnum) = Iterator.continually(de.nextDoc).takeWhile(_ !=  DocIdSetIterator.NO_MORE_DOCS)
 
 }
 

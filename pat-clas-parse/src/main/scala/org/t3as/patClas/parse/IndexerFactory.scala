@@ -31,14 +31,21 @@ import org.t3as.patClas.api.IPC.IPCEntry
 import org.t3as.patClas.api.USPC.UsClass
 import org.t3as.patClas.common.search.Constants
 import org.apache.lucene.store.FSDirectory
+import org.apache.lucene.document.SortedDocValuesField
+import org.apache.lucene.util.BytesRef
 
 object IndexerFactory {
 
+  def addSymbol(doc: Document, n: String, v: String) = {
+    doc add new SortedDocValuesField(n, new BytesRef(v.toLowerCase))
+    doc add new Field(n, v.toLowerCase, keywordFieldType)
+  }
+  
   def cpcToDoc(c: ClassificationItem) = {
     import org.t3as.patClas.api.CPC.IndexFieldName._
     
     val doc = new Document
-    doc add new Field(Symbol, c.symbol.toLowerCase, keywordFieldType)
+    addSymbol(doc, Symbol, c.symbol)
     doc add new Field(Level, c.level.toString, keywordFieldType)
 
     if (!c.classTitle.isEmpty())
@@ -57,7 +64,7 @@ object IndexerFactory {
     import org.t3as.patClas.api.IPC.IndexFieldName._
 
     val doc = new Document
-    doc add new Field(Symbol, toCpcFormat(c.symbol).toLowerCase, keywordFieldType)
+    addSymbol(doc, Symbol, toCpcFormat(c.symbol))
     doc add new Field(SymbolRaw, c.symbol, keywordFieldType)
     doc add new Field(Level, c.level.toString, keywordFieldType)
     doc add new Field(Kind, c.kind.toString, keywordFieldType)
@@ -74,7 +81,7 @@ object IndexerFactory {
     import org.t3as.patClas.api.USPC.IndexFieldName._
 
     val doc = new Document
-    doc add new Field(Symbol, c.symbol.toLowerCase, keywordFieldType)
+    addSymbol(doc, Symbol, c.symbol)
     
     Seq(
         (c.classTitle, ClassTitle, (s: String) => s), 
@@ -82,7 +89,7 @@ object IndexerFactory {
         (c.subClassDescription, SubClassDescription, toText _),
         (Some(c.text), Text, toText _)
     ) foreach {
-      case(Some(text), field, format) => if (!text.isEmpty) doc add new Field(field, format(text), textFieldType)
+      case(Some(text), field, format) if !text.isEmpty => doc add new Field(field, format(text), textFieldType)
       case _ =>
     }
     

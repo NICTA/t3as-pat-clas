@@ -23,6 +23,7 @@ import java.io.Closeable
 
 object API {
 
+  // TODO: move API.{l,r}trim to common.Util (after moving IPC.toCpcFormat to common)
   /** trim leading c's from s */
   def ltrim(s: String, c: Char) = {
     val i = s.indexWhere(_ != c)
@@ -43,7 +44,7 @@ object API {
   }
 
   trait SearchService[H <: HitBase] {
-    def search(q: String): List[H]
+    def search(q: String, symbol: String = null): List[H]
   }
 
   trait LookupService[D] {

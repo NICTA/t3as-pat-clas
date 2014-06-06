@@ -20,13 +20,11 @@
 package org.t3as.patClas.common.search
 
 import java.io.Closeable
-
 import scala.Array.canBuildFrom
 import scala.Option.option2Iterable
 import scala.collection.JavaConversions.{asScalaBuffer, mapAsScalaMap, mutableSetAsJavaSet, setAsJavaSet}
 import scala.collection.mutable.HashSet
 import scala.language.postfixOps
-
 import org.apache.lucene.analysis.Analyzer
 import org.apache.lucene.index.{DirectoryReader, Term}
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser
@@ -35,6 +33,9 @@ import org.apache.lucene.search.postingshighlight.{DefaultPassageFormatter, Post
 import org.apache.lucene.store.Directory
 import org.slf4j.LoggerFactory
 import org.t3as.patClas.api.API.HitBase
+import scala.util.control.NonFatal
+import org.apache.lucene.search.FieldCacheTermsFilter
+import org.apache.lucene.util.BytesRef
 
 /** Search text associated with a classification code.
   * @param indexDir path to search index
@@ -67,12 +68,18 @@ class Searcher[Hit <: HitBase](
 
   // Not thread-safe so use a new one each time.
   def qparser = {
-    val qp = new MultiFieldQueryParser(Constants.version, defaultFields, analyzer)
+    val qp = new MultiFieldQueryParser(Constants.version, defaultFields, analyzer) {
+      override protected def getPrefixQuery(field: String, termStr: String): Query = {
+        val q = super.getPrefixQuery(field, termStr)
+        log.debug(s"MultiFieldQueryParser: field = $field, termStr = $termStr, q = $q")
+        q
+      } 
+    }
     qp.setMultiTermRewriteMethod(MultiTermQuery.SCORING_BOOLEAN_QUERY_REWRITE);
     qp
   }
 
-  def search(query: String) = {
+  def search(query: String, symbolPrefix: Option[String] = None) = {
     val q = {
       log.debug("input query = {}", query)
       val q1 = qparser.parse(query)
@@ -81,7 +88,10 @@ class Searcher[Hit <: HitBase](
       log.debug("rewritten query = {}", q2)
       q2
     }
-    val topDocs = indexSearcher.search(q, 50)
+    
+    val topDocs = symbolPrefix.map(s => indexSearcher.search(q, new PrefixFilter("Symbol", s.toLowerCase), 50))
+      .getOrElse(indexSearcher.search(q, 50))
+      
     log.debug("totalHits = {}", topDocs.totalHits)
     val results = topDocs.scoreDocs.toList
     val docIds = results.map(_.doc)

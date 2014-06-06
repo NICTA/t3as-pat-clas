@@ -34,7 +34,7 @@ class LookupAdapter[D](l: LS[D]) {
 }
 
 class SearchAdapter[H <: HitBase](s: SS[H]) {
-  def search(q: String): List[H] = s.search(q)
+  def search(q: String, symbol: String): List[H] = s.search(q, symbol)
 }
 
 class Factory(f: SF) extends Closeable {

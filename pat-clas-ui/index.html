@@ -152,10 +152,13 @@
       e.preventDefault();
       var sName = schemaName(schemaInt());
       var url = baseUrl + '/' + sName + '/search';
-      debug('schema = ' + sName + ', query = ' + $('#query').val() + ', url = ' + url);
+      var q = $('#query').val();
+      var symbol = $('#symbol').val().trim();
+      var data = symbol.length > 0 ? { q: q, symbol: symbol } : { q: q };
+      debug('schema = ', sName, ', data = ', data, ', url = ', url);
       $.ajax({
         url : url,
-        data : { q: $('#query').val() },
+        data : data,
         dataType : 'json',
         success : searchSuccess,
         error : ajaxError
@@ -188,7 +191,7 @@
   }
 
   function ipcSymbolHandler(v) {
-    return '<a href="' + v.raw + '">' + ipcRefToCPCformat(v.raw) + '</a>';
+    return symbolHandler(v); // '<a href="' + v.raw + '">' + ipcRefToCPCformat(v.raw) + '</a>';
   }
 
   function ipcHandler(v) {
@@ -205,7 +208,7 @@
       var cols = [
           [ new Col('CPC Symbol', 'symbol', symbolHandler), new Col('Level', 'level', defHandler), new Col('Rank', 'score', defHandler),
             new Col('Class Title Highlights', 'classTitleHighlights', defHandler), new Col('Notes And Warnings Highlights', 'notesAndWarningsHighlights', defHandler) ],
-          [ new Col('IPC Symbol', 'symbol', ipcSymbolHandler), new Col('Level', 'level', defHandler), new Col('Kind', 'kind', defHandler), new Col('Rank', 'score', defHandler),
+          [ new Col('IPC Symbol', 'symbol', symbolHandler), new Col('Level', 'level', defHandler), new Col('Kind', 'kind', defHandler), new Col('Rank', 'score', defHandler),
             new Col('Text Highlights', 'textBodyHighlights', defHandler) ],
           [ new Col('USPC Symbol', 'symbol', symbolHandler), new Col('Rank', 'score', defHandler),
             new Col('Class Title Highlights', 'classTitleHighlights', defHandler), new Col('Subclass Title Highlights', 'subClassTitleHighlights', defHandler),
@@ -273,6 +276,8 @@
     return '<a href="' + v + '">' + v + '</a>';
   }
 
+  // TODO: the server should return Symbol(raw: String, formatted: String) for lookup, as it already does for search
+  // then both can use the same server side function instead of having a 2nd implementation here.
   function lookupIpcSymbolHandler(v) {
     return '<a href="' + v + '">' + ipcRefToCPCformat(v) + '</a>';
   }
@@ -342,6 +347,7 @@
 
   // Convert from CPC IPC ref format A63H17/273
   // to IPC symbol format A99AZZZMGGZZZZ (zero padded, 4 digit for main group, 6 digits for group)
+  // TODO: make the server support IPC lookups using the CPC IPC ref format A63H17/273
   function cpcRefToIpc(s) {
     var pos = s.indexOf('/');
     if (pos >= 0) {
@@ -597,9 +603,12 @@
   </div>
 
   <h2>Search</h2>
-  <span class="label">Query:</span>
   <form id="searchForm">
-    <input id="query" type="text" name="query" /> <input id="search" type="button" value="Search">
+    <span class="label">Query:</span>
+    <input id="query" type="text" name="query">
+    <span class="label">Symbol:</span>
+    <input id="symbol" type="text" name="symbol">
+    <input id="search" type="button" value="Search">
   </form>
   <div id="searchResult">
     <table id="searchTable"></table>

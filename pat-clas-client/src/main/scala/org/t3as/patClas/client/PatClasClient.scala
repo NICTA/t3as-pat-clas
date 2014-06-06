@@ -35,10 +35,11 @@ class PatClasClient(path: String) extends Factory {
   class Client[H <: HitBase, D](path: String) extends SearchService[H] with LookupService[D] {
     val c = ClientBuilder.newClient(config).target(path)
 
-    override def search(q: String) = c.path("search")
-      .queryParam("q", q)
-      .request(MediaType.APPLICATION_JSON_TYPE)
-      .get(classOf[Array[H]]).toList
+    override def search(q: String, symbol: String = null) = { 
+      val x = c.path("search").queryParam("q", q)
+      Option(symbol).map(s => x.queryParam("symbol", s)).getOrElse(x)
+        .request(MediaType.APPLICATION_JSON_TYPE).get(classOf[Array[H]]).toList
+    }
 
     override def ancestorsAndSelf(symbol: String, format: String) = c.path("ancestorsAndSelf")
       .queryParam("symbol", symbol)
