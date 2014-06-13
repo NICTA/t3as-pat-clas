@@ -30,13 +30,14 @@ object CPC {
   /** Names of CPC fields in the Lucene index. */
   object IndexFieldName extends Enumeration {
     type IndexFieldName = Value
-    val Symbol, Level, ClassTitle, NotesAndWarnings = Value
+    val Symbol, Level, ClassTitle, ClassTitleUnstemmed, NotesAndWarnings, NotesAndWarningsUnstemmed = Value
 
     implicit def convert(f: IndexFieldName) = f.toString
   }
   import IndexFieldName._
   
-  val textFields: Array[String] = Array(ClassTitle, NotesAndWarnings)
+  val textFields: List[String] = List(ClassTitle, NotesAndWarnings)
+  val unstemmedTextFields: List[String] = List(ClassTitleUnstemmed, NotesAndWarningsUnstemmed) // in pref order for suggester
   val hitFields: Set[String] = Set(Symbol, Level, ClassTitle, NotesAndWarnings)
   
   

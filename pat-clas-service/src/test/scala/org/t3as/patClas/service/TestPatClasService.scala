@@ -26,6 +26,9 @@ import org.t3as.patClas.api.CPC.ClassificationItem
 import org.t3as.patClas.common.TreeNode
 import org.t3as.patClas.common.db.CPCdb
 import org.t3as.patClas.common.search.RAMIndex
+import java.io.File
+import org.t3as.patClas.common.search.Suggest
+import org.apache.lucene.search.suggest.Lookup
 
 class TestPatClasService extends FlatSpec with Matchers {
   val log = LoggerFactory.getLogger(getClass)
@@ -37,8 +40,13 @@ class TestPatClasService extends FlatSpec with Matchers {
     val l5 = TreeNode(ClassificationItem(None, -1, false, false, false, "2013-01-01", 5, "B29C", "title5", "notes5"), Seq(l6))
 
     // initialize singleton used by CPCService
+    val mockSuggest = new Suggest {
+      val s: Lookup = null
+      override def lookup(key: String, num: Int) = List("test", "suggest")
+    }
     PatClasService.testInit(new PatClasService {
       override def indexDir(prop: String) = RAMIndex.makeTestIndex 
+      override def mkCombinedSuggest(indexDir: File) = new CombinedSuggest(mockSuggest, mockSuggest)
     } )
     
     val svc = PatClasService.service

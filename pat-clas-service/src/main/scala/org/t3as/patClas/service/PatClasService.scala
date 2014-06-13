@@ -20,17 +20,22 @@
 package org.t3as.patClas.service
 
 import java.io.File
-import javax.ws.rs.{GET, Path, PathParam, Produces, QueryParam}
-import javax.ws.rs.core.MediaType
 import scala.language.implicitConversions
 import scala.slick.driver.JdbcProfile
 import scala.slick.jdbc.JdbcBackend.Database
 import org.apache.commons.dbcp2.BasicDataSource
-import org.slf4j.LoggerFactory
-import org.t3as.patClas.common.Util, Util.get
-import org.t3as.patClas.api.{CPC, IPC, USPC, API}, API.{SearchService, LookupService, Factory}
-import org.t3as.patClas.common.search.{Constants, Searcher, RAMIndex}
 import org.apache.lucene.store.{Directory, FSDirectory}
+import org.slf4j.LoggerFactory
+import org.t3as.patClas.api.API.{Factory, LookupService, SearchService, Suggestions}
+import org.t3as.patClas.api.CPC
+import org.t3as.patClas.api.IPC
+import org.t3as.patClas.api.USPC
+import org.t3as.patClas.api.javaApi.{Factory => JF}
+import org.t3as.patClas.common.Util
+import org.t3as.patClas.common.db.{CPCdb, IPCdb, USPCdb}
+import org.t3as.patClas.common.search.{Constants, ExactSuggest, FuzzySuggest, Searcher, Suggest}
+import javax.ws.rs.{GET, Path, Produces, QueryParam}
+import javax.ws.rs.core.MediaType
 
 object PatClasService {
   var s: Option[PatClasService] = None
@@ -45,10 +50,12 @@ object PatClasService {
 }
 
 class PatClasService {
+  import Util.get
+  
   val log = LoggerFactory.getLogger(getClass)
   
   log.debug("PatClasService:ctor")
-
+  
   implicit val props = Util.properties("/patClasService.properties")
   
   val datasource = {
@@ -86,21 +93,49 @@ class PatClasService {
   // tests can override with a RAMDirectory
   def indexDir(prop: String): Directory = FSDirectory.open(new File(get(prop)))
   
-  val cpcSearcher = {
-    import CPC._, IndexFieldName._
-    new Searcher[Hit](textFields, Constants.cpcAnalyzer, hitFields, indexDir("cpc.index.path"), mkHit)
+  // TODO: fuzzy can also find exact matches, so maybe we should filter them to avoid duplicates
+  class CombinedSuggest(exact: Suggest, fuzzy: Suggest) {
+    def lookup(key: String, num: Int) = {
+      val x = exact.lookup(key, num)
+      val n = num - x.size
+      val f = if (n > 0) fuzzy.lookup(key, num) else List.empty
+      Suggestions(x, f)
+    }
+  }
+  
+  def mkCombinedSuggest(indexDir: File) = {
+    import Suggest._
+
+    val x = new ExactSuggest
+    x.load(exactSugFile(indexDir))
+    
+    val f = new FuzzySuggest
+    f.load(fuzzySugFile(indexDir))
+    
+    new CombinedSuggest(x, f)
   }
 
+  val cpcSearcher = {
+    import CPC._, IndexFieldName._
+    new Searcher[Hit](textFields, unstemmedTextFields, Constants.cpcAnalyzer, hitFields, indexDir("cpc.index.path"), mkHit)
+  }
+  
+  val cpcSuggest = mkCombinedSuggest(new File(get("cpc.index.path")))
+  
   val ipcSearcher = {
     import IPC._, IndexFieldName._
-    new Searcher[Hit](textFields, Constants.ipcAnalyzer, hitFields, indexDir("ipc.index.path"), mkHit)
+    new Searcher[Hit](textFields, unstemmedTextFields, Constants.ipcAnalyzer, hitFields, indexDir("ipc.index.path"), mkHit)
   }
+
+  val ipcSuggest = mkCombinedSuggest(new File(get("ipc.index.path")))
 
   val uspcSearcher = {
     import USPC._, IndexFieldName._
-    new Searcher[Hit](textFields, Constants.uspcAnalyzer, hitFields, indexDir("uspc.index.path"), mkHit)
+    new Searcher[Hit](textFields, unstemmedTextFields, Constants.uspcAnalyzer, hitFields, indexDir("uspc.index.path"), mkHit)
   }
  
+  val uspcSuggest = mkCombinedSuggest(new File(get("uspc.index.path")))
+
   def close = {
     log.info("Closing datasource and search indices")
     datasource.close
@@ -123,7 +158,7 @@ class PatClasService {
 }
 
 
-// no-args ctor used by Jersey, not sure whether it could create multiple instances, but its OK if it does
+// no-args ctor used by Jersey, which creates multiple instances
 @Path("/v1.0/CPC")
 class CPCService extends SearchService[CPC.Hit] with LookupService[CPC.Description] {
   val svc = PatClasService.service // singleton for things that must be shared across multiple instances; must be initialised first
@@ -134,7 +169,12 @@ class CPCService extends SearchService[CPC.Hit] with LookupService[CPC.Descripti
   @Path("search")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  override def search(@QueryParam("q") q: String, @QueryParam("symbol") symbol: String = null) = cpcSearcher.search(q, Option(symbol))
+  override def search(@QueryParam("q") q: String, @QueryParam("stem") stem: Boolean = true, @QueryParam("symbol") symbol: String = null) = cpcSearcher.search(q, stem, Option(symbol))
+  
+  @Path("suggest")
+  @GET
+  @Produces(Array(MediaType.APPLICATION_JSON))
+  override def suggest(@QueryParam("prefix") prefix: String, @QueryParam("num") num: Int) = cpcSuggest.lookup(prefix, num)
   
   @Path("ancestorsAndSelf")
   @GET
@@ -162,11 +202,18 @@ class IPCService extends SearchService[IPC.Hit] with LookupService[IPC.Descripti
   val svc = PatClasService.service
   import svc._
   
+  log.debug("IPCService:ctor")
+
   @Path("search")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  override def search(@QueryParam("q") q: String, @QueryParam("symbol") symbol: String = null) = ipcSearcher.search(q, Option(symbol))
+  override def search(@QueryParam("q") q: String, @QueryParam("stem") stem: Boolean = true, @QueryParam("symbol") symbol: String = null) = ipcSearcher.search(q, stem, Option(symbol))
 
+  @Path("suggest")
+  @GET
+  @Produces(Array(MediaType.APPLICATION_JSON))
+  override def suggest(@QueryParam("prefix") prefix: String, @QueryParam("num") num: Int) = ipcSuggest.lookup(prefix, num)
+  
   @Path("ancestorsAndSelf")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
@@ -193,11 +240,18 @@ class USPCService extends SearchService[USPC.Hit] with LookupService[USPC.Descri
   val svc = PatClasService.service
   import svc._
   
+  log.debug("USPCService:ctor")
+
   @Path("search")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
-  override def search(@QueryParam("q") q: String, @QueryParam("symbol") symbol: String = null) = uspcSearcher.search(q, Option(symbol))
+  override def search(@QueryParam("q") q: String, @QueryParam("stem") stem: Boolean = true, @QueryParam("symbol") symbol: String = null) = uspcSearcher.search(q, stem, Option(symbol))
 
+  @Path("suggest")
+  @GET
+  @Produces(Array(MediaType.APPLICATION_JSON))
+  override def suggest(@QueryParam("prefix") prefix: String, @QueryParam("num") num: Int) = uspcSuggest.lookup(prefix, num)
+  
   @Path("ancestorsAndSelf")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))

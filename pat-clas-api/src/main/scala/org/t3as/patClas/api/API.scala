@@ -37,6 +37,7 @@ object API {
   }
 
   case class Symbol(raw: String, formatted: String)
+  case class Suggestions(exact: List[String], fuzzy: List[String])
 
   trait HitBase {
     def score: Float
@@ -44,7 +45,9 @@ object API {
   }
 
   trait SearchService[H <: HitBase] {
-    def search(q: String, symbol: String = null): List[H]
+    // tried Option[String] for symbol, but Jersey didn't deserialise it in PatClasService
+    def search(q: String, stem: Boolean = true, symbol: String = null): List[H]
+    def suggest(prefix: String, num: Int): Suggestions
   }
 
   trait LookupService[D] {

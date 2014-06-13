@@ -33,8 +33,18 @@ class LookupAdapter[D](l: LS[D]) {
   def children(parentId: Int, format: String): List[D] = l.children(parentId, format)
 }
 
+trait Suggestions {
+  def getExact: List[String]
+  def getFuzzy: List[String]
+}
+
 class SearchAdapter[H <: HitBase](s: SS[H]) {
-  def search(q: String, symbol: String): List[H] = s.search(q, symbol)
+  def search(q: String, stem: Boolean = true, symbol: String = null): List[H] = s.search(q, stem, symbol)
+  def suggest(prefix: String, num: Int): Suggestions = new Suggestions {
+    val x = s.suggest(prefix, num)
+    override def getExact = x.exact
+    override def getFuzzy = x.fuzzy 
+  }
 }
 
 class Factory(f: SF) extends Closeable {

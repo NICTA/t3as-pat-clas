@@ -19,7 +19,6 @@ h1, h2, h3, h4 {
 #browserLinks > a {
 	position: absolute;
 	padding-left: 5px;
-	width: 500px;
 }
 
 #browserLinks > a.hidden {
@@ -53,29 +52,39 @@ td {
 	padding: 2px 5px 2px 5px;
 }
 
+#query {
+    width: 600px;
+}
+
+button {
+    margin-left: 20px;
+}
+
 #searchResult {
+    margin-top: 5px;
 	min-height: 50px;
 	max-height: 250px;
 	border: 1px solid #98bf21;
 	overflow: auto;
 }
 
-#searchTable {
+#searchResult > table {
 	width: 100%;
 }
 
-#searchTable span.hlight {
+#searchResult > table span.hlight {
 	background-color: yellow;
 }
 
 #contextResult {
+    margin-top: 5px;
 	min-height: 50px;
 	max-height: 300px;
 	border: 1px solid #98bf21;
 	overflow: auto;
 }
 
-#contextTable {
+#contextResult > table {
 	width: 100%;
 	word-break: break-word;
 }
@@ -105,6 +114,7 @@ td {
 }
 
 #exploreResult {
+    margin-top: 5px;
 	min-height: 50px;
 	border: 1px solid #98bf21;
 }
@@ -137,9 +147,7 @@ span.fancytree-title > class-title {
 	overflow: auto;
 }
 
-#error {
-	height: 250px;
-	overflow: auto;
+.error {
 	color: red;
 }
 

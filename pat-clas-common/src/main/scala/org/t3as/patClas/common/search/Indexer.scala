@@ -19,35 +19,36 @@
 
 package org.t3as.patClas.common.search
 
-import java.io.File
-import org.apache.lucene.document.Document
+import java.io.Closeable
+
+import org.apache.lucene.analysis.Analyzer
+import org.apache.lucene.document.{Document, FieldType}
 import org.apache.lucene.index.{IndexWriter, IndexWriterConfig}
+import org.apache.lucene.index.FieldInfo.IndexOptions
+import org.apache.lucene.index.FieldInfo.IndexOptions.{DOCS_AND_FREQS, DOCS_AND_FREQS_AND_POSITIONS, DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS}
 import org.apache.lucene.index.IndexWriterConfig.OpenMode.CREATE
-import org.apache.lucene.store.FSDirectory
+import org.apache.lucene.store.Directory
 import org.slf4j.LoggerFactory
 import org.t3as.patClas.common.TreeNode
-import java.io.Closeable
-import org.apache.lucene.document.FieldType
-import org.apache.lucene.document.Field
-import org.apache.lucene.index.FieldInfo
-import org.apache.lucene.analysis.Analyzer
-import org.apache.lucene.store.Directory
 
 object Indexer {
 
-  private def mkFieldType(tokenized: Boolean) = {
+  private def mkFieldType(tokenized: Boolean, stored: Boolean, opt: IndexOptions) = {
     val t = new FieldType
     t.setIndexed(true)
     t.setTokenized(tokenized)
-    // _AND_OFFSETS needed for PostingsHighlighter, not included by default
-    t.setIndexOptions(FieldInfo.IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS)
-    t.setStored(true) // TODO: I think field must be stored, but if not remove
+    t.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS)
+    t.setStored(stored)
     t.freeze()
     t
   }
   
-  val keywordFieldType = mkFieldType(false)
-  val textFieldType = mkFieldType(true)
+  val keywordFieldType = mkFieldType(false, true, DOCS_AND_FREQS)
+  // _AND_OFFSETS needed for PostingsHighlighter. Also needs stored field
+  // Typical default to support phrase queries is DOCS_AND_FREQS_AND_POSITIONS
+  val textFieldType = mkFieldType(true, true, DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS)
+  // TODO: could I get highlighting to use the stemmed stored field and avoid storing the unstemmed field (it's the same data)
+  val unstemmedTextFieldType = mkFieldType(true, true, DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS)
 }
 
 class Indexer[T](analyzer: Analyzer, dir: Directory, mkDoc: T => Document) extends Closeable {

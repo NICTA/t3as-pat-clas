@@ -41,13 +41,14 @@ object IPC {
    */
   object IndexFieldName extends Enumeration {
     type IndexFieldName = Value
-    val Symbol, SymbolRaw, Level, Kind, TextBody = Value
+    val Symbol, SymbolRaw, Level, Kind, TextBody, TextBodyUnstemmed = Value
 
     implicit def convert(f: IndexFieldName) = f.toString
   }
   import IndexFieldName._
   
-  val textFields: Array[String] = Array(TextBody)
+  val textFields: List[String] = List(TextBody)
+  val unstemmedTextFields: List[String] = List(TextBodyUnstemmed) // in pref order for suggester
   val hitFields: Set[String] = Set(Symbol, SymbolRaw, Level, Kind, TextBody)
   
   private val re = """(\p{Upper}\p{Digit}{2}\p{Upper})(\p{Digit}{4})(\p{Digit}{6})""".r

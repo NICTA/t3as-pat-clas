@@ -30,13 +30,14 @@ object USPC {
   /** Names of USPC fields in the Lucene index. */
   object IndexFieldName extends Enumeration {
     type IndexFieldName = Value
-    val Symbol, ClassTitle, SubClassTitle, SubClassDescription, Text = Value
+    val Symbol, ClassTitle, ClassTitleUnstemmed, SubClassTitle, SubClassTitleUnstemmed, SubClassDescription, SubClassDescriptionUnstemmed, Text, TextUnstemmed = Value
 
     implicit def convert(f: IndexFieldName) = f.toString
   }
   import IndexFieldName._
   
-  val textFields: Array[String] = Array(ClassTitle, SubClassTitle, SubClassDescription, Text)
+  val textFields: List[String] = List(ClassTitle, SubClassTitle, SubClassDescription, Text)
+  val unstemmedTextFields: List[String] = List(TextUnstemmed, SubClassDescriptionUnstemmed, SubClassTitleUnstemmed, ClassTitleUnstemmed) // in pref order for suggester
   val hitFields: Set[String] = Set(Symbol, ClassTitle, SubClassTitle, SubClassDescription, Text)
   
   def mkHit(score: Float, f: Map[String, String], h: Map[String, String]) = {

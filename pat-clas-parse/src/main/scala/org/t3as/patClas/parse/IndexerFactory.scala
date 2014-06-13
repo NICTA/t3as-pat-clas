@@ -20,12 +20,12 @@
 package org.t3as.patClas.parse
 
 import java.io.File
-import org.apache.lucene.document.{Document, Field}
+import org.apache.lucene.document.{ Document, Field }
 import org.apache.lucene.document.Field.Store
 import org.apache.lucene.document.StringField
 import org.t3as.patClas.common.Util.toText
 import org.t3as.patClas.common.search.Indexer
-import org.t3as.patClas.common.search.Indexer.{keywordFieldType, textFieldType}
+import org.t3as.patClas.common.search.Indexer.{ keywordFieldType, textFieldType, unstemmedTextFieldType }
 import org.t3as.patClas.api.CPC.ClassificationItem
 import org.t3as.patClas.api.IPC.IPCEntry
 import org.t3as.patClas.api.USPC.UsClass
@@ -33,32 +33,80 @@ import org.t3as.patClas.common.search.Constants
 import org.apache.lucene.store.FSDirectory
 import org.apache.lucene.document.SortedDocValuesField
 import org.apache.lucene.util.BytesRef
+import org.apache.lucene.search.suggest.InputIterator
+import org.apache.lucene.index.AtomicReader
+import org.apache.lucene.index.TermsEnum
+import org.apache.lucene.index.Terms
+import java.io.Closeable
+import org.apache.lucene.index.DirectoryReader
+import org.apache.lucene.index.SlowCompositeReaderWrapper
+import org.slf4j.LoggerFactory
 
 object IndexerFactory {
+  val log = LoggerFactory.getLogger(getClass)
 
-  def addSymbol(doc: Document, n: String, v: String) = {
-    doc add new SortedDocValuesField(n, new BytesRef(v.toLowerCase))
-    doc add new Field(n, v.toLowerCase, keywordFieldType)
+  def inIter(dr: DirectoryReader, fields: List[String]) = new InputIterator with Closeable {
+    val r = SlowCompositeReaderWrapper.wrap(dr)
+    // iterator over all terms in all specified fields
+    // TODO: subsequent fields may repeat terms in previous fields, so duplicates are likely. Is it a problem?
+    // When the suggester fetches a term with a duplicate, what weight does it use?
+    val termIter = fields.map { f =>
+      var te: TermsEnum = null
+      te = r.terms(f).iterator(te) // mutable
+      Iterator.continually(te.next).takeWhile(_ != null).map((_, te.docFreq))
+    }.foldLeft(Iterator.empty: Iterator[(BytesRef, Int)]) { _ ++ _ }
+
+    override def getComparator = null
+
+    var w: Int = 0
+    override def next = if (termIter.hasNext) {
+        val x = termIter.next
+        w = x._2
+        x._1
+      } else null
+
+    override def weight = w
+
+    // payloads can be used to store info associated with the term
+    override def hasPayloads = false
+    override def payload = null
+    
+    // contexts can be used to filter suggestions
+    override def hasContexts() = false
+    override def contexts() = null
+    
+    override def close = r.close // closes dr, but SlowCompositeReaderWrapper has a TODO comment saying that maybe it shouldn't
+  }
+
+  def addSymbol(doc: Document, n: String, symbol: String) = {
+    val s = symbol.toLowerCase
+    doc add new SortedDocValuesField(n, new BytesRef(s))
+    doc add new Field(n, s, keywordFieldType)
   }
   
+  def addText(doc: Document, field: String, unstemmedField: String, text: String) {
+    doc add new Field(field, text, textFieldType)
+    doc add new Field(unstemmedField, text, unstemmedTextFieldType)
+  }
+
   def cpcToDoc(c: ClassificationItem) = {
     import org.t3as.patClas.api.CPC.IndexFieldName._
-    
+
     val doc = new Document
     addSymbol(doc, Symbol, c.symbol)
     doc add new Field(Level, c.level.toString, keywordFieldType)
-
-    if (!c.classTitle.isEmpty())
-      doc add new Field(ClassTitle, toText(c.classTitle), textFieldType)
-
-    if (!c.notesAndWarnings.isEmpty())
-      doc add new Field(NotesAndWarnings, toText(c.notesAndWarnings), textFieldType)
-
+    if (!c.classTitle.isEmpty()) addText(doc, ClassTitle, ClassTitleUnstemmed, toText(c.classTitle))
+    if (!c.notesAndWarnings.isEmpty()) addText(doc, NotesAndWarnings, NotesAndWarningsUnstemmed, toText(c.classTitle))
     doc
   }
 
   def getCPCIndexer(indexDir: File) = new Indexer[ClassificationItem](Constants.cpcAnalyzer, FSDirectory.open(indexDir), cpcToDoc)
   
+  def getCPCSuggestionsSource(indexDir: File) = {
+    import org.t3as.patClas.api.CPC.unstemmedTextFields
+    inIter(DirectoryReader.open(FSDirectory.open(indexDir)), unstemmedTextFields)
+  }
+
   def ipcToDoc(c: IPCEntry) = {
     import org.t3as.patClas.api.IPC.toCpcFormat
     import org.t3as.patClas.api.IPC.IndexFieldName._
@@ -68,35 +116,41 @@ object IndexerFactory {
     doc add new Field(SymbolRaw, c.symbol, keywordFieldType)
     doc add new Field(Level, c.level.toString, keywordFieldType)
     doc add new Field(Kind, c.kind.toString, keywordFieldType)
-
-    if (!c.textBody.isEmpty())
-      doc.add(new Field(TextBody, toText(c.textBody), textFieldType))
-      
+    if (!c.textBody.isEmpty()) addText(doc, TextBody, TextBodyUnstemmed, toText(c.textBody))
     doc
   }
 
   def getIPCIndexer(indexDir: File) = new Indexer[IPCEntry](Constants.ipcAnalyzer, FSDirectory.open(indexDir), ipcToDoc)
   
+  def getIPCSuggestionsSource(indexDir: File) = {
+    import org.t3as.patClas.api.IPC.unstemmedTextFields
+    inIter(DirectoryReader.open(FSDirectory.open(indexDir)), unstemmedTextFields)
+  }
+
   def uspcToDoc(c: UsClass) = {
     import org.t3as.patClas.api.USPC.IndexFieldName._
 
     val doc = new Document
     addSymbol(doc, Symbol, c.symbol)
-    
+
     Seq(
-        (c.classTitle, ClassTitle, (s: String) => s), 
-        (c.subClassTitle, SubClassTitle, toText _), 
-        (c.subClassDescription, SubClassDescription, toText _),
-        (Some(c.text), Text, toText _)
-    ) foreach {
-      case(Some(text), field, format) if !text.isEmpty => doc add new Field(field, format(text), textFieldType)
-      case _ =>
-    }
-    
+      (c.classTitle, ClassTitle, ClassTitleUnstemmed, (s: String) => s),
+      (c.subClassTitle, SubClassTitle, SubClassTitleUnstemmed, toText _),
+      (c.subClassDescription, SubClassDescription, SubClassDescriptionUnstemmed, toText _),
+      (Some(c.text), Text, TextUnstemmed, toText _)) foreach {
+        case (Some(text), field, fieldUnstemmed, format) if !text.isEmpty => addText(doc, field, fieldUnstemmed, format(text))
+        case _ =>
+      }
+
     doc
   }
 
   def getUSPCIndexer(indexDir: File) = new Indexer[UsClass](Constants.uspcAnalyzer, FSDirectory.open(indexDir), uspcToDoc)
   
+  def getUSPCSuggestionsSource(indexDir: File) = {
+    import org.t3as.patClas.api.USPC.unstemmedTextFields
+    inIter(DirectoryReader.open(FSDirectory.open(indexDir)), unstemmedTextFields)
+  }
+
 }
 

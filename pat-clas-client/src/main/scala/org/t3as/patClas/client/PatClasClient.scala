@@ -25,6 +25,7 @@ import org.t3as.patClas.api.{ CPC, IPC, USPC }
 import org.t3as.patClas.api.API.{ HitBase, LookupService, SearchService, Factory }
 import javax.ws.rs.client.ClientBuilder
 import javax.ws.rs.core.MediaType
+import org.t3as.patClas.api.API.Suggestions
 
 // path = "http://localhost:8080/pat-clas-service/rest/v1.0"
 class PatClasClient(path: String) extends Factory {
@@ -35,11 +36,17 @@ class PatClasClient(path: String) extends Factory {
   class Client[H <: HitBase, D](path: String) extends SearchService[H] with LookupService[D] {
     val c = ClientBuilder.newClient(config).target(path)
 
-    override def search(q: String, symbol: String = null) = { 
-      val x = c.path("search").queryParam("q", q)
+    override def search(q: String, stem: Boolean = true, symbol: String = null) = { 
+      val x = c.path("search").queryParam("q", q).queryParam("stem", stem.toString)
       Option(symbol).map(s => x.queryParam("symbol", s)).getOrElse(x)
         .request(MediaType.APPLICATION_JSON_TYPE).get(classOf[Array[H]]).toList
     }
+    
+    override def suggest(prefix: String, num: Int) = c.path("search")
+      .queryParam("prefix", prefix)
+      .queryParam("num", num.toString)
+      .request(MediaType.APPLICATION_JSON_TYPE)
+      .get(classOf[Suggestions])
 
     override def ancestorsAndSelf(symbol: String, format: String) = c.path("ancestorsAndSelf")
       .queryParam("symbol", symbol)

@@ -53,7 +53,7 @@ public class JavaExample {
     }
 
     private static void doit(Factory f) {
-        List<CPC.Hit> hits = f.getCPCSearch().search("locomotive", null);
+        List<CPC.Hit> hits = f.getCPCSearch().search("locomotive", true, null);
         log.info("top score: " + hits.get(0).score());
         log.info("hits: " + hits.toString());
 

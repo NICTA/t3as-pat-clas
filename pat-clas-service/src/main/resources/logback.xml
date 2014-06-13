@@ -7,7 +7,7 @@
     </encoder>
   </appender>
 
-  <logger name="org.t3as" level="DEBUG" />
+  <logger name="org.t3as.patClas.common.search.Searcher" level="DEBUG" />
 <!--   <logger name="scala.slick.compiler" level="INFO" /> -->
   
   <root level="INFO">

@@ -21,20 +21,24 @@ package org.t3as.patClas.parse
 
 import java.io.File
 import java.util.zip.ZipFile
-
 import scala.collection.JavaConversions.enumerationAsScalaIterator
 import scala.slick.jdbc.JdbcBackend.{Database, Session}
 import scala.slick.jdbc.StaticQuery
 import scala.slick.jdbc.meta.MTable
 import scala.util.control.NonFatal
 import scala.xml.XML
-
 import org.slf4j.LoggerFactory
 import org.t3as.patClas.common.TreeNode
 import org.t3as.patClas.common.Util
 import org.t3as.patClas.common.db.{CPCdb, IPCdb, USPCdb}
-
 import resource.managed
+import org.t3as.patClas.common.search.Suggest._
+import IndexerFactory._
+import org.t3as.patClas.common.search.ExactSuggest
+import org.t3as.patClas.common.search.Suggest
+import org.t3as.patClas.common.search.FuzzySuggest
+import org.apache.lucene.search.suggest.InputIterator
+import java.io.Closeable
 
 /** Load CPC into a database and search index.
   *
@@ -110,10 +114,21 @@ object Load {
     log.info(" ... done.")
   }
 
+  def doSuggestions(dir: File, src: File => InputIterator with Closeable) = {
+      for {
+        (suggester, dst) <- Seq((new ExactSuggest, exactSugFile(dir)), (new FuzzySuggest, fuzzySugFile(dir)))
+        iter <- managed(src(dir))
+      } {
+        suggester.build(iter)
+        suggester.store(dst)
+      }
+  }
+  
   def doCPC(c: Config)(implicit session: Session) {
     if (c.cpcZipFile.exists()) {
+
       log.info(s"Parsing ${c.cpcZipFile} ...")
-      for (indexer <- managed(IndexerFactory.getCPCIndexer(c.cpcIndexDir))) {
+      for (indexer <- managed(getCPCIndexer(c.cpcIndexDir))) {
         val dao = new CPCdb(Util.getObject(c.slickDriver))
         import dao.profile.simple._
         import dao.cpcs
@@ -154,14 +169,18 @@ object Load {
           }
         }
       }
+      
+      log.info(s"Building CPC suggestions ...")
+      doSuggestions(c.cpcIndexDir, getCPCSuggestionsSource)
 
     } else log.info(s"File ${c.cpcZipFile} not found, so skipping CPC load")
   }
 
   def doIPC(c: Config)(implicit session: Session) {
     if (c.ipcZipFile.exists()) {
+      
       log.info(s"Parsing ${c.ipcZipFile} ...")
-      for (indexer <- managed(IndexerFactory.getIPCIndexer(c.ipcIndexDir))) {
+      for (indexer <- managed(getIPCIndexer(c.ipcIndexDir))) {
         val dao = new IPCdb(Util.getObject(c.slickDriver))
         import dao.profile.simple._
         import dao.ipcs
@@ -187,6 +206,9 @@ object Load {
         }
 
       }
+      
+      log.info(s"Building IPC suggestions ...")
+      doSuggestions(c.ipcIndexDir, getIPCSuggestionsSource)
 
     } else log.info(s"File ${c.ipcZipFile} not found, so skipping IPC load")
   }
@@ -197,8 +219,9 @@ object Load {
    */
   def doUSPC(c: Config)(implicit session: Session) {
     if (c.uspcZipFile.exists()) {
+      
       log.info(s"Parsing ${c.uspcZipFile} ...")
-      for (indexer <- managed(IndexerFactory.getUSPCIndexer(c.uspcIndexDir))) {
+      for (indexer <- managed(getUSPCIndexer(c.uspcIndexDir))) {
         val dao = new USPCdb(Util.getObject(c.slickDriver))
         import dao.profile.simple._
         import dao.uspcs
@@ -236,6 +259,9 @@ object Load {
             }
           }
         }
+      
+      log.info(s"Building USPC suggestions ...")
+      doSuggestions(c.uspcIndexDir, getUSPCSuggestionsSource)
 
       }
 
