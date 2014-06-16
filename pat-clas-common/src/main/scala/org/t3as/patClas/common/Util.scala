@@ -22,9 +22,11 @@ package org.t3as.patClas.common
 import java.util.Properties
 
 import scala.collection.JavaConversions.propertiesAsScalaMap
+import scala.language.implicitConversions
 import scala.xml.{Utility, XML}
 
 import org.slf4j.LoggerFactory
+import org.t3as.patClas.api.{CPCDescription, CPCHit, HitSymbol, IPCDescription, IPCHit, USPCDescription, USPCHit}
 
 object Util {
   val log = LoggerFactory.getLogger(getClass)
@@ -54,6 +56,18 @@ object Util {
     } yield n.text) mkString("\n")
   }
   
+  /** trim leading c's from s */
+  def ltrim(s: String, c: Char) = {
+    val i = s.indexWhere(_ != c)
+    if (i == -1) "" else s.substring(i)
+  }
+  
+  /** trim trailing c's from s */
+  def rtrim(s: String, c: Char) = {
+    val i = s.lastIndexWhere(_ != c)
+    s.substring(0, i + 1)
+  }
+
   /**
    * Get a Scala singleton Object.
    * @param fqn object's fully qualified name
@@ -63,4 +77,125 @@ object Util {
     val m = scala.reflect.runtime.universe.runtimeMirror(getClass.getClassLoader)
     m.reflectModule(m.staticModule(fqn)).instance.asInstanceOf[T]
   }
+}
+
+object CPCUtil {
+  /** Names of CPC fields in the Lucene index. */
+  object IndexFieldName extends Enumeration {
+    type IndexFieldName = Value
+    val Symbol, Level, ClassTitle, ClassTitleUnstemmed, NotesAndWarnings, NotesAndWarningsUnstemmed = Value
+
+    implicit def convert(f: IndexFieldName) = f.toString
+  }
+  import IndexFieldName._
+  
+  val textFields: List[String] = List(ClassTitle, NotesAndWarnings)
+  val unstemmedTextFields: List[String] = List(ClassTitleUnstemmed, NotesAndWarningsUnstemmed) // in pref order for suggester
+  val hitFields: List[String] = List(Symbol, Level) // fields to retrieve from search hits, in addition to textFields/unstemmedTextFields
+  
+  def mkHit(score: Float, stem: Boolean, f: Map[String, String], h: Map[String, String]) = {
+    def getH(s: String) = h.getOrElse(s, f.getOrElse(s, ""))
+    def getHU(s: String) = h.getOrElse(s, f.getOrElse(s, "").toUpperCase)
+    CPCHit(score,
+      HitSymbol(f(Symbol).toUpperCase, getHU(Symbol)),
+      f(Level).toInt, 
+      getH(if (stem) ClassTitle else ClassTitleUnstemmed), 
+      getH(if (stem) NotesAndWarnings else NotesAndWarningsUnstemmed))
+  }
+
+  /** Entity class mapping to a database row representing a CPC Classification Symbol.
+    * TODO: make notesAndWarnings an Option? classTitle too if it is sometimes empty.
+    */
+  case class ClassificationItem(id: Option[Int], parentId: Int, breakdownCode: Boolean, allocatable: Boolean, additionalOnly: Boolean,
+    dateRevised: String, level: Int, symbol: String, classTitle: String, notesAndWarnings: String) {
+
+    def toDescription(text: String => String) = CPCDescription(id.get, symbol, level, text(classTitle), text(notesAndWarnings))
+  }  
+}
+
+object IPCUtil {
+  /**
+   * Names of IPC fields in the Lucene index.
+   * 
+   * IPC symbols in the source data have format:
+   *   A99AZMMMGGGGGZ (Z = zero padded, ZMMM = 4 digit left padded main group, GGGGGZ = 6 digit right padded sub group)
+   * which is harder to read and inconsistent with the format of ref's to IPCs in the CPC:
+   *   A99AMM/GG.
+   * We display and allow searching in this second format stored in the Symbol field; but also store the original format in SymbolRaw
+   * because that format is used in database lookups.
+   */
+  object IndexFieldName extends Enumeration {
+    type IndexFieldName = Value
+    val Symbol, SymbolRaw, Level, Kind, TextBody, TextBodyUnstemmed = Value
+
+    implicit def convert(f: IndexFieldName) = f.toString
+  }
+  import IndexFieldName._
+  
+  val textFields: List[String] = List(TextBody)
+  val unstemmedTextFields: List[String] = List(TextBodyUnstemmed)
+  val hitFields: List[String] = List(Symbol, SymbolRaw, Level, Kind)
+  
+  def mkHit(score: Float, stem: Boolean, f: Map[String, String], h: Map[String, String]) = {
+    def getH(s: String) = h.getOrElse(s, f.getOrElse(s, ""))
+    def getHU(s: String) = h.getOrElse(s, f.getOrElse(s, "").toUpperCase)
+    IPCHit(score, HitSymbol(f(SymbolRaw), getHU(Symbol)), f(Level).toInt, f(Kind), getH(if (stem) TextBody else TextBodyUnstemmed))
+  }
+  
+  /** Entity class mapping to a database row representing a IPCEntry
+    */
+  case class IPCEntry(id: Option[Int], parentId: Int, level: Int, kind: String, symbol: String, endSymbol: Option[String], textBody: String) {
+
+    def toDescription(text: String => String) = IPCDescription(id.get, symbol, level, kind, text(textBody))
+  }
+
+  private val re = """(\p{Upper}\p{Digit}{2}\p{Upper})(\p{Digit}{4})(\p{Digit}{6})""".r
+  
+  def toCpcFormat(s: String) = {
+    import Util.{ltrim, rtrim}
+    
+    if (s.length != 14) s
+    else {
+      s match {
+        case re(sectionClassSubclass, mainGroup, subGroup) => {
+          val sg = rtrim(subGroup, '0')
+          if (sg.isEmpty) sectionClassSubclass + ltrim(mainGroup, '0')
+          else sectionClassSubclass + ltrim(mainGroup, '0') + '/' + sg
+        }
+        case _ => s
+      }
+    }
+  } 
+}
+
+object USPCUtil {
+  /** Names of USPC fields in the Lucene index. */
+  object IndexFieldName extends Enumeration {
+    type IndexFieldName = Value
+    val Symbol, ClassTitle, ClassTitleUnstemmed, SubClassTitle, SubClassTitleUnstemmed, SubClassDescription, SubClassDescriptionUnstemmed, Text, TextUnstemmed = Value
+
+    implicit def convert(f: IndexFieldName) = f.toString
+  }
+  import IndexFieldName._
+  
+  val textFields: List[String] = List(ClassTitle, SubClassTitle, SubClassDescription, Text)
+  val unstemmedTextFields: List[String] = List(TextUnstemmed, SubClassDescriptionUnstemmed, SubClassTitleUnstemmed, ClassTitleUnstemmed) // in pref order for suggester
+  val hitFields: List[String] = List(Symbol)
+  
+  def mkHit(score: Float, stem: Boolean, f: Map[String, String], h: Map[String, String]) = {
+    def getH(s: String) = h.getOrElse(s, f.getOrElse(s, ""))
+    def getHU(s: String) = h.getOrElse(s, f.getOrElse(s, "").toUpperCase)
+    USPCHit(score,
+      HitSymbol(f(Symbol).toUpperCase, getHU(Symbol)),
+      getH(if (stem) ClassTitle else ClassTitleUnstemmed), 
+      getH(if (stem) SubClassTitle else SubClassTitleUnstemmed), 
+      getH(if (stem) SubClassDescription else SubClassDescriptionUnstemmed),
+      getH(if (stem) Text else TextUnstemmed))
+  }
+
+  /** Entity class mapping to a database row representing a USPC Symbol.
+    */
+  case class UsClass(id: Option[Int], xmlId: String, parentXmlId: String, symbol: String, classTitle: Option[String], subClassTitle: Option[String], subClassDescription: Option[String], text: String) {
+    def toDescription(f: String => String) = USPCDescription(id.get, symbol, classTitle.getOrElse(""), subClassTitle.map(f).getOrElse(""), subClassDescription.map(f).getOrElse(""), f(text))
+  } 
 }

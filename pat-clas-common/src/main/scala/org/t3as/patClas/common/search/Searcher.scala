@@ -20,29 +20,22 @@
 package org.t3as.patClas.common.search
 
 import java.io.Closeable
+
 import scala.Array.canBuildFrom
 import scala.Option.option2Iterable
-import scala.collection.JavaConversions.{ asScalaBuffer, mapAsScalaMap, mutableSetAsJavaSet, setAsJavaSet }
+import scala.collection.JavaConversions.{asScalaBuffer, mapAsScalaMap, mutableSetAsJavaSet, setAsJavaSet}
 import scala.collection.mutable.HashSet
 import scala.language.postfixOps
+import scala.util.Try
+
 import org.apache.lucene.analysis.Analyzer
-import org.apache.lucene.index.{ DirectoryReader, Term }
-import org.apache.lucene.queryparser.classic.MultiFieldQueryParser
-import org.apache.lucene.search.{ IndexSearcher, MultiTermQuery, Query }
-import org.apache.lucene.search.postingshighlight.{ DefaultPassageFormatter, PostingsHighlighter }
+import org.apache.lucene.index.{DirectoryReader, Term}
+import org.apache.lucene.queryparser.classic.{MultiFieldQueryParser, QueryParser}
+import org.apache.lucene.search.{BooleanQuery, ConstantScoreQuery, IndexSearcher, MultiTermQuery, PrefixFilter => lPrefixFilter, Query}
+import org.apache.lucene.search.postingshighlight.{DefaultPassageFormatter, PostingsHighlighter}
 import org.apache.lucene.store.Directory
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.api.API.HitBase
-import scala.util.control.NonFatal
-import org.apache.lucene.search.FieldCacheTermsFilter
-import org.apache.lucene.util.BytesRef
-import org.apache.lucene.search.ConstantScoreQuery
-import scala.util.Try
-import org.apache.lucene.search.BooleanQuery
-import org.apache.lucene.queries.ChainedFilter
-import org.apache.lucene.search.{ PrefixFilter => lPrefixFilter }
-import org.apache.lucene.index.Term
-import org.apache.lucene.queryparser.classic.QueryParser
+import org.t3as.patClas.api.HitBase
 
 /** Search text associated with a classification code.
   */
@@ -50,9 +43,9 @@ class Searcher[Hit <: HitBase](
   defaultFieldsStemmed: List[String],
   defaultFieldsUnstemmed: List[String],
   analyzer: Analyzer,
-  fieldsToLoad: Set[String],
+  fieldsToLoad: List[String],
   dir: Directory,
-  mkHit: (Float, Map[String, String], Map[String, String]) => Hit) extends Closeable {
+  mkHit: (Float, Boolean, Map[String, String], Map[String, String]) => Hit) extends Closeable {
 
   val log = LoggerFactory.getLogger(getClass)
 
@@ -115,7 +108,8 @@ class Searcher[Hit <: HitBase](
   }
 
   def search(query: String, stem: Boolean = true, symbolPrefix: Option[String] = None) = {
-    val q = parse(query, (if (stem) defaultFieldsStemmed else defaultFieldsUnstemmed).toArray)
+    val tFields = if (stem) defaultFieldsStemmed else defaultFieldsUnstemmed
+    val q = parse(query, tFields.toArray)
     val topDocs = symbolPrefix.map(s => indexSearcher.search(q, new lPrefixFilter(new Term("Symbol", s.toLowerCase)), 50))
       .getOrElse(indexSearcher.search(q, 50))
 
@@ -124,20 +118,23 @@ class Searcher[Hit <: HitBase](
     val docIds = results.map(_.doc)
     val allHlights = highlights(q, docIds).toMap
     // log.debug("allHlights = {}", allHlights.map(e => (e._1, e._2.toList)))
+    val f2load = (fieldsToLoad ++ tFields).toSet
     results.zipWithIndex map {
       case (scoreDoc, idx) =>
-        val fields = indexSearcher.doc(scoreDoc.doc, fieldsToLoad).getFields.map(f => f.name -> f.stringValue).toMap
+        val fields = indexSearcher.doc(scoreDoc.doc, f2load).getFields.map(f => f.name -> f.stringValue).toMap
         // log.debug("fields = {}", fields)
         val hitHlights = for {
           (field, values) <- allHlights
           v <- Option(values(idx))
         } yield field -> v
-        mkHit(scoreDoc.score, fields, hitHlights)
+        mkHit(scoreDoc.score, stem, fields, hitHlights)
     }
   }
 
   /** @param q query (must be in rewrite form for extractTerms)
     * @return Map field -> array where item i is highlights for docIds[i]
+    * TODO: could we store only one of stemmed or unstemmed text fields?
+    * Currently storing both just to get highlighting working, but maybe we could transform (fieldsIn, q) to avoid this?
     */
   def highlights(q: Query, docIds: List[Int]): Map[String, Array[String]] = {
 

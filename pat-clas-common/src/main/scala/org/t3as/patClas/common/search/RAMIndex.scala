@@ -1,13 +1,10 @@
 package org.t3as.patClas.common.search
 
-import java.io.File
-
 import org.apache.lucene.document.{Document, Field}
-import org.apache.lucene.index.IndexWriter
 import org.apache.lucene.store.{Directory, RAMDirectory}
-import org.t3as.patClas.api.CPC.ClassificationItem
-import org.t3as.patClas.api.CPC.IndexFieldName.{ClassTitle, Level, NotesAndWarnings, Symbol, convert}
 import org.t3as.patClas.common.{TreeNode, Util}
+import org.t3as.patClas.common.CPCUtil.ClassificationItem
+import org.t3as.patClas.common.CPCUtil.IndexFieldName.{ClassTitle, Level, NotesAndWarnings, Symbol, convert}
 
 import Indexer.{keywordFieldType, textFieldType}
 import resource.managed

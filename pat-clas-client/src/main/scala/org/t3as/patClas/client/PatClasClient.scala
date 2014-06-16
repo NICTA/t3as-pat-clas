@@ -21,11 +21,12 @@ package org.t3as.patClas.client
 
 import org.glassfish.jersey.client.ClientConfig
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.api.{ CPC, IPC, USPC }
-import org.t3as.patClas.api.API.{ HitBase, LookupService, SearchService, Factory }
+import org.t3as.patClas.api.{CPCDescription, CPCHit, HitBase, IPCDescription, IPCHit, Suggestions, USPCDescription, USPCHit}
+import org.t3as.patClas.api.API.{Factory, LookupService, SearchService}
+import org.t3as.patClas.api.javaApi.{Factory => JF}
+
 import javax.ws.rs.client.ClientBuilder
 import javax.ws.rs.core.MediaType
-import org.t3as.patClas.api.API.Suggestions
 
 // path = "http://localhost:8080/pat-clas-service/rest/v1.0"
 class PatClasClient(path: String) extends Factory {
@@ -61,11 +62,11 @@ class PatClasClient(path: String) extends Factory {
       .get(classOf[Array[D]]).toList
   }
 
-  val cpc = new Client[CPC.Hit, CPC.Description](path + "/CPC")
+  val cpc = new Client[CPCHit, CPCDescription](path + "/CPC")
 
-  val ipc = new Client[IPC.Hit, IPC.Description](path + "/IPC")
+  val ipc = new Client[IPCHit, IPCDescription](path + "/IPC")
 
-  val uspc = new Client[USPC.Hit, USPC.Description](path + "/USPC")
+  val uspc = new Client[USPCHit, USPCDescription](path + "/USPC")
 }
 
 object PatClasClient {

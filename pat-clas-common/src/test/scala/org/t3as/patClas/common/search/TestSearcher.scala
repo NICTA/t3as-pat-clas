@@ -19,29 +19,28 @@
 
 package org.t3as.patClas.common.search
 
-import java.io.File
 import scala.annotation.tailrec
-import org.apache.lucene.index.DirectoryReader
-import org.apache.lucene.search.IndexSearcher
+
 import org.scalatest.{FlatSpec, Matchers}
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.api.CPC, CPC.{hitFields, textFields, unstemmedTextFields, mkHit, Hit}, CPC.IndexFieldName.{ClassTitle, NotesAndWarnings, convert}
-import org.t3as.patClas.api.API.HitBase
+import org.t3as.patClas.api.{CPCHit, HitBase}
+import org.t3as.patClas.common.CPCUtil.{hitFields, mkHit, textFields, unstemmedTextFields}
+import org.t3as.patClas.common.CPCUtil.IndexFieldName.{ClassTitle, NotesAndWarnings}
+
 import resource.managed
-import org.apache.lucene.analysis.core.KeywordAnalyzer
 
 class TestSearcher extends FlatSpec with Matchers {
   val log = LoggerFactory.getLogger(getClass)
 
   "Searcher" should "search" in {
-    for (searcher <- managed(new Searcher[Hit](textFields, unstemmedTextFields, Constants.cpcAnalyzer, hitFields, RAMIndex.makeTestIndex, mkHit))) {
+    for (searcher <- managed(new Searcher[CPCHit](textFields, unstemmedTextFields, Constants.cpcAnalyzer, hitFields, RAMIndex.makeTestIndex, mkHit))) {
       {
         val hits = searcher.search(s"${ClassTitle.toString}:FAKED") // analyzer should make this match "faking"
         hits.size should be(3)
         isDescending(hits) should be(true)
         
         hits forall { h =>
-          h.classTitleHighlights.contains("""<span class="hlight">""")
+          h.classTitle.contains("""<span class="hlight">""")
         } should be(true)
       }
       {
@@ -49,7 +48,7 @@ class TestSearcher extends FlatSpec with Matchers {
         hits.size should be(1)
         isDescending(hits) should be(true)
         hits forall { h =>
-          h.notesAndWarningsHighlights.contains("""<span class="hlight">""")
+          h.notesAndWarnings.contains("""<span class="hlight">""")
         } should be(true)
       }
       {
@@ -59,10 +58,10 @@ class TestSearcher extends FlatSpec with Matchers {
         isDescending(hits) should be(true)
         
         hits count { h =>
-          h.classTitleHighlights.contains("""<span class="hlight">""")
+          h.classTitle.contains("""<span class="hlight">""")
         } should be(3)
         hits count { h =>
-          h.notesAndWarningsHighlights.contains("""<span class="hlight">""")
+          h.notesAndWarnings.contains("""<span class="hlight">""")
         } should be(1)
       }
       {

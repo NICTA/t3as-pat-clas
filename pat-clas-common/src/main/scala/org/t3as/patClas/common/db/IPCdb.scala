@@ -22,7 +22,7 @@ package org.t3as.patClas.common.db
 import scala.slick.driver.JdbcProfile
 import org.slf4j.LoggerFactory
 import scala.annotation.tailrec
-import org.t3as.patClas.api.IPC.IPCEntry
+import org.t3as.patClas.common.IPCUtil.IPCEntry
 import org.t3as.patClas.common.TreeNode
 
 /** Data Access Layer

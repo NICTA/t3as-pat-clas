@@ -22,7 +22,7 @@ package org.t3as.patClas.service
 import scala.collection.JavaConversions.asScalaBuffer
 import org.scalatest.{FlatSpec, Matchers}
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.api.CPC.ClassificationItem
+import org.t3as.patClas.common.CPCUtil.ClassificationItem
 import org.t3as.patClas.common.TreeNode
 import org.t3as.patClas.common.db.CPCdb
 import org.t3as.patClas.common.search.RAMIndex

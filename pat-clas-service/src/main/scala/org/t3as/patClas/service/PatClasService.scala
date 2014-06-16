@@ -26,14 +26,12 @@ import scala.slick.jdbc.JdbcBackend.Database
 import org.apache.commons.dbcp2.BasicDataSource
 import org.apache.lucene.store.{Directory, FSDirectory}
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.api.API.{Factory, LookupService, SearchService, Suggestions}
-import org.t3as.patClas.api.CPC
-import org.t3as.patClas.api.IPC
-import org.t3as.patClas.api.USPC
+import org.t3as.patClas.api.{CPCDescription, CPCHit, IPCDescription, IPCHit, Suggestions, USPCDescription, USPCHit}
+import org.t3as.patClas.api.API.{Factory, LookupService, SearchService}
 import org.t3as.patClas.api.javaApi.{Factory => JF}
-import org.t3as.patClas.common.Util
 import org.t3as.patClas.common.db.{CPCdb, IPCdb, USPCdb}
 import org.t3as.patClas.common.search.{Constants, ExactSuggest, FuzzySuggest, Searcher, Suggest}
+import org.t3as.patClas.common.search.Suggest.{exactSugFile, fuzzySugFile}
 import javax.ws.rs.{GET, Path, Produces, QueryParam}
 import javax.ws.rs.core.MediaType
 
@@ -50,7 +48,7 @@ object PatClasService {
 }
 
 class PatClasService {
-  import Util.get
+  import org.t3as.patClas.common.Util, Util.get
   
   val log = LoggerFactory.getLogger(getClass)
   
@@ -93,12 +91,16 @@ class PatClasService {
   // tests can override with a RAMDirectory
   def indexDir(prop: String): Directory = FSDirectory.open(new File(get(prop)))
   
-  // TODO: fuzzy can also find exact matches, so maybe we should filter them to avoid duplicates
+  // TODO: make this a function returning: (key: String, num: Int) => Suggestions
   class CombinedSuggest(exact: Suggest, fuzzy: Suggest) {
     def lookup(key: String, num: Int) = {
       val x = exact.lookup(key, num)
       val n = num - x.size
-      val f = if (n > 0) fuzzy.lookup(key, num) else List.empty
+      val f = if (n > 0) {
+          val xs = x.toSet
+          // fuzzy also gets exact matches, so filter them out
+          fuzzy.lookup(key, num + 5).filter(!xs.contains(_)).take(num)
+        } else List.empty
       Suggestions(x, f)
     }
   }
@@ -116,22 +118,22 @@ class PatClasService {
   }
 
   val cpcSearcher = {
-    import CPC._, IndexFieldName._
-    new Searcher[Hit](textFields, unstemmedTextFields, Constants.cpcAnalyzer, hitFields, indexDir("cpc.index.path"), mkHit)
+    import org.t3as.patClas.common.CPCUtil._, IndexFieldName._
+    new Searcher[CPCHit](textFields, unstemmedTextFields, Constants.cpcAnalyzer, hitFields, indexDir("cpc.index.path"), mkHit)
   }
   
   val cpcSuggest = mkCombinedSuggest(new File(get("cpc.index.path")))
   
   val ipcSearcher = {
-    import IPC._, IndexFieldName._
-    new Searcher[Hit](textFields, unstemmedTextFields, Constants.ipcAnalyzer, hitFields, indexDir("ipc.index.path"), mkHit)
+    import org.t3as.patClas.common.IPCUtil._, IndexFieldName._
+    new Searcher[IPCHit](textFields, unstemmedTextFields, Constants.ipcAnalyzer, hitFields, indexDir("ipc.index.path"), mkHit)
   }
 
   val ipcSuggest = mkCombinedSuggest(new File(get("ipc.index.path")))
 
   val uspcSearcher = {
-    import USPC._, IndexFieldName._
-    new Searcher[Hit](textFields, unstemmedTextFields, Constants.uspcAnalyzer, hitFields, indexDir("uspc.index.path"), mkHit)
+    import org.t3as.patClas.common.USPCUtil._, IndexFieldName._
+    new Searcher[USPCHit](textFields, unstemmedTextFields, Constants.uspcAnalyzer, hitFields, indexDir("uspc.index.path"), mkHit)
   }
  
   val uspcSuggest = mkCombinedSuggest(new File(get("uspc.index.path")))
@@ -160,7 +162,7 @@ class PatClasService {
 
 // no-args ctor used by Jersey, which creates multiple instances
 @Path("/v1.0/CPC")
-class CPCService extends SearchService[CPC.Hit] with LookupService[CPC.Description] {
+class CPCService extends SearchService[CPCHit] with LookupService[CPCDescription] {
   val svc = PatClasService.service // singleton for things that must be shared across multiple instances; must be initialised first
   import svc._
   
@@ -198,7 +200,7 @@ class CPCService extends SearchService[CPC.Hit] with LookupService[CPC.Descripti
 }
 
 @Path("/v1.0/IPC")
-class IPCService extends SearchService[IPC.Hit] with LookupService[IPC.Description] {
+class IPCService extends SearchService[IPCHit] with LookupService[IPCDescription] {
   val svc = PatClasService.service
   import svc._
   
@@ -236,7 +238,7 @@ class IPCService extends SearchService[IPC.Hit] with LookupService[IPC.Descripti
 }
 
 @Path("/v1.0/USPC")
-class USPCService extends SearchService[USPC.Hit] with LookupService[USPC.Description] {
+class USPCService extends SearchService[USPCHit] with LookupService[USPCDescription] {
   val svc = PatClasService.service
   import svc._
   

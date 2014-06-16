@@ -21,7 +21,7 @@ package org.t3as.patClas.parse
 
 import org.scalatest.{ FlatSpec, Matchers }
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.api.USPC.UsClass
+import org.t3as.patClas.common.USPCUtil.UsClass
 import scala.collection.immutable.IndexedSeq
 import scala.xml.XML
 import java.io.StringReader

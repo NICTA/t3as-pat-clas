@@ -36,30 +36,30 @@ object Constants {
   // the analyzer is used with TextFields (textFieldType), but not with StringFields (keywordFieldType).
   // It uses the following Lucene components:
   // StandardTokenizer, StandardFilter, EnglishPossessiveFilter, LowerCaseFilter, StopFilter, PorterStemFilter.
-  private val analyzer = new EnglishAnalyzer(version)
+  val analyzer = new EnglishAnalyzer(version)
   
   // as above, but without stemming
-  private val unstemmedAnalyzer: Analyzer = new EnglishUnstemmedAnalyzer(version)
+  val unstemmedAnalyzer: Analyzer = new EnglishUnstemmedAnalyzer(version)
 
-  private val keywordAnalyzer = new KeywordAnalyzer
+  val keywordAnalyzer = new KeywordAnalyzer
   
   private def mkAnalyzer(textFields: List[String], unstemmedFields: List[String]) = {
-    val x = (textFields.iterator.map((_, analyzer)) ++ unstemmedFields.iterator.map((_, unstemmedAnalyzer))).toMap
-    new PerFieldAnalyzerWrapper(keywordAnalyzer, x)
+    val fieldToAnalyzer = (textFields.iterator.map((_, analyzer)) ++ unstemmedFields.iterator.map((_, unstemmedAnalyzer))).toMap
+    new PerFieldAnalyzerWrapper(keywordAnalyzer, fieldToAnalyzer)
   }
   
   val cpcAnalyzer = {
-    import org.t3as.patClas.api.CPC._
+    import org.t3as.patClas.common.CPCUtil._
     mkAnalyzer(textFields, unstemmedTextFields)
   }
  
   val ipcAnalyzer = {
-    import org.t3as.patClas.api.IPC._
+    import org.t3as.patClas.common.IPCUtil._
     mkAnalyzer(textFields, unstemmedTextFields)
   }
   
   val uspcAnalyzer = {
-    import org.t3as.patClas.api.USPC._
+    import org.t3as.patClas.common.USPCUtil._
     mkAnalyzer(textFields, unstemmedTextFields)
   }
   

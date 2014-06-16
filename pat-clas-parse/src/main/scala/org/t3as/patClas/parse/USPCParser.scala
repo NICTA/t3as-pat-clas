@@ -23,7 +23,7 @@ import scala.language.postfixOps
 import scala.xml.{Elem, Node, NodeSeq, Text, TextBuffer}
 
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.api.USPC.UsClass
+import org.t3as.patClas.common.USPCUtil.UsClass
 import org.t3as.patClas.common.db.USPCdb
 
 object USPCParser {

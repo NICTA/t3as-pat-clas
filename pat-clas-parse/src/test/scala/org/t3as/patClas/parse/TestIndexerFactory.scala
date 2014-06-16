@@ -19,22 +19,21 @@
 
 package org.t3as.patClas.parse
 
+import scala.collection.JavaConversions.asScalaBuffer
+
+import org.apache.lucene.index.{DocsEnum, TermsEnum}
+import org.apache.lucene.search.{DocIdSetIterator, MatchAllDocsQuery}
 import org.apache.lucene.store.RAMDirectory
-import scala.collection.JavaConversions._
-import org.scalatest.{ FlatSpec, Matchers }
-import org.slf4j.LoggerFactory
-import org.t3as.patClas.api.IPC.{ Hit, IPCEntry, hitFields, mkHit, textFields }
-import org.t3as.patClas.common.search.{ Constants, Indexer, Searcher }
-import resource.managed
-import org.apache.lucene.index.TermsEnum
-import org.apache.lucene.index.DocsEnum
 import org.apache.lucene.util.Bits
-import org.apache.lucene.search.DocIdSetIterator
-import org.apache.lucene.search.FieldCacheTermsFilter
-import org.t3as.patClas.common.search.PrefixFilter
-import org.apache.lucene.search.{PrefixFilter => lPrefixFilter}
-import org.apache.lucene.search.Query
-import org.apache.lucene.search.MatchAllDocsQuery
+import org.scalatest.{FlatSpec, Matchers}
+import org.slf4j.LoggerFactory
+import org.t3as.patClas.api.IPCHit
+import org.t3as.patClas.common.IPCUtil.{hitFields, mkHit, textFields, unstemmedTextFields}
+import org.t3as.patClas.common.IPCUtil.IPCEntry
+import org.t3as.patClas.common.IPCUtil.IndexFieldName.Symbol
+import org.t3as.patClas.common.search.{Constants, Indexer, PrefixFilter, Searcher}
+
+import resource.managed
 
 class TestIndexerFactory extends FlatSpec with Matchers {
   val log = LoggerFactory.getLogger(getClass)
@@ -48,44 +47,43 @@ class TestIndexerFactory extends FlatSpec with Matchers {
       ) foreach ipcIndexer.add
     }
 
-    for (searcher <- managed(new Searcher[Hit](textFields, Constants.cpcAnalyzer, hitFields, dir, mkHit))) {
-        import org.t3as.patClas.api.IPC.IndexFieldName.Symbol
-//      {
-//        val hits = searcher search "text"
-//        log.debug(s"hits = $hits")
-//        hits.size should be(2)
-//      }
-//      {
-//        val hits = searcher search """Symbol:A01B12\/9*"""
-//        log.debug(s"hits = $hits")
-//        hits.size should be(2)
-//      }
-//      {
-//        
-//        val c = searcher.indexSearcher.getIndexReader.getContext
-//        log.debug(s"docBaseInParent = ${c.docBaseInParent},  ordInParent = ${c.ordInParent}, isTopLevel = ${c.isTopLevel}")
-//        for (cc <- c.leaves) {
-//          log.debug(s"docBaseInParent = ${cc.docBaseInParent},  ordInParent = ${cc.ordInParent}, isTopLevel = ${cc.isTopLevel}")
-//          val dv = cc.reader.getSortedDocValues(Symbol)
-//          val te = dv.termsEnum
-//          var docsEnum: DocsEnum = null
-//          val bits = new Bits.MatchAllBits(cc.reader.maxDoc)
-//          for (term <- termIter(te)) {
-//            log.debug(s"term = $term")
-//            
-//// java.lang.UnsupportedOperationException:
-////  at org.apache.lucene.index.SortedDocValuesTermsEnum.docs(SortedDocValuesTermsEnum.java:119)
-////  at org.apache.lucene.index.TermsEnum.docs(TermsEnum.java:149)            
-////            docsEnum = te.docs(bits, docsEnum)
-////            log.debug(s"term = $term, docIds = ${docIter(docsEnum).toList}")
-//// Also same exception from: te.docFreq
-//          }
-//        }
+    for (searcher <- managed(new Searcher[IPCHit](textFields, unstemmedTextFields, Constants.cpcAnalyzer, hitFields, dir, mkHit))) {
+      {
+        val hits = searcher search "text"
+        log.debug(s"hits = $hits")
+        hits.size should be(2)
+      }
+      {
+        val hits = searcher search """Symbol:A01B12\/9*"""
+        log.debug(s"hits = $hits")
+        hits.size should be(2)
+      }
+      {
+        
+        val c = searcher.indexSearcher.getIndexReader.getContext
+        log.debug(s"docBaseInParent = ${c.docBaseInParent},  ordInParent = ${c.ordInParent}, isTopLevel = ${c.isTopLevel}")
+        for (cc <- c.leaves) {
+          log.debug(s"docBaseInParent = ${cc.docBaseInParent},  ordInParent = ${cc.ordInParent}, isTopLevel = ${cc.isTopLevel}")
+          val dv = cc.reader.getSortedDocValues(Symbol)
+          val te = dv.termsEnum
+          var docsEnum: DocsEnum = null
+          val bits = new Bits.MatchAllBits(cc.reader.maxDoc)
+          for (term <- termIter(te)) {
+            log.debug(s"term = $term")
+            
+// java.lang.UnsupportedOperationException:
+//  at org.apache.lucene.index.SortedDocValuesTermsEnum.docs(SortedDocValuesTermsEnum.java:119)
+//  at org.apache.lucene.index.TermsEnum.docs(TermsEnum.java:149)            
+//            docsEnum = te.docs(bits, docsEnum)
+//            log.debug(s"term = $term, docIds = ${docIter(docsEnum).toList}")
+// Also same exception from: te.docFreq
+          }
+        }
         
         val f = new PrefixFilter(Symbol, "A01B12".toLowerCase)
         val hits = searcher.indexSearcher.search(new MatchAllDocsQuery, f, 100)
         log.debug(s"hits = $hits")
-      
+      }
     }
   }
 

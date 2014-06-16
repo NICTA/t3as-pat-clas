@@ -1,10 +1,9 @@
 package org.t3as.patClas.examples.scala
 
-import org.t3as.patClas.service.PatClasService
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.api.{CPC, IPC}
-import org.t3as.patClas.api.API.{HitBase, SearchService, LookupService, Factory}
+import org.t3as.patClas.api.API.Factory
 import org.t3as.patClas.client.PatClasClient
+import org.t3as.patClas.service.PatClasService
 
 import resource.managed
 

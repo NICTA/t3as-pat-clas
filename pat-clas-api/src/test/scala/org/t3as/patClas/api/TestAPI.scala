@@ -19,22 +19,76 @@
 
 package org.t3as.patClas.api
 
-import org.scalatest.Matchers
+import java.util.{List => jList}
+
+import scala.collection.JavaConversions.seqAsJavaList
+
+import org.scalatest.{FlatSpec, Matchers}
 import org.slf4j.LoggerFactory
-import org.scalatest.FlatSpec
+import org.t3as.patClas.api.API.{LookupService, SearchService}
+import org.t3as.patClas.api.javaApi.{Factory => jFactory}
+
+import API.{Factory, LookupService, SearchService}
 
 class TestAPI extends FlatSpec with Matchers {
   val log = LoggerFactory.getLogger(getClass)
 
-  "API.ltrim" should "left trim" in {
-    for ((in, out) <- Seq(("", ""), ("0", ""), ("00", ""), ("01", "1"), ("001", "1"), ("010", "10"), ("00100", "100"))) {
-      API.ltrim(in, '0') should be (out)
-    }
-  }
+  "javaApi adapters" should "convert to java.util.List" in {
 
-  "API.rtrim" should "right trim" in {
-    for ((in, out) <- Seq(("", ""), ("0", ""), ("00", ""), ("10", "1"), ("100", "1"), ("010", "01"), ("00100", "001"))) {
-      API.rtrim(in, '0') should be (out)
+    val cpcDescr1 = CPCDescription(1, "symbol1", 1, "classTitle", "notesAndWarnings")    
+    val cpcDescr2 = CPCDescription(2, "symbol2", 2, "classTitle", "notesAndWarnings")    
+    val cpcHit = CPCHit(0.5f, HitSymbol("A01B1234654321", "A01B12/65"), 3, "classTitle", "notesAndWarnings")
+    val cpcSugExact = List("locos", "locomotive", "locomotives")
+    val cpcSugFuzzy = List("fuzzy1", "fuzzy2")
+
+    var isClosed = false
+    val f = new Factory {
+      val cpc = new SearchService[CPCHit] with LookupService[CPCDescription] {
+        def ancestorsAndSelf(symbol: String, format: String) = List(cpcDescr1)
+        def children(parentId: Int, format: String) = List(cpcDescr2)
+        def search(q: String, stem: Boolean, symbol: String) = List(cpcHit) 
+        def suggest(prefix: String, num: Int) = Suggestions(cpcSugExact, cpcSugFuzzy)
+      }
+      
+      val ipc = new SearchService[IPCHit] with LookupService[IPCDescription] {
+        def ancestorsAndSelf(symbol: String, format: String): List[IPCDescription] = ???
+        def children(parentId: Int, format: String): List[IPCDescription] = ???
+        def search(q: String, stem: Boolean, symbol: String): List[IPCHit] = ??? 
+        def suggest(prefix: String, num: Int): Suggestions = ???
+      }
+      
+      val uspc = new SearchService[USPCHit] with LookupService[USPCDescription] {
+        def ancestorsAndSelf(symbol: String, format: String): List[USPCDescription] = ???
+        def children(parentId: Int, format: String): List[USPCDescription] = ???
+        def search(q: String, stem: Boolean, symbol: String): List[USPCHit] = ??? 
+        def suggest(prefix: String, num: Int): Suggestions = ???
+      }
+
+      override def close = isClosed = true
     }
+    
+    val jf = new jFactory(f)
+    
+    val anc = jf.getCPCLookup.ancestorsAndSelf("sym", "plain")
+    anc.size should be(1)
+    anc.get(0) should be(cpcDescr1)
+    
+    val chd = jf.getCPCLookup.children(0, "plain")
+    chd.size should be(1)
+    chd.get(0) should be(cpcDescr2)
+
+    val src = jf.getCPCSearch.search("loco", false, null)
+    src.size should be(1)
+    src.get(0) should be(cpcHit)
+
+    val sug = jf.getCPCSearch.suggest("loco", 2)
+    val ex: jList[String] = cpcSugExact
+    sug.getExact should be(ex)
+    val fz: jList[String] = cpcSugFuzzy
+    sug.getFuzzy should be(fz)
+
+    isClosed should be(false)
+    jf.close
+    isClosed should be(true)
   }
 }

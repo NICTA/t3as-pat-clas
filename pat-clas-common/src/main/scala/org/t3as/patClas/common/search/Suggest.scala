@@ -27,23 +27,14 @@ import org.apache.lucene.search.suggest.Lookup
 import org.apache.lucene.search.suggest.analyzing.{ AnalyzingSuggester, FuzzySuggester }
 
 import Constants.version
+import Constants.unstemmedAnalyzer
 import resource.managed
 
 object Suggest {
-  //    def toSuggestionHighlight(n: Int): toSuggestion = r => {
-  //      val s = r.key.toString
-  //      val m = min(n, s.length)
-  //      Suggestion(0L, "<b>" + s.substring(0, m) + "</b>" + s.substring(m))
-  //    }
-
-  val unStemmedAnalyzer = new EnglishUnstemmedAnalyzer(version)
-
-
   private def append(f: File, suffix: String) = new File(f.getParentFile, f.getName() + suffix)
   def fuzzySugFile(indexDir: File) = append(indexDir, "FuzzySug")
   def exactSugFile(indexDir: File) = append(indexDir, "ExactSug")
 }
-import Suggest.unStemmedAnalyzer
 
 trait Suggest {
   val s: Lookup
@@ -74,9 +65,9 @@ trait LoadableSuggest extends Suggest {
 //  }
 
 class ExactSuggest extends LoadableSuggest {
-  val s = new AnalyzingSuggester(unStemmedAnalyzer)
+  val s = new AnalyzingSuggester(unstemmedAnalyzer)
 }
 
 class FuzzySuggest extends LoadableSuggest {
-  val s = new FuzzySuggester(unStemmedAnalyzer)
+  val s = new FuzzySuggester(unstemmedAnalyzer)
 }

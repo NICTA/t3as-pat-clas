@@ -23,7 +23,7 @@ import org.scalatest.{FlatSpec, Matchers}
 
 import org.slf4j.LoggerFactory
 
-import org.t3as.patClas.api.CPC.ClassificationItem
+import org.t3as.patClas.common.CPCUtil.ClassificationItem
 import org.t3as.patClas.common.TreeNode
 
 class TestCPCParser extends FlatSpec with Matchers {

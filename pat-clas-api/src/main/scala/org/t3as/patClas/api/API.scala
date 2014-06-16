@@ -21,29 +21,25 @@ package org.t3as.patClas.api
 
 import java.io.Closeable
 
+case class HitSymbol(raw: String, formatted: String)
+case class Suggestions(exact: List[String], fuzzy: List[String])
+
+trait HitBase {
+  def score: Float
+  def symbol: HitSymbol
+}
+
+case class CPCDescription(id: Int, symbol: String, level: Int, classTitle: String, notesAndWarnings: String)
+case class CPCHit(score: Float, symbol: HitSymbol, level: Int, classTitle: String, notesAndWarnings: String) extends HitBase
+
+// removed entryType because it is always K
+case class IPCDescription(id: Int, symbol: String, level: Int, kind: String, textBody: String)
+case class IPCHit(score: Float, symbol: HitSymbol, level: Int, kind: String, textBody: String) extends HitBase
+
+case class USPCDescription(id: Int, symbol: String, classTitle: String, subClassTitle: String, subClassDescription: String, text: String)
+case class USPCHit(score: Float, symbol: HitSymbol, classTitle: String, subClassTitle: String, subClassDescription: String, text: String) extends HitBase
+
 object API {
-
-  // TODO: move API.{l,r}trim to common.Util (after moving IPC.toCpcFormat to common)
-  /** trim leading c's from s */
-  def ltrim(s: String, c: Char) = {
-    val i = s.indexWhere(_ != c)
-    if (i == -1) "" else s.substring(i)
-  }
-  
-  /** trim trailing c's from s */
-  def rtrim(s: String, c: Char) = {
-    val i = s.lastIndexWhere(_ != c)
-    s.substring(0, i + 1)
-  }
-
-  case class Symbol(raw: String, formatted: String)
-  case class Suggestions(exact: List[String], fuzzy: List[String])
-
-  trait HitBase {
-    def score: Float
-    def symbol: Symbol
-  }
-
   trait SearchService[H <: HitBase] {
     // tried Option[String] for symbol, but Jersey didn't deserialise it in PatClasService
     def search(q: String, stem: Boolean = true, symbol: String = null): List[H]
@@ -56,10 +52,11 @@ object API {
   }
 
   trait Factory extends Closeable {
-    val cpc: SearchService[CPC.Hit] with LookupService[CPC.Description]
-    val ipc: SearchService[IPC.Hit] with LookupService[IPC.Description]
-    val uspc: SearchService[USPC.Hit] with LookupService[USPC.Description]
+    val cpc: SearchService[CPCHit] with LookupService[CPCDescription]
+    val ipc: SearchService[IPCHit] with LookupService[IPCDescription]
+    val uspc: SearchService[USPCHit] with LookupService[USPCDescription]
 
     def close = {}
   }
+
 }

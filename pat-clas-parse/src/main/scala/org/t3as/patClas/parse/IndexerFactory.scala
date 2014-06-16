@@ -26,9 +26,9 @@ import org.apache.lucene.document.StringField
 import org.t3as.patClas.common.Util.toText
 import org.t3as.patClas.common.search.Indexer
 import org.t3as.patClas.common.search.Indexer.{ keywordFieldType, textFieldType, unstemmedTextFieldType }
-import org.t3as.patClas.api.CPC.ClassificationItem
-import org.t3as.patClas.api.IPC.IPCEntry
-import org.t3as.patClas.api.USPC.UsClass
+import org.t3as.patClas.common.CPCUtil.ClassificationItem
+import org.t3as.patClas.common.IPCUtil.IPCEntry
+import org.t3as.patClas.common.USPCUtil.UsClass
 import org.t3as.patClas.common.search.Constants
 import org.apache.lucene.store.FSDirectory
 import org.apache.lucene.document.SortedDocValuesField
@@ -90,7 +90,7 @@ object IndexerFactory {
   }
 
   def cpcToDoc(c: ClassificationItem) = {
-    import org.t3as.patClas.api.CPC.IndexFieldName._
+    import org.t3as.patClas.common.CPCUtil.IndexFieldName._
 
     val doc = new Document
     addSymbol(doc, Symbol, c.symbol)
@@ -103,13 +103,13 @@ object IndexerFactory {
   def getCPCIndexer(indexDir: File) = new Indexer[ClassificationItem](Constants.cpcAnalyzer, FSDirectory.open(indexDir), cpcToDoc)
   
   def getCPCSuggestionsSource(indexDir: File) = {
-    import org.t3as.patClas.api.CPC.unstemmedTextFields
+    import org.t3as.patClas.common.CPCUtil.unstemmedTextFields
     inIter(DirectoryReader.open(FSDirectory.open(indexDir)), unstemmedTextFields)
   }
 
   def ipcToDoc(c: IPCEntry) = {
-    import org.t3as.patClas.api.IPC.toCpcFormat
-    import org.t3as.patClas.api.IPC.IndexFieldName._
+    import org.t3as.patClas.common.IPCUtil.toCpcFormat
+    import org.t3as.patClas.common.IPCUtil.IndexFieldName._
 
     val doc = new Document
     addSymbol(doc, Symbol, toCpcFormat(c.symbol))
@@ -123,12 +123,12 @@ object IndexerFactory {
   def getIPCIndexer(indexDir: File) = new Indexer[IPCEntry](Constants.ipcAnalyzer, FSDirectory.open(indexDir), ipcToDoc)
   
   def getIPCSuggestionsSource(indexDir: File) = {
-    import org.t3as.patClas.api.IPC.unstemmedTextFields
+    import org.t3as.patClas.common.IPCUtil.unstemmedTextFields
     inIter(DirectoryReader.open(FSDirectory.open(indexDir)), unstemmedTextFields)
   }
 
   def uspcToDoc(c: UsClass) = {
-    import org.t3as.patClas.api.USPC.IndexFieldName._
+    import org.t3as.patClas.common.USPCUtil.IndexFieldName._
 
     val doc = new Document
     addSymbol(doc, Symbol, c.symbol)
@@ -148,7 +148,7 @@ object IndexerFactory {
   def getUSPCIndexer(indexDir: File) = new Indexer[UsClass](Constants.uspcAnalyzer, FSDirectory.open(indexDir), uspcToDoc)
   
   def getUSPCSuggestionsSource(indexDir: File) = {
-    import org.t3as.patClas.api.USPC.unstemmedTextFields
+    import org.t3as.patClas.common.USPCUtil.unstemmedTextFields
     inIter(DirectoryReader.open(FSDirectory.open(indexDir)), unstemmedTextFields)
   }
 

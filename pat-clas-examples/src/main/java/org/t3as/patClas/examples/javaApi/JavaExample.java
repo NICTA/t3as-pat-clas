@@ -23,11 +23,11 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.t3as.patClas.api.CPC;
-import org.t3as.patClas.api.IPC;
+import org.t3as.patClas.api.CPCHit;
+import org.t3as.patClas.api.IPCDescription;
 import org.t3as.patClas.api.javaApi.Factory;
-import org.t3as.patClas.service.PatClasService$; // PatClasService$.MODULE$ is how to access a Scala "object" singleton
 import org.t3as.patClas.client.PatClasClient$;
+import org.t3as.patClas.service.PatClasService$; // PatClasService$.MODULE$ is how to access a Scala "object" singleton
 
 public class JavaExample {
     static final Logger log = LoggerFactory.getLogger(JavaExample.class);
@@ -53,11 +53,11 @@ public class JavaExample {
     }
 
     private static void doit(Factory f) {
-        List<CPC.Hit> hits = f.getCPCSearch().search("locomotive", true, null);
+        List<CPCHit> hits = f.getCPCSearch().search("locomotive", true, null);
         log.info("top score: " + hits.get(0).score());
         log.info("hits: " + hits.toString());
 
-        List<IPC.Description> descr = f.getIPCLookup().children(0, "XML");
+        List<IPCDescription> descr = f.getIPCLookup().children(0, "XML");
         log.info("descr: " + descr.toString());
     }
 }

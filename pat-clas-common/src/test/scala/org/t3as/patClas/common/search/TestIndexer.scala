@@ -24,7 +24,7 @@ import org.apache.lucene.queryparser.classic.QueryParser
 import org.apache.lucene.search.{IndexSearcher, TermQuery}
 import org.scalatest.{FlatSpec, Matchers}
 import org.slf4j.LoggerFactory
-import org.t3as.patClas.api.CPC.IndexFieldName.{ClassTitle, NotesAndWarnings, Symbol, convert}
+import org.t3as.patClas.common.CPCUtil.IndexFieldName.{ClassTitle, NotesAndWarnings, Symbol, convert}
 import resource.managed
 
 class TestIndexer extends FlatSpec with Matchers {

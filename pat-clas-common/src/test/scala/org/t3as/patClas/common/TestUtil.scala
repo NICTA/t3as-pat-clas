@@ -21,6 +21,7 @@ package org.t3as.patClas.common
 
 import scala.collection.JavaConversions._
 import org.scalatest.{Matchers, FlatSpec}
+import org.t3as.patClas.common.CPCUtil.ClassificationItem
 
 class TestUtil extends FlatSpec with Matchers {
 
@@ -35,4 +36,25 @@ class TestUtil extends FlatSpec with Matchers {
     s should be ("text1\ntext 2\ntext 3\ntext 4\ntext 5\ntext 6")
   }
 
+  "ltrim" should "left trim" in {
+    for ((in, out) <- Seq(("", ""), ("0", ""), ("00", ""), ("01", "1"), ("001", "1"), ("010", "10"), ("00100", "100"))) {
+      Util.ltrim(in, '0') should be (out)
+    }
+  }
+
+  "rtrim" should "right trim" in {
+    for ((in, out) <- Seq(("", ""), ("0", ""), ("00", ""), ("10", "1"), ("100", "1"), ("010", "01"), ("00100", "001"))) {
+      Util.rtrim(in, '0') should be (out)
+    }
+  }
+  
+  "Classification" should "update parentId" in {
+    ClassificationItem(None, -1, true, true, true, "2013-01-01", 2, "symbol", "classTitle", "notesAndWarnings").copy(parentId = 3).parentId should be (3)
+  }
+  
+  "toCpcFormat" should "convert to CPC style format" in {
+    for ((in, out) <- Seq(("A01B0012987000", "A01B12/987"), ("A01B0012986000", "A01B12/986"), ("A01B0012000000", "A01B12"))) {
+      IPCUtil.toCpcFormat(in) should be (out)
+    }
+  }
 }

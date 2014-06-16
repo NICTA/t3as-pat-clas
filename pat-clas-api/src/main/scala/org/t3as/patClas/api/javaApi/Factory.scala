@@ -24,11 +24,11 @@ import java.util.List
 
 import scala.collection.JavaConversions.seqAsJavaList
 
-import org.t3as.patClas.api.{CPC, IPC, USPC}
-import org.t3as.patClas.api.API.{Factory => SF, HitBase, LookupService => LS, SearchService => SS}
+import org.t3as.patClas.api.{CPCHit, HitBase, IPCHit, USPCHit}
+import org.t3as.patClas.api.API.{Factory => sFactory, LookupService => sLookupService, SearchService => sSearchService}
 
 
-class LookupAdapter[D](l: LS[D]) {
+class LookupAdapter[D](l: sLookupService[D]) {
   def ancestorsAndSelf(symbol: String, format: String): List[D] = l.ancestorsAndSelf(symbol, format)
   def children(parentId: Int, format: String): List[D] = l.children(parentId, format)
 }
@@ -38,7 +38,7 @@ trait Suggestions {
   def getFuzzy: List[String]
 }
 
-class SearchAdapter[H <: HitBase](s: SS[H]) {
+class SearchAdapter[H <: HitBase](s: sSearchService[H]) {
   def search(q: String, stem: Boolean = true, symbol: String = null): List[H] = s.search(q, stem, symbol)
   def suggest(prefix: String, num: Int): Suggestions = new Suggestions {
     val x = s.suggest(prefix, num)
@@ -47,15 +47,15 @@ class SearchAdapter[H <: HitBase](s: SS[H]) {
   }
 }
 
-class Factory(f: SF) extends Closeable {
+class Factory(f: sFactory) extends Closeable {
   
   def getCPCLookup = new LookupAdapter(f.cpc)
   def getIPCLookup = new LookupAdapter(f.ipc)
   def getUSPCLookup = new LookupAdapter(f.uspc)
   
-  def getCPCSearch = new SearchAdapter[CPC.Hit](f.cpc)
-  def getIPCSearch = new SearchAdapter[IPC.Hit](f.ipc)
-  def getUSPCSearch = new SearchAdapter[USPC.Hit](f.uspc)
+  def getCPCSearch = new SearchAdapter[CPCHit](f.cpc)
+  def getIPCSearch = new SearchAdapter[IPCHit](f.ipc)
+  def getUSPCSearch = new SearchAdapter[USPCHit](f.uspc)
   
   def close = f.close
 }
