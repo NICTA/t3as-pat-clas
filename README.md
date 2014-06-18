@@ -29,7 +29,8 @@ These services are implemented in a Maven multi-module Scala project.
 - **pat-clas-parse**:  Parse the classification definition files and populate the database and search indices
 - **pat-clas-service**:  Implementation of the services. Client access can be in-process or remote using the Java or Scala API or remote using JSON HTTP requests from other languages (see [pat-clas-ui](pat-clas-ui) for an example of remote access from Javascript). Configuration in patClasService.properties.
 - **pat-clas-client**:  Java and Scala client implementating the same API as pat-clas-service, but by issuing web service calls the services which must be running elsewhere.
-- **pat-clas-ui**:  A web page using jQuery and AJAX to access the JSON web services. See [pat-clas-ui](pat-clas-ui).
+- **pat-clas-ui**:  A web page using jQuery and AJAX to access the JSON web services. See [pat-clas-ui](pat-clas-ui)
+- **pat-clas-examples**:  Java and Scala example code to demonstrate use of the services both in-process and remotely 
  
 # Building
 
