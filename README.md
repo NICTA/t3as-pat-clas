@@ -7,9 +7,9 @@ This project provides web services for doing search and lookups of the CPC, IPC,
 Resources:
 
 - [blog post](http://t3as.wordpress.com/2014/02/10/text-analytics-for-patent-classification/) for general information
-- GPL source code (and this documentation) <https://github.com/NICTA/t3as-pat-clas>
-- user interface and JSON web services <http://pat-clas.t3as.org/>
-- user interface GPL source code and detailed documentation <https://github.com/NICTA/t3as-pat-clas/tree/master/pat-clas-ui>
+- web service source code (GPL'ed) and this documentation <https://github.com/NICTA/t3as-pat-clas>
+- user interface source code (GPL'ed) and detailed documentation [pat-clas-ui](pat-clas-ui)
+- live site user interface and web services <http://pat-clas.t3as.org/>
 
 # Services
 
@@ -39,7 +39,7 @@ Just run maven from the top level directory:
 
 # Configuring
 
-The webapp is configured using a properties files in the source tree at `pat-clas-service/src/main/resources`, which is copied to `WEB-INF/classes`
+The webapp is configured using a properties file in the source tree at `pat-clas-service/src/main/resources`, which is copied to `WEB-INF/classes`
 in the webapp. The webapps will preferentially take values from a system property with the same name.
 If you use paths other than defaults used in the parser example below for the location of the database and
 search indices, you'll need to either set system properties or edit this property files before running the webapp.
@@ -91,7 +91,7 @@ You can run a database server and open a SQL GUI in your web browser with:
 		java -jar ~/.m2/repository/com/h2database/h2/1.3.173/h2-1.3.176.jar
 		
 (in the GUI enter the dburl that was used with the parser, READONLY for the user name and a blank password). Only one process can
-have the database open at a time, so stop this server (with Ctrl-C) before starting the `pat-clas-lookup-web` web app.
+have the database open at a time, so stop this server (with Ctrl-C) before starting the `pat-clas-service` web app.
 
 ## Running JSON Web Services
 
@@ -101,24 +101,25 @@ In `pat-clas-service` use:
 		
 to build and deploy the webapp on tomcat on port 8080. Use Ctrl-C to stop tomcat.
 
-To run outside of Maven, copy the target/*.war files to tomcat's webapps dir or otherwise install these war files in the
-Servlet 3.0 compliant app server of your choice. 
+To run outside of Maven, copy the target/*.war file to tomcat's webapps dir or otherwise install the war file in the
+Servlet 3.0 compliant app-server of your choice. 
 
 # Using Services
 
 You can access the services from anything capable of issuing HTTP requests:
 
-- the example user interface <http://pat-clas.t3as.org/> demonstrates access via jQuery AJAX
+- the provided user interface <http://pat-clas.t3as.org/> demonstrates access via jQuery AJAX
 - web browser:
 <http://pat-clas.t3as.org/pat-clas-service/rest/v1.0/CPC/search?q=locomotive&stem=false&symbolPrefix=F2>
 - command line:
  `curl http://pat-clas.t3as.org/pat-clas-service/rest/v1.0/CPC/children?parentId=0&format=XML | python -mjson.tool`
-- Java API: <https://github.com/NICTA/t3as-pat-clas/blob/refactor/pat-clas-examples/src/main/java/org/t3as/patClas/examples/javaApi/JavaExample.java>
-- Scala API: <https://github.com/NICTA/t3as-pat-clas/blob/refactor/pat-clas-examples/src/main/scala/org/t3as/patClas/examples/scala/ScalaExample.scala>
+- Java API: [pat-clas-examples/src/main/java/org/t3as/patClas/examples/javaApi/JavaExample.java](pat-clas-examples/src/main/java/org/t3as/patClas/examples/javaApi/JavaExample.java)
+- Scala API: [pat-clas-examples/src/main/scala/org/t3as/patClas/examples/scala/ScalaExample.scala](pat-clas-examples/src/main/scala/org/t3as/patClas/examples/scala/ScalaExample.scala)
 
 ## URL formats
 
-The service URL's and query parameters are defined by the `@Path` and `@QueryParam` annotations in <https://github.com/NICTA/t3as-pat-clas/blob/refactor/pat-clas-service/src/main/scala/org/t3as/patClas/service/PatClasService.scala>.
+The service URL's and query parameters are defined by the `@Path` and `@QueryParam` annotations in
+[pat-clas-service/src/main/scala/org/t3as/patClas/service/PatClasService.scala](at-clas-service/src/main/scala/org/t3as/patClas/service/PatClasService.scala).
 
 # CPC
 

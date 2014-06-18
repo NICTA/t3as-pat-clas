@@ -35,7 +35,8 @@ The UI consists of the following sections:
  
    Results for the full-text query are displayed including snippets of matching text, limited to the top 50 hits.
    Clicking on a classification symbol displays it in either the Context or Explore sections. 
-   The query syntax is that of: [org.apache.lucene.queryparser.classic.QueryParser](http://lucene.apache.org/core/4_8_1/queryparser/org/apache/lucene/queryparser/classic/QueryParser.html)
+   The query syntax is described at:
+   <http://lucene.apache.org/core/4_8_1/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description>
    and the fields available for use in queries are:
    <dl>
      <dt>CPC</dt><dd>Symbol, Level, **ClassTitle**, **NotesAndWarnings**, ClassTitleUnstemmed, NotesAndWarningsUnstemmed;</dd>
@@ -54,7 +55,7 @@ The UI consists of the following sections:
 #### Context
  
    The selected symbol is shown along with all its ancestors, allowing the hierarchical text to be read in its proper context.
-   References to symbols are shown as links which re-populate the Context section:
+   References to symbols are shown as links which re-populate either the Context or Explore section:
    <dl>
      <dt>CPC</dt><dd>links to other CPC symbols are blue, links to IPC symbols are red.
      Selecting an IPC link switches the schema in the Schema Selection section.</dd>
@@ -65,10 +66,10 @@ The UI consists of the following sections:
 
 #### Explore
  
-   Paste a symbol from elsewhere to explore the classification system in a tree. Initially the specified symbol and all its ancestors are
+   Initially the specified symbol and all its ancestors are
    shown (as in the Context section - i.e. each node is shown with only a single child).
    However, clicking on any node causes all of its children to be displayed, allowing the full tree to be explored.
-   Clicking on a symbol link in the tree re-populates the Context section.
+   Clicking on a symbol link in the tree re-populates either the Context or Explore section.
    The tree omits the CPC NotesAndWarnings and USPC Text fields in order to keep the size of the displayed text manageable.
    Use the Context section to view this information. The tree includes these fields:
    <dl>
