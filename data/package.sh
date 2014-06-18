@@ -35,7 +35,7 @@
 
 set -e
 
-java -jar ../pat-clas-parse/target/pat-clas-parse-*.one-jar.jar
+# java -jar ../pat-clas-parse/target/pat-clas-parse-*.one-jar.jar
 
 rm -rf tmp
 
