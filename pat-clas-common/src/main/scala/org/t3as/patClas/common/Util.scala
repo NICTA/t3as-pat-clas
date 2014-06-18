@@ -159,8 +159,11 @@ object IPCUtil {
       s match {
         case re(sectionClassSubclass, mainGroup, subGroup) => {
           val sg = rtrim(subGroup, '0')
-          if (sg.isEmpty) sectionClassSubclass + ltrim(mainGroup, '0')
-          else sectionClassSubclass + ltrim(mainGroup, '0') + '/' + sg
+          sectionClassSubclass + ltrim(mainGroup, '0') + (sg.length match {
+            case 0 => ""
+            case 1 => "/" + sg + "0"
+            case _ => "/" + sg
+          })
         }
         case _ => s
       }

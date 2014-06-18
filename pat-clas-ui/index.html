@@ -149,18 +149,18 @@
     [
       new Col('CPC Symbol', 'symbol', symbolHandler), 
       new Col('Level', 'level', defHandler), 
-      new Col('Rank', 'score', defHandler), 
+      new Col('Rank', 'score', scoreHandler), 
       new Col('Class Title', 'classTitle', defHandler),
       new Col('Notes And Warnings', 'notesAndWarnings', defHandler)
     ], [
       new Col('IPC Symbol', 'symbol', symbolHandler), 
       new Col('Level', 'level', defHandler), 
       new Col('Kind', 'kind', defHandler), 
-      new Col('Rank', 'score', defHandler), 
+      new Col('Rank', 'score', scoreHandler), 
       new Col('Text', 'textBody', defHandler)
     ], [
       new Col('USPC Symbol', 'symbol', symbolHandler), 
-      new Col('Rank', 'score', defHandler), 
+      new Col('Rank', 'score', scoreHandler), 
       new Col('Class Title', 'classTitle', defHandler), 
       new Col('Subclass Title', 'subClassTitle', defHandler),
       new Col('Subclass Description', 'subClassDescription', defHandler), 
@@ -224,6 +224,10 @@
     return v;
   }
 
+  function scoreHandler(v) {
+    return new Number(v).toPrecision(2);
+  }
+
   function symbolHandler(v) {
     return '<a href="' + v.raw + '">' + v.formatted + '</a>';
   }
@@ -242,8 +246,14 @@
   // click handler for symbol links (<a>, IPC <sref> etc.)
   function viewContext(e) {
     debug('viewContext', e);
-    $('#symbol').val($(e.target).text());
-    context(e);
+    var sym = $(e.target).text();
+    if ($('#selSymExplore').is(':checked')) {
+      $('#exploreSymbol').val(sym);
+      explore(e);
+    } else {
+      $('#symbol').val(sym);
+      context(e);
+    }
   }
 
   function viewIpcContext(e) {
@@ -401,12 +411,14 @@
     // debug('ga = ', ga, 's = ', s);
     if (ga === null)
       return s;
-    var sre = /(\d*[1-9])?0*/;
+    var sre = /(\d*[1-9])?0*/; // capture 1 or more digits preceeding trailing zeros
     var sa = sre.exec(s.slice(8, 14));
     // debug('sa = ', sa, 's = ', s);
     if (sa === null)
       return s;
-    var sg = sa[1] === undefined ? '' : '/' + sa[1];
+    // if subgroup is all zero's (captured string is undefined) omit /subgroup
+    // if it is 1 digit append /digit0 else append /digits
+    var sg = sa[1] === undefined ? '' : sa[1].length == 1 ? '/' + sa[1] + '0': '/' + sa[1];
     return s.slice(0, 4) + ga[1] + sg;
   }
 
@@ -442,9 +454,17 @@
         sym = cpcRefToIpc(sym); // IPC
       var url = baseUrl + '/' + sName + '/ancestorsAndSelf';
       var data = { symbol : sym, format : 'xml' };
-      debug('explore: schema = ' + sName + ', data = ' + data + ', url = ' + url);
-      var er = $('#exploreResult');
-      addSpinner(er);
+      debug('explore: schema = ' + sName + ', data = ', data, ', url = ' + url);
+      var es = $('#exploreSpinner');
+      var er = $('#exploreTree');
+
+      var widget = er.data('ui-fancytree');
+      if (widget !== undefined) {
+        var root = new NodeData(sName, { id : 0 });
+        er.data(widget.tree.reload([ root ])); // tried removeChildren() but that caused reload errors
+      }
+      addSpinner(es);
+      
       $.ajax({
         url : url,
         data : data,
@@ -462,8 +482,7 @@
               p = c;
             });
             
-            er.empty();
-            var widget = er.data('ui-fancytree');
+            es.empty();
             // debug('typeof widget', typeof widget);
             if (widget === undefined) {
               er.fancytree( { source : [ root ], click : treeClick });
@@ -472,26 +491,21 @@
             }
             addClickHandlers(er, i)
           } catch (e) {
-            er.empty();
-            er.append($('<span class="error">').text("Can't display results."));
+            es.empty();
+            es.append($('<span class="error">').text("Can't display results."));
             error('explore.success:', e);
           }
         },
         error : function (jqXHR, textStatus, errorThrown) {
-          er.empty();
-          er.append($('<span class="error">').text("Server can't process request."));
+          es.empty();
+          es.append($('<span class="error">').text("Server can't process request."));
           error('explore.error: jqXHR = ', jqXHR, 'textStatus = ', textStatus, 'errorThrown = ', errorThrown);
         }
       });
       
-//       var widget = er.data('ui-fancytree');
-//       if (widget !== undefined) {
-//         var root = new NodeData(sName, { id : 0 });
-//         er.data(widget.tree.reload([ root ])); // tried removeChildren() but that caused reload errors
-//       }
     } catch (e) {
-      er.empty();
-      er.append($('<span class="error">').text("Can't send request to server."));
+      es.empty();
+      es.append($('<span class="error">').text("Can't send request to server."));
       error('explore:', e);
     }
   }
@@ -548,7 +562,7 @@
               });
               debug('children', children);
               node.addChildren(children);
-              var t = $('#exploreResult');
+              var t = $('#exploreTree');
               addClickHandlers(t, i);
               node.data.state = 1; // disable fetching children
             } catch (e) {
@@ -653,59 +667,43 @@
 </head>
 <body>
   <h1>Patent Classifications</h1>
-
-  This is a simple demo page that makes use of two web services for Patent Classification Search and Lookups of the
-  CPC, IPC, and USPC patent classification systems. This project is a part of the
-  <a href="http://nicta.com.au">NICTA</a> <a href="http://t3as.org/">Text Analysis as a Service</a> project.
-
-  <p>To use this web page, simply enter a search term in the Query box and hit search, and if there are any results
-  you can then use the symbol codes in the other fields. For much more detailed instructions please read the
-  <a href="http://t3as.wordpress.com/2014/02/10/text-analytics-for-patent-classification/">blog post</a>
-  for this service.</p>
-
-  <p>Have a look at our other services on our main <a href="http://t3as.org/">t3as project homepage</a>.</p>
-
-
-  <h2>Web services</h2>
-
-  Two web services are used, Lookup and Search. Much more information about how to use these web services is available in
-  the README.md file, but here are two very simple cases:
-
-  <p><strong>Lookup</strong></p>
-
-  <pre>curl --silent http://pat-clas.t3as.org/pat-clas-lookup-web/v1.0/CPC/A01B?f=xml | python -mjson.tool</pre>
-
-  <p><strong>Search</strong></p>
-
-  <pre>curl --silent http://pat-clas.t3as.org/pat-clas-search-web/v1.0/CPC?q=nano | python -mjson.tool</pre>
-
-
-  <h2>Open Source on Github</h2>
-
-  The code for this project is fully open source using the GPLv3 license, and is
-  <a href="https://github.com/NICTA/t3as-pat-clas">available on Github</a>.
+  <!-- TODO: Should these open in a new window like the browser links below? -->
+  This is part of <a href="http://nicta.com.au">NICTA</a>'s <a href="http://t3as.org/">Text Analysis as a Service</a>.
+  See the <a href="http://t3as.wordpress.com/2014/02/10/text-analytics-for-patent-classification/">blog post</a> for general information
+  and <a href="https://github.com/NICTA/t3as-pat-clas">https://github.com/NICTA/t3as-pat-clas</a> for GPL'ed source code and detailed documentation. 
+  </ul>
 
   <h2>Classification System</h2>
-  <span class="label">Schema:</span>
   <form id="schemaForm">
-    <input type="radio" name="schema" id="CPC" value="0" checked /><label for="CPC">CPC</label> <input type="radio" name="schema" id="IPC" value="1" /><label for="IPC">IPC</label> <input type="radio" name="schema" id="USPC" value="2" /><label for="USPC">USPC</label>
-  </form>
-  <div id="officialBrowser">
-    <span class="label">Official browser:</span>
+    <span class="label">Schema:</span>
+    <input type="radio" name="schema" id="CPC" value="0" checked /><label for="CPC">CPC</label> 
+    <input type="radio" name="schema" id="IPC" value="1" /><label for="IPC">IPC</label> 
+    <input type="radio" name="schema" id="USPC" value="2" /><label for="USPC">USPC</label>
+    <span class="label browser">Official browser:</span>
     <span id="browserLinks">
+      <!-- TODO: Add an icon to indicate that these open in a new window -->
       <a id="CPCbrowser" class="shown" href="http://worldwide.espacenet.com/classification/" target="_blank">http://worldwide.espacenet.com/classification/</a>
       <a id="IPCbrowser" class="hidden" href="http://web2.wipo.int/ipcpub/" target="_blank">http://web2.wipo.int/ipcpub/</a>
       <a id="USPCbrowser" class="hidden" href="http://www.uspto.gov/web/patents/classification/" target="_blank">http://www.uspto.gov/web/patents/classification/</a>
     </span>
-  </div>
+  </form>
+  <form id="selSymForm">
+    <span class="label selectSym">Selecting a symbol will show it in:</span>
+    <input type="radio" name="selectSym" id="selSymContext" value="0" checked /><label for="selSymContext">Context</label>
+    <input type="radio" name="selectSym" id="selSymExplore" value="1" /><label for="selSymExplore">Explore</label>
+  </form>
+  
 
   <h2>Search</h2>
   <form id="searchForm">
-    <span class="label">Query:</span>
-    <input id="query" type="text" name="query">
-    <span class="label">Symbol Prefix:</span>
+    <div>
+    <span class="label queryLabel">Query:</span>
+    <textarea id="query" name="query"></textarea>
+    <a class="syntax" href="http://lucene.apache.org/core/4_8_1/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description" target="_blank">syntax</a>
+    </div>
+    <span class="label symbolPrefixLabel">Symbol Prefix:</span>
     <input id="symbolPrefix" type="text" name="symbolPrefix">
-    <label for="stem">Stemming:</label>
+    <label class="stem" for="stem">Stemming:</label>
     <input type="checkbox" name="stem" id="stem" checked/>
     <button id="search" type="button">Search</button>
   </form>
@@ -725,7 +723,10 @@
     <input id="exploreSymbol" type="text" name="symbol" />
     <button id="explore" type="button">Explore</button>
   </form>
-  <div id="exploreResult"></div>
+  <div id="exploreResult">
+    <div id="exploreSpinner"></div>
+    <div id="exploreTree"></div>
+  </div>
 
 </body>
 </html>

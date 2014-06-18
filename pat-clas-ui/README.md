@@ -6,16 +6,12 @@ Patent Classification Schemes - User Interface
 
 ### Introduction
 
-The web page <index.html> provides a user interface to the JSON web services provided by
-<code>pat-clas-lookup-web</code> and <code>pat-clas-search-web</code>.
+The web page [index.html](index.html) provides a user interface to the JSON web services provided by
+`pat-clas-service`.
 
-It uses jQuery's support for [JSONP](http://en.wikipedia.org/wiki/JSONP) to work around the browser's
-[Same Origin Policy](http://en.wikipedia.org/wiki/Same-origin_policy) in order to support cross site mashups.
-Consequently you can save the web page locally, modify it and still access the remotely hosted t3as web services.
-
-It requires the jQuery-ui plugin "Fancytree" in the dir <code>fancytree/</code> (under same dir as <code>index.html</code>).
-Installation of fancytree is one of the actions automated by <code>data/download.sh</code>;
-or <code>jquery.fancytree-2.0.0-4.zip</code> can be manually downloaded from: <http://plugins.jquery.com/fancytree/>.
+It requires the jQuery-ui plugin "Fancytree" in the dir `fancytree/` (under same dir as `index.html`).
+Installation of fancytree is one of the actions automated by `data/download.sh`;
+or `jquery.fancytree-2.0.0-4.zip` can be manually downloaded from: <http://plugins.jquery.com/fancytree/>.
 
 ### Description
 
@@ -31,21 +27,29 @@ The UI consists of the following sections:
    so they are shown at the top of the hierarchy; or invalid references to other classes causing a broken link).
    In such cases the interested user is encouraged to consult the official browser.
    
+#### Selection Action
+
+   Select `Context` to update the Context section whenever a classification symbol is clicked, or `Explore` to update the Explore section. 
+	
 #### Search
  
    Results for the full-text query are displayed including snippets of matching text, limited to the top 50 hits.
-   Clicking on a classification symbol displays it in the Context section. 
-   The query syntax is that of: [org.apache.lucene.queryparser.classic.QueryParser](http://lucene.apache.org/core/4_6_0/queryparser/org/apache/lucene/queryparser/classic/QueryParser.html)
+   Clicking on a classification symbol displays it in either the Context or Explore sections. 
+   The query syntax is that of: [org.apache.lucene.queryparser.classic.QueryParser](http://lucene.apache.org/core/4_8_1/queryparser/org/apache/lucene/queryparser/classic/QueryParser.html)
    and the fields available for use in queries are:
    <dl>
-     <dt>CPC</dt><dd>Symbol, Level, <b>ClassTitle</b>, <b>NotesAndWarnings</b>;</dd>
-     <dt>IPC</dt><dd>Symbol, Level, Kind, <b>TextBody</b>;</dd>
-     <dt>USPC</dt><dd>Symbol, <b>ClassTitle</b>, <b>SubClassTitle</b>, <b>SubClassDescription</b>, <b>Text</b> (all text not included in the previous fields);</dd>
+     <dt>CPC</dt><dd>Symbol, Level, **ClassTitle**, **NotesAndWarnings**, ClassTitleUnstemmed, NotesAndWarningsUnstemmed;</dd>
+     <dt>IPC</dt><dd>Symbol, Level, Kind, **TextBody**, TextBodyUnstemmed;</dd>
+     <dt>USPC</dt><dd>Symbol, **ClassTitle**, **SubClassTitle**, **SubClassDescription**, **Text** (all text not included in the previous fields),
+     ClassTitleUnstemmed, SubClassTitleUnstemmed, SubClassDescriptionUnstemmed, TextUnstemmed;</dd>
    </dl>
    The fields shown in bold:
    
  - are searched by default when the query does not specify any fields; and
- - have stemming applied (a search for <code>activated</code> will match <code>activating</code> and vice-versa).
+ - have stemming applied (a search for `activated` will match `activating` and vice-versa).
+ 
+ 
+ **Note:** If `stem` is set to false then the corresponding `Unstemmed` fields are searched by default.
    
 #### Context
  
