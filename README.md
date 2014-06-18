@@ -120,7 +120,7 @@ You can access the services from anything capable of issuing HTTP requests:
 ## URL formats
 
 The service URL's and query parameters are defined by the `@Path` and `@QueryParam` annotations in
-[pat-clas-service/src/main/scala/org/t3as/patClas/service/PatClasService.scala](at-clas-service/src/main/scala/org/t3as/patClas/service/PatClasService.scala).
+[pat-clas-service/src/main/scala/org/t3as/patClas/service/PatClasService.scala](pat-clas-service/src/main/scala/org/t3as/patClas/service/PatClasService.scala).
 
 # CPC
 
