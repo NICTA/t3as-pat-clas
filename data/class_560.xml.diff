@@ -1,0 +1,2970 @@
+--- class_560-orig.xml	2013-11-15 10:13:09.941504882 +1100
++++ class_560-fixed.xml	2013-11-27 16:59:58.764189687 +1100
+@@ -1,2955 +1,15 @@
+->
+-<sclasses>
+-<subclass subnum = "1" id = "C560S001000">
+-<sctitle>Carboxylic acid esters:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  wherein the acid function
+-entering into the formation of the esters is a carboxyl group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  The traditional manner of naming esters has been to
+-define the acid and alcohol moieties that are interracted. The basis
+-for classifying esters in this class has been the acid moiety.In
+-this reclassification, the use of the acid moiety as the primary
+-basis for classification has been retained. However, whenever it
+-was determined that no further subdivision of a body of patents
+-could be established based upon variants of the acid moiety and
+-consistent with good classification practice, further subdivision
+-has been made on the characteristics of the alcohol moiety.  To
+-avoid any confusion, the schedule of subclass titles specifically points
+-out that a particular characteristic pertains to the acid moiety
+-or the alcohol moiety. This factor, combined with the complexity
+-of the compounds which involve pluralities of acid and alcohol moieties,
+-has made it essential to establish a set of rules to determine which acid
+-moiety and which alcohol moiety is to control the classification.</para>
+-<note2>
+-<para>RULES FOR CLASSIFYING CARBOXYLIC ESTERS</para></note2>
+-<note2>
+-<para>A. Compounds</para></note2>
+-<note2>
+-<para>I. General</para></note2>
+-<note2 notenum = "(1)">
+-<para>The first step in determining the classification of a compound
+-is to resolve it into the several acidic and alcoholic moieties.</para></note2>
+-<note2 notenum = "(2)">
+-<para>If there is more than one acid moiety, the general rule of
+-superiority is applied to determine the acid moiety which will control
+-classification.</para></note2>
+-<note2 notenum = "(3)">
+-<para>Thereafter, the rule applied is that only those alcohol moieties
+-which esterify the selected acid moiety are considered for classification.</para></note2>
+-<note2 notenum = "(4)">
+-<para>Where there is more than one alcohol moiety esterifying a
+-controlling acid moiety and it is necessary to determine which alcohol
+-moiety will control classification, the general rules of superiority are
+-applied.</para></note2>
+-<note2>
+-<para>The following examples illustrate these rules:</para></note2>
+-<note2 notenum = "(a)">
+-<para>Polyoxy alcohol B and two carboxylic acids, A and D AC(&equals;O)
+-OBO(O&equals;)CD  Determine which of acids A or D has priority
+-to decide the classification.</para></note2>
+-<note2 notenum = "(b)">
+-<para>Polycarboxylic acid A and two alcohols B and D BO(O )CAC(&equals;O)OD
+-If necessary, determine which of alcohols B and D has priority to
+-decide the classification.</para></note2>
+-<note2 notenum = "(c)">
+-<para>Oxy acid B, acylating acid A and alcohol D AC(&equals;O)OBC(&equals;O)OD
+-Determine which of acids A and B has priority.  If acid A has priority,
+-then oxy acid B serves as the alcohol moiety and D is ignored for
+-classification. If oxy acid B has priority, then alcohol D is considered for
+-classification and acid A is ignored.</para></note2>
+-<note2 notenum = "(d)">
+-<para>Polycarboxylic acid A, monocarboxylic acid E, polyoxy alcohol
+-D and monooxy alcohol B    BO(O&equals;)CAC(&equals;O)ODO(O&equals;)CE
+-Determine which of acids A and E takes priority.  If acid A has
+-priority, then alcohols B and D are considered and acid E is ignored.
+- If necessary, determine priority as between alcohols B and D to
+-establish classification. If acid E has priority, consider only
+-alcohol D for classification and ignore acid A and alcohol B.</para></note2>
+-<note2 notenum = "(e)">
+-<para>Polycarboxylic acid A, oxy acid B, monocarboxylic acid E,
+-monooxy alcohol F and polyoxy alcohol D FO(O&equals;)CAC(&equals;O)OBC(&equals;O)ODO(O&equals;)CE
+-Determine priority among acid moieties A, B and E.  If polycarboxylic
+-acid A has priority, then consider only F and B as the alcohol moieties
+-and ignore D and E.  If necessary, determine priority between F
+-and B as alcohol moieties for classification.  If oxy acid B has
+-priority, then only alcohol D is considered for classification,
+-ignoring F, A and E.  If acid E has priority, consider only alcohol D
+-for classification, ignoring F, A and B.</para></note2>
+-<note2>
+-<para>II. Polycarboxylic Acid Esters</para></note2>
+-<note2>
+-<para>The treatment of polycarboxylic acid esters has not changed
+-in this reclassification. However, since it presents potential pitfalls
+-for classification and search, the problems are summarized here.</para></note2>
+-<note2>
+-<para>Esters of polycarboxylic acids where one or more of the carboxyl
+-groups are unesterified are classified with the polycarboxylic acid
+-esters where all carboxyl groups may be in the free acid form or may
+-be present as salts or as acid halides.</para></note2>
+-<note2>
+-<para>When the unesterified carboxyl is reacted with an amine to
+-form an amide, the compound is classified in the appropriate subclass
+-of the group of esters containing nitrogen.</para></note2>
+-<note2>
+-<para>Since an acid halide group on an acid moiety which contains
+-an esterified carboxyl is the function which makes it a polycarboxylic
+-acid ester, such compound is not considered to be halogenated, for
+-classification purposes.  However, when the acid halide group is on
+-an acid moiety which serves as the alcohol portion of an ester of
+-an acid with higher priority, this restriction no longer applies
+-and it may be considered as a halogenated alcohol.</para></note2>
+-<note2>
+-<para>An anhydride of a half ester of a dicarboxylic acid with a
+-monocarboxylic acid is regarded for classification purposes, as a
+-monocarboxylic acid ester, e.g., BO(O&equals;C)AC(&equals;O)O(O&equals;)CD
+-and the final classification will be determined by the functional
+-groups present on both A and D which form the entire acid moiety.</para></note2>
+-<note2>
+-<para>An anhydride of a half ester of a dicarboxylic acid with another
+-dicarboxylic acid or half ester will be considered as a polycarboxylic
+-acid, e.g., BO(O&equals;)CAC(&equals;O)O(O&equals;)CDC(&equals;O)OH.</para></note2>
+-<note2>
+-<para>Here too, the final classification will be determined by the
+-functional groups present on both A and D which form the entire
+-acid moiety.</para></note2>
+-<note2>
+-<para>III. Phenolic Esters</para></note2>
+-<note2>
+-<para>The only exception to the rules set forth in I. above, is
+-that of phenolic esters of acyclic carboxylic acids.  Here, the
+-primary basis of classification is the phenolic moitety, with the
+-acids providing a secondary basis when all classifiable characteristics
+-of the phenolic moiety have been exhausted.  As a further exception
+-to this case, carbamic acid esters of phenols have been made special and
+-appear before all other categories.</para></note2>
+-<note2>
+-<para>IV. Salts</para></note2>
+-<note2>
+-<para>As a general rule, a salt forming moiety will not be considered
+-as significant for classifying a carboxylic acid ester, unless it
+-is, per se, an ester classifiable in this area, in which case its
+-acid group will compete for priority with the acid group of the
+-ester to which it is ionically bound. In this case, classification
+-will be based solely on that ionic moiety which is superior.</para></note2>
+-<note2>
+-<para>B. Processes</para></note2>
+-<note2>
+-<para>The rules of classification with respect to processes follow
+-the general rules as set forth in the class definition.  Since processes
+-may appear in three different positions within the schedule, this
+-rule is amplified to cover the three situations.</para></note2>
+-<note2 notenum = "(a)">
+-<para>When a process subclass appears as a first line indent to
+-a residual subclass and is ahead of and coordinate with a series of
+-product subclasses, it is considered as referring to the subject
+-matter of the residual subclass as well as the coordinate product
+-subclasses.</para></note2>
+-<note2 notenum = "(1)">
+-<para>If the claims are drawn to a product classifiable in the residual
+-subclass and a process classifiable in a process subclass, the original
+-patent is placed in the residual subclass and cross referenced to the
+-appropriate process subclass.</para></note2>
+-<note2 notenum = "(2)">
+-<para>If the claims are drawn to products classifiable in a coordinate
+-product subclass as well as process claims classifiable in a process
+-subclass, the original patent is placed in the appropriate process
+-subclass and cross referenced to the product subclass.</para></note2>
+-<note2 notenum = "(3)">
+-<para>If all the claims are drawn to a process classifiable in a
+-process subclass, the original is placed in the appropriate process
+-subclass.</para></note2>
+-<note2 notenum = "(b)">
+-<para>When a process subclass appears as an indent to a product
+-subclass it refers only to the subject of that product subclass.</para></note2>
+-<note2 notenum = "(1)">
+-<para>When the patent contains claims classifiable both in the product
+-and the process subclass, the patent is placed as an original in
+-the product subclass and cross referenced to the process subclass.</para></note2>
+-<note2 notenum = "(2)">
+-<para>If all the claims are drawn to a process classifiable in the
+-process subclass, the original patent is placed in the process subclass.</para></note2>
+-<note2 notenum = "(c)">
+-<para>When process subclasses appear as a first line indent, but
+-below a series of coordinate product subclasses, then they refer
+-only to subject matter classifiable in the residual subclass.</para></note2>
+-<note2 notenum = "(1)">
+-<para>If the patent contains claims to a product classifiable in
+-the residual subclass and claims classifiable in a process subclass,
+-the original patent is placed in the residual subclass and cross
+-referenced to the process subclass.</para></note2>
+-<note2 notenum = "(2)">
+-<para>If the claims are all drawn to a process classifiable in a
+-process subclass, the original patent is placed in the process subclass.</para></note2>
+-<note2 notenum = "(d)">
+-<para>Where a patent has claims drawn only to a process for which
+-no subclass is provided, in all cases the patent is placed in the
+-subclass appropriate to the product being produced.</para></note2>
+-<note2 notenum = "(2)">
+-<para>Note.  This is the residual subclass for esters of alicyclic
+-carboxylic acids not specifically provided for in subclasses (114-128)
+-inclusive.</para></note2>
+-<note2 notenum = "(3)">
+-<para>Note.  This subclass contains, for example:  esters of naphthenic
+-acids and</para>
+-<figure><graphic boardno = "Boardno1" impsize = "2.534in 3.257in"    filename = "c560s1.tif">
+-</figure></note2></note1></notes></subclass>
+-<subclass subnum = "2" id = "C560S002000">
+-<sctitle>With preservative:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Products wherein the ester is mixed with a preserving agent
+-whose sole function is to prevent physical or chemical change.</scdesc></subclass>
+-<subclass subnum = "3" id = "C560S003000">
+-<sctitle>Aromatic polycarboxylic acid esters:</sctitle>
+-<parent ref = "C560S002000" doc = "Class560.sgm">subclass 2</parent>
+-<scdesc>Products wherein the ester is an aromatic polycarboxylic
+-acid ester.</scdesc></subclass>
+-<subclass subnum = "4" id = "C560S004000">
+-<sctitle>Acyclic unsaturated monocarboxylic acid esters:</sctitle>
+-<parent ref = "C560S002000" doc = "Class560.sgm">subclass 2</parent>
+-<scdesc>Products wherein the ester is an acyclic unsaturated monocarboxylic
+-acid ester.</scdesc></subclass>
+-<subclass subnum = "5" id = "C560S005000">
+-<sctitle>Hydrophenanthrene in acid moiety:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds wherein the acid radical contains a hydrophenanthrene
+-nucleus not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Patents are placed here when directed to compounds,
+-wherein the acid radical is that of a free natural resin acid of
+-known chemical structure which contains the hydrophenanthrene nucleus.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno2" impsize = "2.693in 1.540in"    filename = "c560s5-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno3" impsize = "2.693in 1.330in"    filename = "c560s5-2.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C530S000000" doc = "Class530.sgm">530</classnum>
+-<subref><clstitle>Chemistry:  Natural Resins or Derivatives; Peptides
+-or Proteins; Lignins or Reaction Products Thereof</clstitle>
+-<pretext></pretext>
+-<subnum range = "p" ref = "C530S200000" doc = "Class530.sgm">200</subnum></subref>
+-<descript><para>, for esters of natural resin acids obtained by
+-treatment of the natural resin and wherein the esters are not separated
+-as single compounds of known chemical structure.  See particularly
+-subclasses 215, 216, 217, and 218.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "6" id = "C560S006000">
+-<sctitle>Polycyclo ring system having the hydrophenanthrene and
+-at least one additional ring as cyclos:</sctitle>
+-<parent ref = "C560S005000" doc = "Class560.sgm">subclass 5</parent>
+-<scdesc>Compounds wherein the hydrophenanthrene nucleus contains
+-additional rings formed by ortho fusion or by a bridge.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno4" impsize = "2.472in 2.961in"    filename = "c560s6.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "7" id = "C560S007000">
+-<sctitle>1, 4a-dimethylhydrophenanthrene - 1 carboxylic acid:</sctitle>
+-<parent ref = "C560S005000" doc = "Class560.sgm">subclass 5</parent>
+-<scdesc>Compounds which contain the nucleus 1, 4a-dimethlhydrophenanthrene
+--1 carboxylic acid.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno5" impsize = "2.480in 3.000in"    filename = "c560s7.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "8" id = "C560S008000">
+-<sctitle>Aromatic acid moiety:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds wherein the acid radical contains a benzene or
+-other carbocyclic aromatic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno6" impsize = "2.693in 1.830in"    filename = "c560s8.tif">
+-</figure></note1></notes>
+-<srchin>
+-<srecord><subnum range = "p" ref = "C560S005000" doc = "Class560.sgm">5</subnum>
+-<descript><para>for esters of carboxylic acids containing a hydrophenanthrene
+-nucleus and having a known chemical structure, not provided for
+-above, for example, the esters of abietic acid, dehydroabietic acid
+-and pimaric acid.</para></descript></srecord></srchin>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "r" ref = "C588S405000" doc = "Class588.sgm">405</subnum>
+-<endnum ref = "C588S409000" doc = "Class588.sgm">409</endnum></subref>
+-<descript><para> for the chemical destruction of organic hazardous
+-or toxic waste containing halogen, chalcogen, nitrogen, phosphorus,
+-or metals.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "9" id = "C560S009000">
+-<sctitle>Sulfur in acid moiety:</sctitle>
+-<parent ref = "C560S008000" doc = "Class560.sgm">subclass 8</parent>
+-<scdesc>Compounds wherein the acid radical contains sulfur covalently
+-bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno7" impsize = "2.400in 1.700in"    filename = "c560s9.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "10" id = "C560S010000">
+-<sctitle>Ortho fused rings in acid moiety:</sctitle>
+-<parent ref = "C560S009000" doc = "Class560.sgm">subclass 9</parent>
+-<scdesc>Compounds wherein the acid radical contains two or more
+-carbocyclic nuclei joined throught two ortho positioned nuclear
+-carbon atoms.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno8" impsize = "2.240in 3.160in"    filename = "c560s10.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "11" id = "C560S011000">
+-<sctitle>Sulfoxy in acid moiety:</sctitle>
+-<parent ref = "C560S009000" doc = "Class560.sgm">subclass 9</parent>
+-<scdesc>Compounds wherein the acid radical contains sulfur bonded
+-to oxygen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno9" impsize = "2.747in 2.000in"    filename = "c560s11.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "12" id = "C560S012000">
+-<sctitle>Nitrogen in acid moiety:</sctitle>
+-<parent ref = "C560S011000" doc = "Class560.sgm">subclass 11</parent>
+-<scdesc>Compounds wherein the acid radical contains nitrogen covalently
+-bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Amine salts of sulfonic acid containing carboxylic
+-acid esters are not considered as nitrogen containing for this subclass.
+- See section A. IV or (1) Note in subclass 1.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno10" impsize = "1.893in 0.870in"    filename = "c560s12.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "13" id = "C560S013000">
+-<sctitle>Plural nitrogens in acid moiety:</sctitle>
+-<parent ref = "C560S012000" doc = "Class560.sgm">subclass 12</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-nitrogen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno11" impsize = "2.853in 2.790in"    filename = "c560s13.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "14" id = "C560S014000">
+-<sctitle>Sulfonic acids, salts or acid halides:</sctitle>
+-<parent ref = "C560S011000" doc = "Class560.sgm">subclass 11</parent>
+-<scdesc>Compounds wherein the acid radical contains the group, shown
+-below, or its salts or acid halides.</scdesc>
+-<figure><graphic boardno = "Boardno12" impsize = "1.067in 0.660in"    filename = "c560s14-1.tif">
+-</figure>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno13" impsize = "2.560in 2.370in"    filename = "c560s14-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "15" id = "C560S015000">
+-<sctitle>Sulfur, not bonded directly to a ring, in same side chain
+-as ester function:</sctitle>
+-<parent ref = "C560S009000" doc = "Class560.sgm">subclass 9</parent>
+-<scdesc>Compounds wherein the esterified carboxylic acid function
+-is on a side chain containing sulfur in or attached to the chain,
+-but not directly bonded to a carbon of a carbocyclic nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  In this and subsequent subclasses where the term &ldquo;side
+-chain&rdquo; is used, it is intended to mean an acyclic chain
+-uninterrupted by a cyclic formation.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  When the same sulfur atom is directly attached to one
+-carbocyclic nucleus and indirectly attached to a second carbocyclic
+-nucleus, it will always be considered as directly attached for 
+- classification, e.g.,</para>
+-<figure><graphic boardno = "Boardno14" impsize = "1.867in 0.620in"    filename = "c560s15.tif">
+-</figure></note1>
+-<note1 notenum = "(3)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno15" impsize = "2.347in 3.370in"    filename = "c560s15.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "16" id = "C560S016000">
+-<sctitle>Nitrogen in acid moiety:</sctitle>
+-<parent ref = "C560S015000" doc = "Class560.sgm">subclass 15</parent>
+-<scdesc>Compounds wherein the acid radical also contains nitrogen
+-covalently bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno16" impsize = "2.560in 2.500in"    filename = "c560s16.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "17" id = "C560S017000">
+-<sctitle>Sulfur, bonded directly to a ring, in same side chain as
+-ester function:</sctitle>
+-<parent ref = "C560S009000" doc = "Class560.sgm">subclass 9</parent>
+-<scdesc>Compounds wherein the esterified carboxylic acid function
+-is on a side chain which contains sulfur directly bonded to a carbon
+-of a carbocyclic nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno17" impsize = "1.947in 1.540in"    filename = "c560s17.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "18" id = "C560S018000">
+-<sctitle>Ester function attached directly to a ring:</sctitle>
+-<parent ref = "C560S009000" doc = "Class560.sgm">subclass 9</parent>
+-<scdesc>Compounds wherein the esterified carboxylic acid function
+-is directly bonded to a carbon of a carbocyclic nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno18" impsize = "2.533in 3.080in"    filename = "c560s18.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "19" id = "C560S019000">
+-<sctitle>Nitrogen in acid moiety other than as nitroso or isocyanate
+-(e.g., amino acid esters, etc.):</sctitle>
+-<parent ref = "C560S008000" doc = "Class560.sgm">subclass 8</parent>
+-<scdesc>Compounds wherein the acid radical contains covalently bonded
+-nitrogen other than in the form of an isocyanate or nitroso group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Compounds containing an isocyanate or a nitroso group
+-are not per se excluded from this subclass, provided that the compounds
+-also contain nitrogen in another form.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno19" impsize = "2.027in 2.330in"    filename = "c560s19.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "20" id = "C560S020000">
+-<sctitle>Nitro bonded to carbon in acid moiety:</sctitle>
+-<parent ref = "C560S019000" doc = "Class560.sgm">subclass 19</parent>
+-<scdesc>Compounds wherein the acid radical contains the group -N(&equals;O)2
+-bonded to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno20" impsize = "2.267in 2.410in"    filename = "c560s20.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "21" id = "C560S021000">
+-<sctitle>Plural rings in acid moiety:</sctitle>
+-<parent ref = "C560S020000" doc = "Class560.sgm">subclass 20</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-carbocyclic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno21" impsize = "2.693in 2.580in"    filename = "c560s21.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "22" id = "C560S022000">
+-<sctitle>Additional nitrogen in acid moiety:</sctitle>
+-<parent ref = "C560S020000" doc = "Class560.sgm">subclass 20</parent>
+-<scdesc>Compounds wherein the acid radical contains an additional
+-nitrogen covalently bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  The additonal nitrogen may be in the form of a nitro,
+-isocyanate or nitroso group.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno22" impsize = "2.427in 2.000in"    filename = "c560s22.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "23" id = "C560S023000">
+-<sctitle>Oxy, aldehyde or ketone group in acid moiety:</sctitle>
+-<parent ref = "C560S020000" doc = "Class560.sgm">subclass 20</parent>
+-<scdesc>Compounds wherein the acid radical contains a carbonyl group
+-bonded to C and X where X is carbon or hydrogen; or an -OX group
+-bonded to a noncarbonylic C where X is C, H, an alcoholate forming
+-group not provided for above, or an acyl group not provided for
+-above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno23" impsize = "2.907in 0.870in"    filename = "c560s23.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "24" id = "C560S024000">
+-<sctitle>Carbamic acid:</sctitle>
+-<parent ref = "C560S019000" doc = "Class560.sgm">subclass 19</parent>
+-<scdesc>Compounds wherein the acid radical contains nitrogen directly
+-bonded to the carbon of the esterified carboxyl group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno24" impsize = "2.907in 1.910in"    filename = "c560s24.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "25" id = "C560S025000">
+-<sctitle>Polycarbamic:</sctitle>
+-<parent ref = "C560S024000" doc = "Class560.sgm">subclass 24</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-carbamic acid group, at least one of which is esterfied.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass also contains compounds where an unesterified
+-carbamic acid has been converted into a salt or an acid halide.
+- Where an unesterified carbamic acid group has been converted into
+-an amide and only one esterified carbamic acid group is present,
+-the compound is classified in the appropriate subclass dealing with
+-monocarbamic acid esters.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno25" impsize = "2.560in 2.120in"    filename = "c560s25.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "26" id = "C560S026000">
+-<sctitle>Polyoxy alcohol moiety:</sctitle>
+-<parent ref = "C560S025000" doc = "Class560.sgm">subclass 25</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains in addition
+-to an esterified hydroxyl, another -OX group attached to a noncarbonylic C
+-where X is H, C, an alcoholate forming group not provided for above,
+-or an acyl group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno26" impsize = "2.693in 2.660in"    filename = "c560s26.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "27" id = "C560S027000">
+-<sctitle>Plural rings in acid moiety:</sctitle>
+-<parent ref = "C560S024000" doc = "Class560.sgm">subclass 24</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-carbocyclic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno27" impsize = "2.080in 2.160in"    filename = "c560s27.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "28" id = "C560S028000">
+-<sctitle>Ortho fused:</sctitle>
+-<parent ref = "C560S027000" doc = "Class560.sgm">subclass 27</parent>
+-<scdesc>Compounds wherein at least two carbocyclic groups are joined
+-through two ortho positioned carbon atoms.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno28" impsize = "2.400in 2.620in"    filename = "c560s28.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "29" id = "C560S029000">
+-<sctitle>Oxy in acid moiety:</sctitle>
+-<parent ref = "C560S024000" doc = "Class560.sgm">subclass 24</parent>
+-<scdesc>Compounds wherein the acid radical contains the -OX group
+-attached to a noncarbonylic C where X is C, H, an alcoholate forming
+-group not provided for above, or an acyl group not provided for
+-above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno29" impsize = "2.400in 1.500in"    filename = "c560s29.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "30" id = "C560S030000">
+-<sctitle>Halogen in acid moiety:</sctitle>
+-<parent ref = "C560S024000" doc = "Class560.sgm">subclass 24</parent>
+-<scdesc>Compounds wherein the acid radical contains a covalently
+-bonded halogen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno30" impsize = "2.613in 1.580in"    filename = "c560s30.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "31" id = "C560S031000">
+-<sctitle>Ring in alcohol moiety:</sctitle>
+-<parent ref = "C560S030000" doc = "Class560.sgm">subclass 30</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-a carbocyclic nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno31" impsize = "2.480in 2.580in"    filename = "c560s31.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "32" id = "C560S032000">
+-<sctitle>Ring in alcohol moiety:</sctitle>
+-<parent ref = "C560S024000" doc = "Class560.sgm">subclass 24</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-a carbocyclic nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno32" impsize = "2.747in 1.700in"    filename = "c560s32.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "33" id = "C560S033000">
+-<sctitle>Sulfur, nitrogen, halogen or additional oxy in alcohol
+-moiety:</sctitle>
+-<parent ref = "C560S024000" doc = "Class560.sgm">subclass 24</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains sulfur, nitrogen
+-or halogen covalently bonded or in addition to the esterified hydroxyl,
+-an -OX group attached to a noncarbonylic C where X is C, H, an alcoholate
+-forming group not provided for above, or an acyl group not provided
+-for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno33" impsize = "2.747in 2.500in"    filename = "c560s33.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "34" id = "C560S034000">
+-<sctitle>Ureido, guanido or hydrazino in acid moiety:</sctitle>
+-<parent ref = "C560S019000" doc = "Class560.sgm">subclass 19</parent>
+-<scdesc>Compounds wherein the acid radical contains a ureido group &gt;NC(&equals;O)N&lt;&lt; or
+-a guanido group &gt;NC(&equals;N-)N&lt;&lt; or
+-a hydrazo group&gt;NN&lt;&lt;.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno34" impsize = "2.853in 2.250in"    filename = "c560s34.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "35" id = "C560S035000">
+-<sctitle>Amidine, azomethine, ketimine or oxime in acid moiety:</sctitle>
+-<parent ref = "C560S019000" doc = "Class560.sgm">subclass 19</parent>
+-<scdesc>Compounds containing the grouping -C&equals;N-, including
+-amidines not provided for above or compounds equivalent in structure
+-to those formed by reacting an alde-hyde or a ketone with ammonia
+-or an amine.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno35" impsize = "2.747in 3.250in"    filename = "c560s35.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "36" id = "C560S036000">
+-<sctitle>Plural rings bonded directly to the same carbon in acid
+-moiety:</sctitle>
+-<parent ref = "C560S019000" doc = "Class560.sgm">subclass 19</parent>
+-<scdesc>Compounds wherein the acid radical contains two carbocyclic
+-nuclei attached to a methylene or carbonyl group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno36" impsize = "2.747in 0.750in"    filename = "c560s36.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "37" id = "C560S037000">
+-<sctitle>The nitrogen is not bonded directly to a ring:</sctitle>
+-<parent ref = "C560S019000" doc = "Class560.sgm">subclass 19</parent>
+-<scdesc>Compounds wherein the acid radical contains nitrogen which
+-is not directly attached to a carbocyclic nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  When the same N atom is directly attached to one carbocylic
+-nucleus and indirectly attached to a second carbocyclic nucleus,
+-it will always be considered as directly attached for classification, e.g.,</para>
+-<figure><graphic boardno = "Boardno37" impsize = "1.867in 0.750in"    filename = "c560s37-1.tif">
+-</figure></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno38" impsize = "2.240in 2.290in"    filename = "c560s37.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "38" id = "C560S038000">
+-<sctitle>The nitrogen is in same side chain as ester function:</sctitle>
+-<parent ref = "C560S037000" doc = "Class560.sgm">subclass 37</parent>
+-<scdesc>Compounds wherein the acid radical contains nitrogen in
+-or attached to the same side chain which contains the carboxylic
+-acid ester function.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno39" impsize = "2.640in 2.290in"    filename = "c560s38.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "39" id = "C560S039000">
+-<sctitle>Oxy in acid moiety:</sctitle>
+-<parent ref = "C560S038000" doc = "Class560.sgm">subclass 38</parent>
+-<scdesc>Compounds wherein the acid radical also contains the group
+--OX attached to a noncarbonylic C where X is C, H, an alcoholate
+-forming group not provided for above, or an acyl group not provided
+-for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno40" impsize = "2.347in 1.700in"    filename = "c560s39.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "40" id = "C560S040000">
+-<sctitle>Phenylalanines:</sctitle>
+-<parent ref = "C560S039000" doc = "Class560.sgm">subclass 39</parent>
+-<scdesc>Compounds wherein the acid radical contains a phenylalanine
+-group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno41" impsize = "2.107in 1.620in"    filename = "c560s40.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "41" id = "C560S041000">
+-<sctitle>Amide in acid moiety:</sctitle>
+-<parent ref = "C560S038000" doc = "Class560.sgm">subclass 38</parent>
+-<scdesc>Compounds wherein the acid radical contains an acyl group,
+-not provided for above, attached to the nitrogen to form an amide.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno42" impsize = "2.427in 2.830in"    filename = "c560s41.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "42" id = "C560S042000">
+-<sctitle>Oxy in acid moiety:</sctitle>
+-<scdesc>Compounds under subclass 37 wherein the acid radical also
+-contains the group -OX attached to a noncarbonylic C where X is
+-C, H, an alcoholate forming group not provided for above, or an
+-acyl group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno43" impsize = "2.027in 2.540in"    filename = "c560s42.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "43" id = "C560S043000">
+-<sctitle>The nitrogen is bonded directly to a ring and is in same
+-side chain as ester function:</sctitle>
+-<parent ref = "C560S019000" doc = "Class560.sgm">subclass 19</parent>
+-<scdesc>Compounds wherein the acid radical has the ester function
+-on a side chain attached to nitrogen, which is directly attached
+-to a carbocyclic nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno44" impsize = "2.080in 2.500in"    filename = "c560s43.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "44" id = "C560S044000">
+-<sctitle>Polycarboxylic acid:</sctitle>
+-<parent ref = "C560S043000" doc = "Class560.sgm">subclass 43</parent>
+-<scdesc>Compounds wherein the acid radical has more than one carboxyl
+-group, at least one of which is esterified.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass also contains compounds wherein an unesterified
+-carboxyl has been converted into a salt or an acid halide, or may
+-be in the free acid form.  Where the unesterified carboxyl is converted
+-into an amide, the compound is classified in subclass 43.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno45" impsize = "2.693in 1.250in"    filename = "c560s44-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno46" impsize = "1.600in 1.620in"    filename = "c560s44.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "45" id = "C560S045000">
+-<sctitle>Oxy in acid moiety:</sctitle>
+-<parent ref = "C560S019000" doc = "Class560.sgm">subclass 19</parent>
+-<scdesc>Compounds wherein the acid radical contains an -OX group
+-attached to a noncarbonylic C where X is C, H, an alcoholate forming
+-group not provided for above, or an acyl group not provided for
+-above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno47" impsize = "2.747in 2.660in"    filename = "c560s45.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "46" id = "C560S046000">
+-<sctitle>Benzoic acid substituted on ring with oxy and nitrogen:</sctitle>
+-<parent ref = "C560S045000" doc = "Class560.sgm">subclass 45</parent>
+-<scdesc>Compounds wherein the acid radical has an esterified carboxyl
+-group, nitrogen an an -OX group all directly attached to the benzene
+-ring, wherein X is C, H, and alcoholate forming group not provided
+-for above, or an acyl group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno48" impsize = "2.533in 0.950in"    filename = "c560s46.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "47" id = "C560S047000">
+-<sctitle>Halogen in acid moiety:</sctitle>
+-<parent ref = "C560S019000" doc = "Class560.sgm">subclass 19</parent>
+-<scdesc>Compounds wherein the acid radical contains a covalently
+-bonded halogen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno49" impsize = "2.427in 2.290in"    filename = "c560s47.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "48" id = "C560S048000">
+-<sctitle>Plural rings in acid moiety with nitrogen bonded directly
+-to at least one of the rings:</sctitle>
+-<parent ref = "C560S019000" doc = "Class560.sgm">subclass 19</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-carbocyclic group with nitrogen directly attached to at least one
+-carbocyclic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno50" impsize = "2.107in 2.290in"    filename = "c560s48.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "49" id = "C560S049000">
+-<sctitle>Nitrogen in alcohol moiety:</sctitle>
+-<parent ref = "C560S019000" doc = "Class560.sgm">subclass 19</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains nitrogen covalently
+-bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno51" impsize = "2.347in 2.330in"    filename = "c560s49.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "50" id = "C560S050000">
+-<sctitle>Polyoxy alcohol moiety:</sctitle>
+-<parent ref = "C560S019000" doc = "Class560.sgm">subclass 19</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains in addition
+-to the esterified hydroxyl group, an -OX group attached to a noncarbonylic
+-C where X is C, H, an alcoholate forming group not provided for
+-above, or an acyl group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno52" impsize = "2.933in 1.620in"    filename = "c560s50.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "51" id = "C560S051000">
+-<sctitle>Aldehyde or ketone group in acid moiety: </sctitle>
+-<parent ref = "C560S008000" doc = "Class560.sgm">subclass 8</parent>
+-<scdesc>Compounds wherein the acid radical contains the group -C(&equals;O)X
+-bonded to carbon and X is C or H, i.e., aldehyde or ketone group
+-containing esters.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno53" impsize = "1.653in 1.370in"    filename = "c560s51-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno54" impsize = "2.027in 0.950in"    filename = "c560s51-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "52" id = "C560S052000">
+-<sctitle>Plural rings bonded directly to the same carbonyl in acid
+-moiety:</sctitle>
+-<parent ref = "C560S051000" doc = "Class560.sgm">subclass 51</parent>
+-<scdesc>Compounds wherein the acid radical contains two carbocyclic
+-nuclei directly attached to a carbonyl group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno55" impsize = "2.187in 2.700in"    filename = "c560s52.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "53" id = "C560S053000">
+-<sctitle>Oxy in acid moiety:</sctitle>
+-<parent ref = "C560S051000" doc = "Class560.sgm">subclass 51</parent>
+-<scdesc>Compounds wherein the acid radical also contains the group
+--OX attached to a noncarbonylic C and X is C, H, an alcoholate forming group
+-not provided for above, or an acyl group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno56" impsize = "2.320in 2.080in"    filename = "c560s53.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "54" id = "C560S054000">
+-<sctitle>Polycarboxylic acid:</sctitle>
+-<parent ref = "C560S051000" doc = "Class560.sgm">subclass 51</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-carboxyl group, at least one of which is esterified.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains compounds wherein an unesterified
+-carboxyl may be present in free acid form or in the form of a salt
+-or an acid halide.  When the unesterified carboxyl is converted
+-into an amide, the compound is classifiable in the appropriate subclass
+-under (19).</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno57" impsize = "2.320in 2.500in"    filename = "c560s54.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "55" id = "C560S055000">
+-<sctitle>Oxy in acid moiety:</sctitle>
+-<parent ref = "C560S008000" doc = "Class560.sgm">subclass 8</parent>
+-<scdesc>Compounds wherein the acid radical contains the -OX group
+-attached to a noncarbonylic C where X may be C, H, an alcoholate
+-forming group not provided for above, or an acyl group not provided
+-for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno58" impsize = "2.320in 1.750in"    filename = "c560s55-2s.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno59" impsize = "2.320in 0.950in"    filename = "c560s55.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "56" id = "C560S056000">
+-<sctitle>Ortho fused rings in acid moiety:</sctitle>
+-<parent ref = "C560S055000" doc = "Class560.sgm">subclass 55</parent>
+-<scdesc>Compounds wherein the acid radical contains two or more
+-carbocyclic nuclei joined through a pair of ortho positioned carbon
+-atoms.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno60" impsize = "2.080in 2.330in"    filename = "c560s56.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "57" id = "C560S057000">
+-<sctitle>Plural rings bonded directly to the same carbon in acid
+-moiety:</sctitle>
+-<parent ref = "C560S055000" doc = "Class560.sgm">subclass 55</parent>
+-<scdesc>Compounds wherein the acid radical contains two carbocyclic
+-nuclei attached to a methylene group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno61" impsize = "2.640in 2.660in"    filename = "c560s57.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "58" id = "C560S058000">
+-<sctitle>Nitrogen in alcohol moiety:</sctitle>
+-<parent ref = "C560S057000" doc = "Class560.sgm">subclass 57</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains nitrogen covalently
+-bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno62" impsize = "2.240in 1.500in"    filename = "c560s58.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "59" id = "C560S059000">
+-<sctitle>Rings bonded directly to each other in acid moiety:</sctitle>
+-<parent ref = "C560S055000" doc = "Class560.sgm">subclass 55</parent>
+-<scdesc>Compounds wherein the acid radical contains two carbocyclic
+-groups joined through a covalent bond.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno63" impsize = "2.240in 2.700in"    filename = "c560s59.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "60" id = "C560S060000">
+-<sctitle>Oxy, not bonded directly to a ring, in same side chain
+-as ester function:</sctitle>
+-<parent ref = "C560S055000" doc = "Class560.sgm">subclass 55</parent>
+-<scdesc>Compounds wherein the esterified acid function is on a side
+-chain containing an oxy group attached to or in the chain, but not
+-attached to a carbocyclic nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  When the same oxygen atom is directly attached to one
+-carbocyclic nucleus and indirectly attached to a second carbocyclic
+-nucleus, it will always be considered as directly attached for classification,
+-e.g.,</para>
+-<figure><graphic boardno = "Boardno64" impsize = "1.867in 0.660in"    filename = "c560s60.tif">
+-</figure></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno65" impsize = "2.400in 1.910in"    filename = "c560s60.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "61" id = "C560S061000">
+-<sctitle>Oxy, bonded directly to a ring, in same side chain as ester
+-function:</sctitle>
+-<parent ref = "C560S055000" doc = "Class560.sgm">subclass 55</parent>
+-<scdesc>Compounds wherein the esterified acid function is on side
+-chain containing an oxy group which is directly attached to a carbocyclic nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclas contains, for example:</para>
+-<figure><graphic boardno = "Boardno66" impsize = "2.773in 1.870in"    filename = "c560s61.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "62" id = "C560S062000">
+-<sctitle>Halogen in acid moiety:</sctitle>
+-<parent ref = "C560S061000" doc = "Class560.sgm">subclass 61</parent>
+-<scdesc>Compounds wherein the acid radical also contains covalently
+-bonded halogen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno67" impsize = "2.773in 1.620in"    filename = "c560s62.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "63" id = "C560S063000">
+-<sctitle>Polyoxy alcohol moiety:</sctitle>
+-<parent ref = "C560S062000" doc = "Class560.sgm">subclass 62</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains in addition
+-to the esterified hydroxyl, an -OX group attached to a noncarbonylic
+-C where X may be C, H, an alcoholate forming group not provided
+-for above, or an acyl group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno68" impsize = "2.480in 2.540in"    filename = "c560s63.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "64" id = "C560S064000">
+-<sctitle>Ester function attached directly to a ring:</sctitle>
+-<parent ref = "C560S055000" doc = "Class560.sgm">subclass 55</parent>
+-<scdesc>Compounds wherein the esterified acid function is directly
+-attached to a carbocyclic nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno69" impsize = "2.240in 0.950in"    filename = "c560s64-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno70" impsize = "2.747in 0.950in"    filename = "c560s64-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "65" id = "C560S065000">
+-<sctitle>Halogen in acid moiety:</sctitle>
+-<parent ref = "C560S064000" doc = "Class560.sgm">subclass 64</parent>
+-<scdesc>Compounds wherein the acid function contains a covalently
+-bonded halogen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno71" impsize = "2.533in 1.790in"    filename = "c560s65.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "66" id = "C560S066000">
+-<sctitle>Acylated:</sctitle>
+-<parent ref = "C560S064000" doc = "Class560.sgm">subclass 64</parent>
+-<scdesc>Compounds wherein a hydroxy group of the esterified acid
+-radical has been esterified by an acyl group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno72" impsize = "2.427in 1.910in"    filename = "c560s66.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "67" id = "C560S067000">
+-<sctitle>Phenolic hydroxy or metallate:</sctitle>
+-<parent ref = "C560S064000" doc = "Class560.sgm">subclass 64</parent>
+-<scdesc>Compounds wherein the acid function contains an -OX group,
+-where X is H or an alcoholate forming group not provided for above,
+-directly attached to the carbon of a benzene ring.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno73" impsize = "1.893in 2.200in"    filename = "c560s67.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "68" id = "C560S068000">
+-<sctitle>Tannins and reaction products thereof:</sctitle>
+-<parent ref = "C560S067000" doc = "Class560.sgm">subclass 67</parent>
+-<scdesc>Products and their processes which are known as tannins
+-or tannic acids.  Chemically they appear to be esters of gallic
+-acid in which the carboxyl group thereof is esterified by the hydroxyl
+-group of a second molecule of gallic acid, or glucosides thereof.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass includes, for example, tannin extracts
+-together with their preparation, treatment and purification.  Many
+-of these extracts are useful as tanning or mordanting agents.  Where
+-the tannin extract is admixed with other ingredients to form a composition
+-having an art use provided for elsewhere, the patent is placed in
+-the other class and cross referenced to this class when desirable.
+- For example, tanning compositions and mordanting compositions are in
+-Class 8, Bleaching and Dyeing: Fluid Treatment and Chemical Modification
+-of Textiles and Fibers.</para></note1></notes></subclass>
+-<subclass subnum = "69" id = "C560S069000">
+-<sctitle>Extraction from bark or vegetable material:</sctitle>
+-<parent ref = "C560S068000" doc = "Class560.sgm">subclass 68</parent>
+-<scdesc>Processes which are directed to or include the treatment
+-of bark, shell galls, or other vegetable material to remove tannins
+-therefrom.</scdesc></subclass>
+-<subclass subnum = "70" id = "C560S070000">
+-<sctitle>Polyphenolic hydroxy or metallate:</sctitle>
+-<parent ref = "C560S067000" doc = "Class560.sgm">subclass 67</parent>
+-<scdesc>Compounds wherein the acid function contains more than one
+--OX group attached to a carbon of a benzene ring, where X is H or
+-an alcoholate forming group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno74" impsize = "2.427in 3.540in"    filename = "c560s70.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "71" id = "C560S071000">
+-<sctitle>Salicyclic acid:</sctitle>
+-<parent ref = "C560S067000" doc = "Class560.sgm">subclass 67</parent>
+-<scdesc>Compounds wherein the acid radical is derived from the compound
+-known as salicyclic acid, e.g., salol, oil of wintergreen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass is limited to esters of salicyclic acid,
+-per se. Esters of acylated salicyclic acid are found in subclass
+-64 and salicyclic acid acylated with acyclic carboxylic acids are
+-in subclass 143.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:   </para>
+-<figure><graphic boardno = "Boardno75" impsize = "2.107in 1.660in"    filename = "c560s71.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "72" id = "C560S072000">
+-<sctitle>Ring in alcohol moiety:</sctitle>
+-<parent ref = "C560S067000" doc = "Class560.sgm">subclass 67</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains a carbocyclic
+-nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno76" impsize = "2.320in 1.250in"    filename = "c560s72.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "73" id = "C560S073000">
+-<sctitle>Ring in alcohol moiety:</sctitle>
+-<parent ref = "C560S064000" doc = "Class560.sgm">subclass 64</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains a carbocyclic
+-nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno77" impsize = "2.480in 1.580in"    filename = "c560s73.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "74" id = "C560S074000">
+-<sctitle>Nitrogen in alcohol moiety:</sctitle>
+-<parent ref = "C560S064000" doc = "Class560.sgm">subclass 64</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains nitrogen covalently
+-bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno78" impsize = "2.853in 2.120in"    filename = "c560s74.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "75" id = "C560S075000">
+-<sctitle>Phenolic hydroxy or metallate:</sctitle>
+-<parent ref = "C560S055000" doc = "Class560.sgm">subclass 55</parent>
+-<scdesc>Compounds wherein the acid function contains an -OX group,
+-where X is H or an alcoholate forming group not provided for above,
+-directly attached to a benzene ring.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno79" impsize = "2.987in 3.250in"    filename = "c560s75.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "76" id = "C560S076000">
+-<sctitle>Polycarboxylic acid:</sctitle>
+-<parent ref = "C560S008000" doc = "Class560.sgm">subclass 8</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-carboxyl group, at least one of which is esterified.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass also contains compounds wherein an unesterified
+-carboxyl may be present in free acid form or in the form of a salt
+-or an acid halide.  Where an unesterified carboxyl has been converted
+-into an amide, the compound is classifiable in the appropriate subclass under
+-(19).</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno80" impsize = "2.267in 1.540in"    filename = "c560s76-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno81" impsize = "2.107in 0.950in"    filename = "c560s76-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "77" id = "C560S077000">
+-<sctitle>Producing carboxyl group by oxidation: </sctitle>
+-<parent ref = "C560S076000" doc = "Class560.sgm">subclass 76</parent>
+-<scdesc>Processes wherein at least one of the carboxyl groups of
+-the acid is formed by oxidizing an aromatic material.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass includes, for example, the oxidation
+-of xylene or toluic acid either in the presence of an alcohol or with
+-a subsequent esterification to form the dicarboxylic acid esters.</para></note1></notes></subclass>
+-<subclass subnum = "78" id = "C560S078000">
+-<sctitle>Purification or recovery:</sctitle>
+-<parent ref = "C560S076000" doc = "Class560.sgm">subclass 76</parent>
+-<scdesc>Processes which are directed to the purification, separation
+-or recovery of aromatic polycarboxylic acid esters.</scdesc></subclass>
+-<subclass subnum = "79" id = "C560S079000">
+-<sctitle>Of esters of polyoxy alcohols:</sctitle>
+-<parent ref = "C560S078000" doc = "Class560.sgm">subclass 78</parent>
+-<scdesc>Processes wherein the compounds treated are polyoxy alcohol
+-esters.</scdesc></subclass>
+-<subclass subnum = "80" id = "C560S080000">
+-<sctitle>Ortho fused rings in acid moiety:</sctitle>
+-<parent ref = "C560S076000" doc = "Class560.sgm">subclass 76</parent>
+-<scdesc>Compounds wherein the acid radical contains two or more
+-carbocyclic nuclei joined through ortho positioned nuclear carbons.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno82" impsize = "2.427in 2.250in"    filename = "c560s80.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "81" id = "C560S081000">
+-<sctitle>Esterified carboxy not bonded directly to a ring:</sctitle>
+-<parent ref = "C560S076000" doc = "Class560.sgm">subclass 76</parent>
+-<scdesc>Compounds wherein an esterified carboxyl group of the acid
+-radical is not directly bonded to a nuclear carbon of a carbocyclic
+-group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno83" impsize = "2.347in 1.870in"    filename = "c560s81.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "82" id = "C560S082000">
+-<sctitle>Malonates:</sctitle>
+-<parent ref = "C560S081000" doc = "Class560.sgm">subclass 81</parent>
+-<scdesc>Compounds in which the methylene group of a malonic acid
+-ester contains an aromatic substituent.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno84" impsize = "1.680in 1.750in"    filename = "c560s82.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "83" id = "C560S083000">
+-<sctitle>Halogen in acid moiety:</sctitle>
+-<parent ref = "C560S076000" doc = "Class560.sgm">subclass 76</parent>
+-<scdesc>Compounds wherein the acid radical contains covalently bonded
+-halogen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Compounds wherein the only halogen is present in the
+-form of a carboxylic acid halide are not considered halogenated
+-acids for this subclass.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno85" impsize = "2.400in 1.120in"    filename = "c560s83.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "84" id = "C560S084000">
+-<sctitle>Ring in alcohol moiety:</sctitle>
+-<parent ref = "C560S076000" doc = "Class560.sgm">subclass 76</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains a carbocyclic
+-nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno86" impsize = "2.560in 2.950in"    filename = "c560s84.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "85" id = "C560S085000">
+-<sctitle>Aromatic alcohol moiety:</sctitle>
+-<parent ref = "C560S084000" doc = "Class560.sgm">subclass 84</parent>
+-<scdesc>Compounds wherein the carbocyclic nucleus is aromatic.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno87" impsize = "2.747in 2.500in"    filename = "c560s85.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "86" id = "C560S086000">
+-<sctitle>Esterified phenolic hydroxy:</sctitle>
+-<parent ref = "C560S085000" doc = "Class560.sgm">subclass 85</parent>
+-<scdesc>Compounds wherein the ester is formed with a phenolic hydroxyl
+-group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno88" impsize = "2.320in 2.200in"    filename = "c560s86.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "87" id = "C560S087000">
+-<sctitle>Sulfur or halogen in alcohol moiety: </sctitle>
+-<parent ref = "C560S076000" doc = "Class560.sgm">subclass 76</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains sulfur or
+-a halogen covalently bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno89" impsize = "2.160in 2.830in"    filename = "c560s87.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "88" id = "C560S088000">
+-<sctitle>Nitrogen in alcohol moiety:</sctitle>
+-<parent ref = "C560S076000" doc = "Class560.sgm">subclass 76</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains nitrogen covalently
+-bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno90" impsize = "2.320in 1.040in"    filename = "c560s88.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "89" id = "C560S089000">
+-<sctitle>Polyoxy alcohol moiety:</sctitle>
+-<parent ref = "C560S076000" doc = "Class560.sgm">subclass 76</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains in addition
+-to the esterified hydroxyl group, an -OX group attached to a noncarbonylic
+-C where X may be H, C, an acyl radical not provided for above, or
+-an alcoholate forming group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno91" impsize = "2.160in 2.410in"    filename = "c560s89.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "90" id = "C560S090000">
+-<sctitle>Additional esterifying acid:</sctitle>
+-<parent ref = "C560S089000" doc = "Class560.sgm">subclass 89</parent>
+-<scdesc>Compounds wherein the polyoxy alcohol is additionally esterified
+-by a different carboxylic acid not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno92" impsize = "2.320in 2.660in"    filename = "c560s90-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno93" impsize = "2.320in 1.580in"    filename = "c560s90-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "91" id = "C560S091000">
+-<sctitle>Polyoxyalkylene alcohol moiety:</sctitle>
+-<parent ref = "C560S089000" doc = "Class560.sgm">subclass 89</parent>
+-<scdesc>Compounds wherein the polyoxy alcohol moiety has the structure-O-(CnH<subscrpt>2
+-n</subscrpt> )m, where n and m are positive integers and m&gt;1.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno94" impsize = "2.320in 0.910in"    filename = "c560s91.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "92" id = "C560S092000">
+-<sctitle>Preparing esters by ester interchange:</sctitle>
+-<parent ref = "C560S089000" doc = "Class560.sgm">subclass 89</parent>
+-<scdesc> Processes wherein the ester is prepared by reacting an
+-ester with another ester, acid or alcohol, to produce a different
+-ester.</scdesc></subclass>
+-<subclass subnum = "93" id = "C560S093000">
+-<sctitle>Preparing esters from alkylene oxides: </sctitle>
+-<parent ref = "C560S089000" doc = "Class560.sgm">subclass 89</parent>
+-<scdesc>Processes wherein the esters are prepared from alkylene
+-oxides.</scdesc></subclass>
+-<subclass subnum = "94" id = "C560S094000">
+-<sctitle>Preparing esters from acid or from nitrile and diol:</sctitle>
+-<parent ref = "C560S089000" doc = "Class560.sgm">subclass 89</parent>
+-<scdesc>Processes wherein the esters are prepared by reaction of
+-a carboxylic acid or a nitrile with a diol.</scdesc></subclass>
+-<subclass subnum = "95" id = "C560S095000">
+-<sctitle>Unsaturation in alcohol moiety:</sctitle>
+-<parent ref = "C560S076000" doc = "Class560.sgm">subclass 76</parent>
+-<scdesc>Compounds wherein the alcohol moiety is acyclic and contains
+-an ethylenic double bond or a triple bond.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno95" impsize = "2.320in 1.120in"    filename = "c560s95.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "96" id = "C560S096000">
+-<sctitle>Processes:</sctitle>
+-<parent ref = "C560S076000" doc = "Class560.sgm">subclass 76</parent>
+-<scdesc>Processes for preparing compounds classifiable in that subclass.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  When a patent contains claims to both a product classifiable
+-in subclass 76 and a process, the patent is placed as an original
+-in subclass 76 and cross referenced to this subclass.  When the
+-claims are directed solely to a process of preparing a compound
+-classifiable in subclass 76, it is placed as an original in this
+-subclass.</para></note1></notes></subclass>
+-<subclass subnum = "97" id = "C560S097000">
+-<sctitle>Carbonylation:</sctitle>
+-<parent ref = "C560S096000" doc = "Class560.sgm">subclass 96</parent>
+-<scdesc>Processes wherein the ester is prepared through formation
+-of a carboxyl group on a starting material by reacting with a carbonylating
+-agent such as carbon monoxide in the presence of an alcohol or by
+-subsequent esterification.</scdesc></subclass>
+-<subclass subnum = "98" id = "C560S098000">
+-<sctitle>Esterification of acid, salt, acid halide or anhydride
+-with alcohol:</sctitle>
+-<parent ref = "C560S096000" doc = "Class560.sgm">subclass 96</parent>
+-<scdesc>Processes in which the compounds are prepared by reacting
+-an alcohol with a carboxylic acid or its salt, acid halide or anhydride.</scdesc></subclass>
+-<subclass subnum = "99" id = "C560S099000">
+-<sctitle>Metal containing catalyst utilized: </sctitle>
+-<parent ref = "C560S098000" doc = "Class560.sgm">subclass 98</parent>
+-<scdesc>Processes wherein the esterification reaction is carried
+-out in the presence of a metal containing catalyst.</scdesc></subclass>
+-<subclass subnum = "100" id = "C560S100000">
+-<sctitle>Naphthyl in acid moiety:</sctitle>
+-<parent ref = "C560S008000" doc = "Class560.sgm">subclass 8</parent>
+-<scdesc>Compounds wherein the acid radical contains the naphthyl
+-group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno96" impsize = "2.267in 1.950in"    filename = "c560s100.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "101" id = "C560S101000">
+-<sctitle>Plural rings bonded directly to the same carbon in acid
+-moiety:</sctitle>
+-<parent ref = "C560S008000" doc = "Class560.sgm">subclass 8</parent>
+-<scdesc>Compounds wherein the acid radical contains two carbocyclic
+-nuclei attached to a noncarbonylic methylene group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Compounds wherein two carbocyclic nuclei are attached
+-to a carbonyl group are classified in subclass 52.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno97" impsize = "2.907in 2.540in"    filename = "c560s101.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "102" id = "C560S102000">
+-<sctitle>Rings bonded directly to each other in acid moiety:</sctitle>
+-<parent ref = "C560S008000" doc = "Class560.sgm">subclass 8</parent>
+-<scdesc>Compounds wherein the acid radical contains a carbocyclic
+-nucleus directly linked to another carbocyclic nucleus through a
+-covalent bond.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno98" impsize = "2.907in 1.870in"    filename = "c560s102.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "103" id = "C560S103000">
+-<sctitle>Monocyclic acid moiety:</sctitle>
+-<parent ref = "C560S008000" doc = "Class560.sgm">subclass 8</parent>
+-<scdesc>Compounds wherein the acid radical contains only one carbocyclic
+-group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno99" impsize = "1.893in 0.950in"    filename = "c560s103.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "104" id = "C560S104000">
+-<sctitle>Additional unsaturation in acid moiety:</sctitle>
+-<parent ref = "C560S103000" doc = "Class560.sgm">subclass 103</parent>
+-<scdesc>Compounds wherein the acid radical contains an ethylenic
+-double bond or a triple bond.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno100" impsize = "3.067in 2.830in"    filename = "c560s104.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "105" id = "C560S105000">
+-<sctitle>Carboxyl, not bonded directly to a ring, in acid moiety:</sctitle>
+-<parent ref = "C560S103000" doc = "Class560.sgm">subclass 103</parent>
+-<scdesc>Compounds wherein the carboxyl group of the acid radical
+-is not directly attached to the carbocyclic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno101" impsize = "2.613in 1.160in"    filename = "c560s105-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno102" impsize = "2.107in 1.410in"    filename = "c560s105-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "106" id = "C560S106000">
+-<sctitle>Ring in alcohol moiety:</sctitle>
+-<parent ref = "C560S103000" doc = "Class560.sgm">subclass 103</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains a carbocyclic
+-group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno103" impsize = "2.907in 2.120in"    filename = "c560s106.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "107" id = "C560S107000">
+-<sctitle>Plural rings in alcohol moiety:</sctitle>
+-<parent ref = "C560S106000" doc = "Class560.sgm">subclass 106</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains more than
+-one carbocyclic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno104" impsize = "2.747in 2.540in"    filename = "c560s107.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C552S000000" doc = "Class552.sgm">552</classnum>
+-<subref><clstitle>Organic Compounds</clstitle>
+-<pretext></pretext>
+-<subnum range = "s" ref = "C552S653000" doc = "Class552.sgm">653</subnum></subref>
+-<descript><para> for esters of Vitamin D compounds, cholecalciferols,
+-activated 7-dehydrocholesterols, dihydrotachysterols, 3-5 cyclovitamin
+-D compounds, etc.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "108" id = "C560S108000">
+-<sctitle>Esterified phenolic hydroxy:</sctitle>
+-<parent ref = "C560S107000" doc = "Class560.sgm">subclass 107</parent>
+-<scdesc>Compounds wherein the ester function is formed with a phenolic
+-OH group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno105" impsize = "2.560in 3.000in"    filename = "c560s108.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "109" id = "C560S109000">
+-<sctitle>Esterified phenolic hydroxy:</sctitle>
+-<parent ref = "C560S106000" doc = "Class560.sgm">subclass 106</parent>
+-<scdesc>Compounds in which the ester function is formed with a phenolic
+-OH group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno106" impsize = "2.747in 1.660in"    filename = "c560s109.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "110" id = "C560S110000">
+-<sctitle>Nitrogen in alcohol moiety:</sctitle>
+-<parent ref = "C560S103000" doc = "Class560.sgm">subclass 103</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains nitrogen covalently
+-bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno107" impsize = "2.747in 2.250in"    filename = "c560s110.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "111" id = "C560S111000">
+-<sctitle>Halogen in alcohol moiety:</sctitle>
+-<parent ref = "C560S103000" doc = "Class560.sgm">subclass 103</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains a covalently
+-bonded halogen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno108" impsize = "2.747in 2.000in"    filename = "c560s111.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "112" id = "C560S112000">
+-<sctitle>Polyoxy alcohol moiety:</sctitle>
+-<parent ref = "C560S103000" doc = "Class560.sgm">subclass 103</parent>
+-<scdesc>Compounds wherein the alcohol moiety is an acyclic polyoxy
+-alcohol, which in addition to the esterified PH, contains at least
+-one other oxy group, -OX wherein X may be C, H, an alcoholate forming
+-group not provided for above, or an acyl group not provided for
+-above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno109" impsize = "2.240in 0.830in"    filename = "c560s112-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno110" impsize = "2.613in 0.830in"    filename = "c560s112-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "113" id = "C560S113000">
+-<sctitle>Unsaturation in alcohol moiety:</sctitle>
+-<parent ref = "C560S103000" doc = "Class560.sgm">subclass 103</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains an ethylenic
+-double bond or a triple bond.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno111" impsize = "2.080in 0.950in"    filename = "c560s113.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "114" id = "C560S114000">
+-<sctitle>Preparing alicyclic acid esters by carbonylation:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Processes wherein an alicyclic acid ester is prepared through
+-formation of a carboxyl group on a starting material by reaction
+-with a carbonylating agent such as carbon monoxide in the presence
+-of an alcohol or through subsequent esterification.</scdesc></subclass>
+-<subclass subnum = "115" id = "C560S115000">
+-<sctitle>Alicyclic carbamates:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds in which the acid radical contains an alicyclic
+-nucleus and a nitrogen directly attached to the carbon of an esterified
+-carboxyl group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno112" impsize = "2.347in 2.160in"    filename = "c560s115.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "116" id = "C560S116000">
+-<sctitle>Plural alicyclic rings in acid moiety:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds in which the acid radical contains more than one
+-alicyclic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Compounds containing the hydrophenanthrene nucleus
+-are placed in subclasses 5&plus;.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno113" impsize = "2.187in 3.160in"    filename = "c560s116.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "117" id = "C560S117000">
+-<sctitle>Tricyclo ring system in acid moiety:</sctitle>
+-<parent ref = "C560S116000" doc = "Class560.sgm">subclass 116</parent>
+-<scdesc>Compounds in which the acid radical contains three alicyclic
+-groups which are joined to each other either through ortho fusion
+-or by a bridge.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno114" impsize = "2.613in 2.080in"    filename = "c560s117.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "118" id = "C560S118000">
+-<sctitle>Two rings only in acid moiety:</sctitle>
+-<parent ref = "C560S116000" doc = "Class560.sgm">subclass 116</parent>
+-<scdesc>Compounds in which the acid radical contains two alicyclic
+-groups.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno115" impsize = "2.027in 2.330in"    filename = "c560s118.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "119" id = "C560S119000">
+-<sctitle>Ortho fused:</sctitle>
+-<parent ref = "C560S118000" doc = "Class560.sgm">subclass 118</parent>
+-<scdesc>Compounds in which the acid radical contains two alicyclic
+-groups joined through two ortho positioned carbon atoms.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno116" impsize = "2.027in 2.160in"    filename = "c560s119.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "120" id = "C560S120000">
+-<sctitle>2,2,1-bicyclo:</sctitle>
+-<parent ref = "C560S118000" doc = "Class560.sgm">subclass 118</parent>
+-<scdesc>Compounds in which the acid radical contains a 2,2,1-bicyclo
+-nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno117" impsize = "2.027in 1.000in"    filename = "c560s120-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno118" impsize = "2.027in 2.910in"    filename = "c560s120-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "121" id = "C560S121000">
+-<sctitle>Cyclopentyl in acid moiety (e.g., prostaglandins, etc.):</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds in which the acid radical contains a cyclopentyl
+-group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains the class of compounds known
+-as prostaglandins.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno119" impsize = "2.827in 2.330in"    filename = "c560s121.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "122" id = "C560S122000">
+-<sctitle>Cyclopentyl - (C)<subscrpt>x</subscrpt> - COOR; x&equals;0-2:</sctitle>
+-<parent ref = "C560S121000" doc = "Class560.sgm">subclass 121</parent>
+-<scdesc>Compounds wherein the carboxylic acid ester function is
+-directly attached to the cyclopentyl nucleus or is attached thereto
+-by a chain of no more than two carbon atoms.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno120" impsize = "2.006in 1.980in"    filename = "c560s122.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "123" id = "C560S123000">
+-<sctitle>Cyclobutyl in acid moiety:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds wherein the acid radical contains a cyclobutyl
+-group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno121" impsize = "2.496in 1.944in"    filename = "c560s123.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "124" id = "C560S124000">
+-<sctitle>Cyclopropyl in acid moiety:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds wherein the acid radical contains a cyclopropyl
+-group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno122" impsize = "2.773in 2.000in"    filename = "c560s124.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "125" id = "C560S125000">
+-<sctitle>Alicyclic acid moiety containing N, S, P, B or halogen:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds wherein the acid radical contains an alicyclic
+-nucleus not provided for above and contains nitrogen, sulfur, phosphorus,
+-boron or halogen covalently bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclss contains, for example:</para>
+-<figure><graphic boardno = "Boardno123" impsize = "2.187in 1.660in"    filename = "c560s125.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "126" id = "C560S126000">
+-<sctitle>Alicyclic acid moiety containing oxy, aldehyde or ketone
+-group:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds wherein the acid radical contains an alicyclic
+-nucleus not provided for above and contains the group-C(&equals;O)X
+-bonded to carbon, where X is C or H; or the group -OX attached to
+-a noncarbonylic carbon where X is C, H, an alcoholate forming group
+-not provided for above, or an acyl group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno124" impsize = "2.232in 2.358in"    filename = "c560s126.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "127" id = "C560S127000">
+-<sctitle>Alicyclic polycarboxylic acid moiety:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds which contain an alicyclic nucleus not provided
+-for above and contain more than one carboxyl group, at least one
+-of which is esterified.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass also includes compounds wherein any unesterified
+-carboxyl group may be present as a free acid or has been converted
+-into a salt or acid halide.  However, those compounds wherein a
+-carboxyl group has been converted into an amide group are found
+-in subclass 125.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno125" impsize = "2.117in 1.652in"    filename = "c560s127.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "128" id = "C560S128000">
+-<sctitle>Alicyclic acid moiety containing unsaturation:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds wherein the acid radical contains an alicyclic
+-nucleus not provided for above and contains an ethylenic double
+-bond or a triple bond.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno126" impsize = "2.117in 1.417in"    filename = "c560s128.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "129" id = "C560S129000">
+-<sctitle>Acyclic acid moiety:</sctitle>
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds wherein the acid radical contains no carbocyclic
+-nucleus.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  For esters of higher fatty acids, see Class 260, subclasses
+-398&plus;, particularly subclasses 410&plus;.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  For synthetic resins which are esters, see appropriate
+-subclasses in Class 526, particularly subclass 309.</para></note1>
+-<note1 notenum = "(3)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno127" impsize = "2.568in 1.611in"    filename = "c560s128.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "130" id = "C560S130000">
+-<sctitle>Esterified phenolic hydroxy:</sctitle>
+-<parent ref = "C560S129000" doc = "Class560.sgm">subclass 129</parent>
+-<scdesc>Compounds wherein the carboxyl group is esterified by a
+-phenolic hydroxyl group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno128" impsize = "2.112in 1.575in"    filename = "c560s130.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "131" id = "C560S131000">
+-<sctitle>Preparing esters by oxidation:</sctitle>
+-<parent ref = "C560S130000" doc = "Class560.sgm">subclass 130</parent>
+-<scdesc>Processes whereby phenolic esters are produced by the reaction
+-of a starting material with oxygen or an oxygen producing material.</scdesc></subclass>
+-<subclass subnum = "132" id = "C560S132000">
+-<sctitle>Carbamic acid:</sctitle>
+-<parent ref = "C560S130000" doc = "Class560.sgm">subclass 130</parent>
+-<scdesc>Compounds wherein the acid radical contains nitrogen directly
+-attached to the carbon of an esterified carboxyl group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno129" impsize = "2.074in 2.187in"    filename = "c560s132.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "133" id = "C560S133000">
+-<sctitle>Plural rings in phenolic moiety:</sctitle>
+-<parent ref = "C560S132000" doc = "Class560.sgm">subclass 132</parent>
+-<scdesc>Compounds wherein the phenolic moiety contains more than
+-one carbocyclic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno130" impsize = "2.128in 2.160in"    filename = "c560s133.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "134" id = "C560S134000">
+-<sctitle>Ortho fused:</sctitle>
+-<parent ref = "C560S133000" doc = "Class560.sgm">subclass 133</parent>
+-<scdesc>Compounds wherein the carbocyclic groups are joined through
+-two ortho positioned carbon atoms.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno131" impsize = "1.867in 2.160in"    filename = "c560s134.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "135" id = "C560S135000">
+-<sctitle>Sulfur in phenolic moiety:</sctitle>
+-<parent ref = "C560S132000" doc = "Class560.sgm">subclass 132</parent>
+-<scdesc>Compounds wherein the phenolic moiety contains sulfur covalently
+-bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno132" impsize = "2.040in 1.944in"    filename = "c560s135.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "136" id = "C560S136000">
+-<sctitle>Nitrogen in phenolic moiety:</sctitle>
+-<parent ref = "C560S132000" doc = "Class560.sgm">subclass 132</parent>
+-<scdesc>Compounds wherein the phenolic moiety contains nitrogen
+-covalently bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno133" impsize = "2.267in 1.290in"    filename = "c560s136-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno134" impsize = "2.560in 1.120in"    filename = "c560s136-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "137" id = "C560S137000">
+-<sctitle>Sulfur, halogen or additional nitrogen or oxygen in carbamic
+-acid moiety:</sctitle>
+-<parent ref = "C560S132000" doc = "Class560.sgm">subclass 132</parent>
+-<scdesc>Compounds wherein the acid radical contains sulfur, halogen
+-or nitrogen or oxygen in addition to that present in the carbamic
+-acid group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno135" impsize = "2.560in 1.660in"    filename = "c560s137.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "138" id = "C560S138000">
+-<sctitle>Plural rings in phenolic moiety:</sctitle>
+-<parent ref = "C560S130000" doc = "Class560.sgm">subclass 130</parent>
+-<scdesc>Compounds wherein the phenolic moiety contains more than
+-one carbocyclic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  See subclasses 133&plus; for polycyclic phenolic
+-esters of carbamic acids.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno136" impsize = "1.944in 2.061in"    filename = "c560s138-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno137" impsize = "2.533in 1.660in"    filename = "c560s138-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "139" id = "C560S139000">
+-<sctitle>Ortho fused:</sctitle>
+-<parent ref = "C560S138000" doc = "Class560.sgm">subclass 138</parent>
+-<scdesc>Compounds wherein the carbocyclic groups of the phenolic
+-moiety are joined through two ortho positioned carbon atoms.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno138" impsize = "2.088in 2.430in"    filename = "c560s139.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "140" id = "C560S140000">
+-<sctitle>Plural rings bonded directly to the same carbon in phenolic
+-moiety:</sctitle>
+-<parent ref = "C560S138000" doc = "Class560.sgm">subclass 138</parent>
+-<scdesc>Compounds wherein the phenolic moiety contains two carbocyclic
+-groups attached to a methylene or carbonyl group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno139" impsize = "2.160in 1.830in"    filename = "c560s140-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno140" impsize = "2.693in 2.160in"    filename = "c560s140-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "141" id = "C560S141000">
+-<sctitle>Rings bonded directly to each other in phenolic moiety:</sctitle>
+-<parent ref = "C560S138000" doc = "Class560.sgm">subclass 138</parent>
+-<scdesc>Compounds wherein the phenolic moiety contains two carbocyclic
+-groups joined to each other through a covalent bond.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno141" impsize = "1.872in 2.286in"    filename = "c560s141.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "142" id = "C560S142000">
+-<sctitle>Nitrogen or sulfur in phenolic moiety:</sctitle>
+-<parent ref = "C560S130000" doc = "Class560.sgm">subclass 130</parent>
+-<scdesc>Compounds wherein the phenolic moiety contains sulfur or
+-nitrogen covalently bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno142" impsize = "1.813in 1.500in"    filename = "c560s142-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno143" impsize = "1.813in 1.080in"    filename = "c560s142-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "143" id = "C560S143000">
+-<sctitle>Salicylic acid or functional derivative:</sctitle>
+-<parent ref = "C560S130000" doc = "Class560.sgm">subclass 130</parent>
+-<scdesc>Compounds wherein the phenolic moiety is salicyclic acid,
+-its salts, acid halides or anhydrides not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  See subclass 142 for acylated salicyclic acid amides.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  See subclass 71 for esters for salicyclic acid.</para></note1>
+-<note1 notenum = "(3)">
+-<para>Note.  See subclass 138 for esters of salicylic acid anhydride
+-per se and substituted derivatives thereof.</para></note1>
+-<note1 notenum = "(4)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno144" impsize = "1.752in 1.683in"    filename = "c560s143.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "144" id = "C560S144000">
+-<sctitle>Polyoxy phenolic moiety:</sctitle>
+-<parent ref = "C560S130000" doc = "Class560.sgm">subclass 130</parent>
+-<scdesc>Compounds wherein the phenolic moiety contains, in addition
+-to the esterified hydroxyl group, an -OX group attached to a noncarbonylic
+-carbon, where X is C, H, an alcoholate forming group not provided
+-for above, or an acyl group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass includes, for example:</para>
+-<figure><graphic boardno = "Boardno145" impsize = "2.000in 1.250in"    filename = "c560s144-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno146" impsize = "2.080in 1.250in"    filename = "c560s144-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "145" id = "C560S145000">
+-<sctitle>Sulfur, nitrogen, halogen, oxy, or aldehyde or ketone group
+-in acid moiety:</sctitle>
+-<parent ref = "C560S130000" doc = "Class560.sgm">subclass 130</parent>
+-<scdesc>Compounds wherein the acid radical contains sulfur, nitrogen
+-or halogen covalently bonded; or an -OX group attached to noncarbonylic
+-carbon, where X is C, H, an alcoholate forming group not provided
+-for above, or an acyl group not provided for above; or a -C(&equals;O)X
+-group bonded to carbon, where X is C or H.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno147" impsize = "2.472in 1.575in"    filename = "c560s145.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "146" id = "C560S146000">
+-<sctitle>Polycarboxylic acid:</sctitle>
+-<parent ref = "C560S130000" doc = "Class560.sgm">subclass 130</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-carboxyl group, at least one of which is esterified.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass also contains compounds wherein an unesterified
+-carboxyl may be present in free acid form or it has been converted
+-into a salt or an acid halide.  Where an unesterified carboxyl has
+-been converted into an amide, see subclass 145.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno148" impsize = "1.966in 2.292in"    filename = "c560s146.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "147" id = "C560S147000">
+-<sctitle>Sulfur in acid moiety:</sctitle>
+-<parent ref = "C560S129000" doc = "Class560.sgm">subclass 129</parent>
+-<scdesc>Compounds wherein the acid radical contains sulfur covalently
+-bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno149" impsize = "2.189in 2.398in"    filename = "c560s147.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "148" id = "C560S148000">
+-<sctitle>Carbamic acid:</sctitle>
+-<parent ref = "C560S147000" doc = "Class560.sgm">subclass 147</parent>
+-<scdesc>Compounds wherein the acid radical contains nitrogen directly
+-attached to the carbon of an esterified carboxyl group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno150" impsize = "2.101in 2.004in"    filename = "c560s148.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "149" id = "C560S149000">
+-<sctitle>Sulfoxy in acid moiety:</sctitle>
+-<parent ref = "C560S147000" doc = "Class560.sgm">subclass 147</parent>
+-<scdesc>Compounds wherein the acid radical contains sulfur bonded
+-to oxygen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains compounds which have a sulfonic
+-acid moiety or its salt or acid halide.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno151" impsize = "2.747in 1.080in"    filename = "c560s149.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "150" id = "C560S150000">
+-<sctitle>Sulfonyl or sulfinyl in acid moiety:</sctitle>
+-<parent ref = "C560S149000" doc = "Class560.sgm">subclass 149</parent>
+-<scdesc>Compounds wherein the acid radical contains the sulfinyl
+-group, R-S(&equals;O)-R or the sulfonyl group, R-S(&equals;O)<subscrpt>2</subscrpt>R.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno152" impsize = "2.907in 1.080in"    filename = "c560s150-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno153" impsize = "2.347in 1.160in"    filename = "c560s150-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "151" id = "C560S151000">
+-<sctitle>Polycarboxylic acid:</sctitle>
+-<parent ref = "C560S149000" doc = "Class560.sgm">subclass 149</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-carboxyl group, at least one of which is esterified.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass also contains compounds wherein an unesterified
+-carboxyl group may appear in free acid form or has been converted
+-into a salt or an acid halide.  Where an unesterified carboxyl has
+-been converted into an amide, see subclass 149 or subclass 150 above.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno154" impsize = "2.389in 2.960in"    filename = "c560s151.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "152" id = "C560S152000">
+-<sctitle>Thio ether in acid moiety:</sctitle>
+-<parent ref = "C560S147000" doc = "Class560.sgm">subclass 147</parent>
+-<scdesc>Compounds wherein the acid radical contains the group, R-S-R.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:        </para>
+-<figure><graphic boardno = "Boardno155" impsize = "2.688in 1.755in"    filename = "c560s152.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "153" id = "C560S153000">
+-<sctitle>Nitrogen or halogen in acid moiety: </sctitle>
+-<parent ref = "C560S152000" doc = "Class560.sgm">subclass 152</parent>
+-<scdesc>Compounds wherein the acid radical contains nitrogen or
+-halogen covalently bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno156" impsize = "2.232in 2.097in"    filename = "c560s153.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "154" id = "C560S154000">
+-<sctitle>Polycarboxylic acid:</sctitle>
+-<parent ref = "C560S152000" doc = "Class560.sgm">subclass 152</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-carboxyl group, at least one of which is esterified.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass also contains compounds wherein an unesterified
+-carboxyl may appear in the form of a free acid or has been converted
+-into a salt or an acid halide.  Where an unesterified carboxyl has
+-been converted into an amide, see subclass 153 above.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno157" impsize = "2.232in 2.475in"    filename = "c560s154.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "155" id = "C560S155000">
+-<sctitle>Nitrogen in acid moiety other than as nitroso or isocyanate
+-(e.g., amino acid esters, etc.):</sctitle>
+-<parent ref = "C560S129000" doc = "Class560.sgm">subclass 129</parent>
+-<scdesc>Compounds wherein the acid radical contains covalently bonded
+-nitrogen other than in the form of isocyanate or nitroso groups.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno158" impsize = "2.304in 2.475in"    filename = "c560s155.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "156" id = "C560S156000">
+-<sctitle>Nitro bonded to carbon in acid moiety:</sctitle>
+-<parent ref = "C560S155000" doc = "Class560.sgm">subclass 155</parent>
+-<scdesc>Compounds wherein the acid radical contains the group -N(&equals;O)<subscrpt>2</subscrpt> bonded
+-to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno159" impsize = "2.225in 1.855in"    filename = "c560s156.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "157" id = "C560S157000">
+-<sctitle>Carbamic acid:</sctitle>
+-<parent ref = "C560S155000" doc = "Class560.sgm">subclass 155</parent>
+-<scdesc>Compounds wherein the acid radical contains a nitrogen directly
+-attached to the carbon of an esterified carboxyl group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno160" impsize = "1.733in 1.450in"    filename = "c560s157.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "158" id = "C560S158000">
+-<sctitle>Polycarbamic:</sctitle>
+-<parent ref = "C560S157000" doc = "Class560.sgm">subclass 157</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-carbamic acid group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass also contains compounds, where an unesterified
+-carbamic acid group may appear in the form of a free acid or may
+-be converted into a salt or acid halide.  Where an unesterified carbamic
+-acid group has been converted into an amide and only one esterified carbamic
+-acid group is present, the compound is placed in the appropriate
+-subclass dealing with monocarbamic acid esters.</para></note1></notes></subclass>
+-<subclass subnum = "159" id = "C560S159000">
+-<sctitle>Addition nitrogen in acid moiety:</sctitle>
+-<parent ref = "C560S157000" doc = "Class560.sgm">subclass 157</parent>
+-<scdesc>Compounds wherein the acid radical contains covalently bonded
+-nitrogen in addition to that present in the carbamic acid group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  The additional nitrogen may be present in the form
+-of an isocyanate or nitroso group.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  See subclass 156 for nitro containing carbamic acid
+-esters.</para></note1>
+-<note1 notenum = "(3)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno161" impsize = "2.424in 1.611in"    filename = "c560s159.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "160" id = "C560S160000">
+-<sctitle>Oxy in acid moiety:</sctitle>
+-<parent ref = "C560S157000" doc = "Class560.sgm">subclass 157</parent>
+-<scdesc>Compounds wherein the acid radical contains an -OX group
+-attached to a noncarbonylic carbon, where X&equals;C, H, an alcoholate
+-forming group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno162" impsize = "2.424in 2.250in"    filename = "c560s160.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "161" id = "C560S161000">
+-<sctitle>Halogen in acid moiety:</sctitle>
+-<parent ref = "C560S157000" doc = "Class560.sgm">subclass 157</parent>
+-<scdesc>Compounds wherein the acid radical contains covalently bonded
+-halogen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno163" impsize = "2.424in 1.944in"    filename = "c560s161.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "162" id = "C560S162000">
+-<sctitle>Cyclic alcohol moiety:</sctitle>
+-<parent ref = "C560S157000" doc = "Class560.sgm">subclass 157</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains a carbocyclic
+-group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno164" impsize = "2.016in 1.719in"    filename = "c560s162.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "163" id = "C560S163000">
+-<sctitle>Aromatic alcohol moiety:</sctitle>
+-<parent ref = "C560S162000" doc = "Class560.sgm">subclass 162</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-an aromatic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno165" impsize = "2.240in 0.910in"    filename = "c560s163-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno166" impsize = "1.787in 1.120in"    filename = "c560s163-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "164" id = "C560S164000">
+-<sctitle>Polyoxy alcohol moiety:</sctitle>
+-<parent ref = "C560S163000" doc = "Class560.sgm">subclass 163</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-in addition to the esterified OH group, at least one other -OX group
+-attached to a noncarbonylic carbon, where X may be C, H, an alcoholate
+-forming group not provided for above, or an acyl group not provided
+-for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno167" impsize = "2.304in 2.061in"    filename = "c560s164.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "165" id = "C560S165000">
+-<sctitle>Sulfur or nitrogen in alcohol moiety: </sctitle>
+-<parent ref = "C560S157000" doc = "Class560.sgm">subclass 157</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-covalently bonded nitrogen or sulfur.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno168" impsize = "2.304in 1.161in"    filename = "c560s165.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "166" id = "C560S166000">
+-<sctitle>Polyoxy alcohol moiety:</sctitle>
+-<parent ref = "C560S157000" doc = "Class560.sgm">subclass 157</parent>
+-<scdesc>Compounds wherein the alcohol moiety is acyclic and in addition
+-to the esterified OH group contains another -OX attached to a noncarbonylic
+-carbon and X may be C, H, an alcoholate forming group not provided
+-for above, or an acyl group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno169" impsize = "2.568in 2.133in"    filename = "c560s166.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "167" id = "C560S167000">
+-<sctitle>Halogen in alcohol moiety:</sctitle>
+-<parent ref = "C560S157000" doc = "Class560.sgm">subclass 157</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-covalently bonded halogen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno170" impsize = "2.568in 1.269in"    filename = "c560s167.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "168" id = "C560S168000">
+-<sctitle>Amidine, azomethine, ketimine or oxime in acid moiety:</sctitle>
+-<parent ref = "C560S155000" doc = "Class560.sgm">subclass 155</parent>
+-<scdesc>Compounds in which the acid radical contains the group &equals;N-C&equals;N-
+-or the C&equals;N-, identical with the structure obtained by reacting
+-an aldehyde or ketone with ammonia or an amine.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno171" impsize = "2.160in 0.910in"    filename = "c560s168-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno172" impsize = "2.240in 0.910in"    filename = "c560s168-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "169" id = "C560S169000">
+-<sctitle>Additional nitrogen in acid moiety: </sctitle>
+-<parent ref = "C560S155000" doc = "Class560.sgm">subclass 155</parent>
+-<scdesc>Compounds in which the acid radical contains more than one
+-covalently bonded nitrogen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  The additional nitrogen may be in the form of an isocyanate
+-or a nitroso group.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  See subclass 156 for nitro containing carboxylic acid
+-esters.</para></note1>
+-<note1 notenum = "(3)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno173" impsize = "2.240in 1.830in"    filename = "c560s169.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "170" id = "C560S170000">
+-<sctitle>Oxy, aldehyde or ketone group in acid moiety:</sctitle>
+-<parent ref = "C560S155000" doc = "Class560.sgm">subclass 155</parent>
+-<scdesc>Compounds wherein the acid radical contains the group -C(&equals;O)X
+-bonded to carbon, where X is C or H; or the group -OX attached to
+-a noncarbonylic carbon, where X is C, H, and alcoholate forming
+-group not provided for above, or an acyl group not provided for
+-above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno174" impsize = "2.544in 1.350in"    filename = "c560s170-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno175" impsize = "2.827in 1.790in"    filename = "c560s170-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "171" id = "C560S171000">
+-<sctitle>Polycarboxylic acid:</sctitle>
+-<parent ref = "C560S155000" doc = "Class560.sgm">subclass 155</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-carboxyl group, at least one of which is esterified.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass also includes compounds wherein any unesterified
+-carboxyl group may appear in free acid form or has been converted
+-into a salt or acid halide.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno176" impsize = "2.544in 1.872in"    filename = "c560s171.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "172" id = "C560S172000">
+-<sctitle>Halogen or unsaturation in acid moiety: </sctitle>
+-<parent ref = "C560S155000" doc = "Class560.sgm">subclass 155</parent>
+-<scdesc>Compounds wherein the acid radical contains covalently bonded
+-halogen or contains an ethylenic double bond or a triple bond.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno177" impsize = "2.827in 0.950in"    filename = "c560s172-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno178" impsize = "1.493in 0.950in"    filename = "c560s172-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "173" id = "C560S173000">
+-<sctitle>Cyclic alcohol moiety:</sctitle>
+-<parent ref = "C560S155000" doc = "Class560.sgm">subclass 155</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-a carbocyclic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno179" impsize = "2.544in 1.908in"    filename = "c560s173.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "174" id = "C560S174000">
+-<sctitle>Aldehyde or ketone group in acid moiety: </sctitle>
+-<parent ref = "C560S129000" doc = "Class560.sgm">subclass 129</parent>
+-<scdesc>Compounds wherein the acid radical contains the group -C(&equals;O)X
+-attached to carbon, where X is C or H.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno180" impsize = "2.544in 1.125in"    filename = "c560s174.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "175" id = "C560S175000">
+-<sctitle>Preparing esters by carbonylation: </sctitle>
+-<parent ref = "C560S174000" doc = "Class560.sgm">subclass 174</parent>
+-<scdesc>Processes wherein the ester is prepared through formation
+-of a carboxyl group of a starting material by reaction with a carbonylating
+-agent such as carbon monoxide either in the presence of an alcohol
+-or by subsequent esterification of the formed acid.</scdesc></subclass>
+-<subclass subnum = "176" id = "C560S176000">
+-<sctitle>Polycarboxylic acid:</sctitle>
+-<parent ref = "C560S174000" doc = "Class560.sgm">subclass 174</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-carboxyl group, at least one of which is esterified.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass also includes compounds wherein any unesterified
+-carboxyl group may be present in free acid form or has been converted
+-into a salt or acid halide.  Where the carboxyl group has been converted
+-into an amide, the compound is classified in subclasses 155&plus;.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno181" impsize = "2.480in 2.250in"    filename = "c560s176.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "177" id = "C560S177000">
+-<sctitle>Aldehyde group in acid moiety:</sctitle>
+-<parent ref = "C560S174000" doc = "Class560.sgm">subclass 174</parent>
+-<scdesc>Compounds wherein the acid radical contains the aldehyde
+-group-C(&equals;O)H.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno182" impsize = "2.320in 2.620in"    filename = "c560s177.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "178" id = "C560S178000">
+-<sctitle>Acetoacetic acid:</sctitle>
+-<parent ref = "C560S174000" doc = "Class560.sgm">subclass 174</parent>
+-<scdesc>Compounds which are esters of acetoacetic acid, per se.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  For substituted derivatives of acetoacetic acid esters,
+-see the appropriate subclasses above.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno183" impsize = "1.968in 2.097in"    filename = "c560s178.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "179" id = "C560S179000">
+-<sctitle>Oxy in acid moiety:</sctitle>
+-<parent ref = "C560S129000" doc = "Class560.sgm">subclass 129</parent>
+-<scdesc>Compounds wherein the acid radical contains the -OX group
+-attached to a noncarbonylic carbon, where X may be C, H, an alcoholate
+-forming group not provided for above, or an acyl group not provided
+-for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno184" impsize = "2.080in 1.500in"    filename = "c560s179.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "180" id = "C560S180000">
+-<sctitle>Polycarboxylic acid:</sctitle>
+-<parent ref = "C560S179000" doc = "Class560.sgm">subclass 179</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-carboxyl group, at least one of which is esterified.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass also contains compounds wherein an unesterified
+-carboxyl may appear in free acid form or has been converted into
+-a salt or acid halide.  Where the carboxyl group has been converted
+-into an amide, the compound is classified in subclasses 155&plus;.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno185" impsize = "2.496in 1.755in"    filename = "c560s180.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "181" id = "C560S181000">
+-<sctitle>Unsaturation in acid moiety:</sctitle>
+-<parent ref = "C560S180000" doc = "Class560.sgm">subclass 180</parent>
+-<scdesc>Compounds wherein the acid radical contains an ethylenic
+-double bond or a triple bond.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno186" impsize = "2.184in 1.944in"    filename = "c560s181.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "182" id = "C560S182000">
+-<sctitle>Polyoxy alcohol moiety:</sctitle>
+-<parent ref = "C560S180000" doc = "Class560.sgm">subclass 180</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-in addition to the esterified OH group, an -OX group attached to
+-a noncarbonylic carbon, wherein X may be C, H, an alcoholate forming
+-group not provided for above, or an acyl group not provided for
+-above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno187" impsize = "2.184in 2.286in"    filename = "c560s182.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "183" id = "C560S183000">
+-<sctitle>Unsaturation in acid moiety:</sctitle>
+-<parent ref = "C560S179000" doc = "Class560.sgm">subclass 179</parent>
+-<scdesc>Compounds wherein the acid radical contains an ethylenic
+-double bond or a triple bond.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno188" impsize = "2.283in 2.232in"    filename = "c560s183.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "184" id = "C560S184000">
+-<sctitle>Halogen in acid moiety:</sctitle>
+-<parent ref = "C560S179000" doc = "Class560.sgm">subclass 179</parent>
+-<scdesc>Compounds wherein the acid radical contains covalently bonded
+-halogen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno189" impsize = "2.304in 2.925in"    filename = "c560s184.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "185" id = "C560S185000">
+-<sctitle>Acylated oxy in acid moiety:</sctitle>
+-<parent ref = "C560S179000" doc = "Class560.sgm">subclass 179</parent>
+-<scdesc>Compounds wherein a hydroxy group of the esterified acid
+-radical has been esterified by an acyl group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Lactyl lactate is classified in subclass 179, but lactyl
+-acetoxy lactate is placed here.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno190" impsize = "2.432in 2.096in"    filename = "c560s185.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "186" id = "C560S186000">
+-<sctitle>Polyoxy acid moiety:</sctitle>
+-<parent ref = "C560S179000" doc = "Class560.sgm">subclass 179</parent>
+-<scdesc>Compounds wherein the acid radical contains more than one
+-oxy group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno191" impsize = "2.376in 1.872in"    filename = "c560s186.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "187" id = "C560S187000">
+-<sctitle>Alkoxy in acid moiety:</sctitle>
+-<parent ref = "C560S179000" doc = "Class560.sgm">subclass 179</parent>
+-<scdesc>Compounds wherein the X of the -OX group in the acid radical
+-is C which is part of an alkyl group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno192" impsize = "2.544in 1.719in"    filename = "c560s187.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "188" id = "C560S188000">
+-<sctitle>Cyclic alcohol moiety:</sctitle>
+-<parent ref = "C560S179000" doc = "Class560.sgm">subclass 179</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-a carbocyclic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno193" impsize = "2.640in 1.160in"    filename = "c560s188.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "189" id = "C560S189000">
+-<sctitle>Polyoxy alcohol moiety:</sctitle>
+-<parent ref = "C560S179000" doc = "Class560.sgm">subclass 179</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains,
+-in addition to the esterified OH, another -OX group attached to
+-a noncarbonylic C, where X may be C, H, an alcoholate forming group
+-not provided for above, or an acyl group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno194" impsize = "2.160in 1.160in"    filename = "c560s189-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno195" impsize = "2.160in 1.080in"    filename = "c560s189-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "190" id = "C560S190000">
+-<sctitle>Polycarboxylic acid:</sctitle>
+-<parent ref = "C560S129000" doc = "Class560.sgm">subclass 129</parent>
+-<scdesc>Compounds which contain more than one carboxyl group, at
+-least one of which is esterified.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass also contains compounds wherein an unesterified
+-carboxyl may be present in free acid form or has been converted
+-into a salt or an acid halide.  Where an unesterified carboxyl has
+-been converted into an amide, see subclasses 155&plus;.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno196" impsize = "2.496in 2.286in"    filename = "c560s190.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "191" id = "C560S191000">
+-<sctitle>Purification or recovery:</sctitle>
+-<parent ref = "C560S190000" doc = "Class560.sgm">subclass 190</parent>
+-<scdesc>Processes which are directed to the purification, separation
+-or recovery of acyclic polycarboxylic acid esters.</scdesc></subclass>
+-<subclass subnum = "192" id = "C560S192000">
+-<sctitle>Halogen in acid moiety:</sctitle>
+-<parent ref = "C560S190000" doc = "Class560.sgm">subclass 190</parent>
+-<scdesc>Compounds wherein the acid radical contains halogen covalently
+-bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  For the purpose of this subclass, compounds wherein
+-an unesterified carboxyl has been converted into an acyl halide
+-are not considered halogenated acids.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno197" impsize = "2.088in 1.719in"    filename = "c560s192.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "193" id = "C560S193000">
+-<sctitle>Cyclic alcohol moiety:</sctitle>
+-<parent ref = "C560S190000" doc = "Class560.sgm">subclass 190</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-a carbocyclic group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno198" impsize = "2.544in 1.386in"    filename = "c560s193-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno199" impsize = "2.027in 1.200in"    filename = "c560s193-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "194" id = "C560S194000">
+-<sctitle>Plural rings in alcohol moiety:</sctitle>
+-<parent ref = "C560S193000" doc = "Class560.sgm">subclass 193</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-more than one carbocyclic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno200" impsize = "2.352in 2.619in"    filename = "c560s194.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "195" id = "C560S195000">
+-<sctitle>Phosphorus or sulfur in alcohol moiety: </sctitle>
+-<parent ref = "C560S190000" doc = "Class560.sgm">subclass 190</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-sulfur or phosphorus covalently bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno201" impsize = "2.352in 1.872in"    filename = "c560s195.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "196" id = "C560S196000">
+-<sctitle>Nitrogen in alcohol moiety:</sctitle>
+-<parent ref = "C560S190000" doc = "Class560.sgm">subclass 190</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-nitrogen covalently bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno202" impsize = "2.736in 1.980in"    filename = "c560s196.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "197" id = "C560S197000">
+-<sctitle>Halogen in alcohol moiety:</sctitle>
+-<parent ref = "C560S190000" doc = "Class560.sgm">subclass 190</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains
+-halogen covalently bonded.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno203" impsize = "2.544in 1.755in"    filename = "c560s197.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "198" id = "C560S198000">
+-<sctitle>Polyoxy alcohol moiety:</sctitle>
+-<parent ref = "C560S190000" doc = "Class560.sgm">subclass 190</parent>
+-<scdesc>Compounds wherein the alcohol moiety of the ester contains,
+-in addition to the esterified OH, an -OX attached to a noncarbonylic
+-C, where X may be C, H, and alcoholate forming group not provided
+-for above, or an acyl group not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno204" impsize = "2.560in 1.120in"    filename = "c560s198.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "199" id = "C560S199000">
+-<sctitle>Additional monooxy alcohol or monocarboxylic acid (e.g.,
+-complex esters, etc.):</sctitle>
+-<parent ref = "C560S198000" doc = "Class560.sgm">subclass 198</parent>
+-<scdesc>Compounds in which an additional monohydric alcohol or monocarboxylic
+-acid or both have been reacted.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass includes the so-called &ldquo;complex
+-esters&rdquo; which fall into the following three categories:</para>
+-<note2>
+-<para>I.  Monocarboxylic acid - polyhydric alcohol - (polycarboxylic
+-acid - polyhydric alcohol)x - Monocarboxylic acid.</para></note2>
+-<note2>
+-<para>II. Monohydric alcohol - polycarboxylic acid - (polyhydric
+-alcohol - polycarboxylic acid)x - Monohydric alcohol.</para></note2>
+-<note2>
+-<para>III. Monohydric alcohol - (polycarboxylic acid - polydydric
+-alcohol)x - Monocarboxylic acid.</para></note2></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass includes, for example:</para>
+-<figure><graphic boardno = "Boardno205" impsize = "2.496in 1.269in"    filename = "c560s199.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "200" id = "C560S200000">
+-<sctitle>Preparing esters from alkylene oxides: </sctitle>
+-<parent ref = "C560S198000" doc = "Class560.sgm">subclass 198</parent>
+-<scdesc>Processes in which an acyclic polycarboxylic acid ester
+-is produced by reaction with an alkylene oxide.</scdesc></subclass>
+-<subclass subnum = "201" id = "C560S201000">
+-<sctitle>Unsaturation in alcohol moiety:</sctitle>
+-<parent ref = "C560S190000" doc = "Class560.sgm">subclass 190</parent>
+-<scdesc>Compounds wherein the alcoholic moiety of the ester contains
+-an ethylenic double bond or a triple bond.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  For esters of unsubstituted acids of the acetic acid
+-series with phenols, see subclasses 130&plus;.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno206" impsize = "2.160in 1.683in"    filename = "c560s201.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "255" id = "C560S255000">
+-<sctitle>Plural rings in alcohol moiety:</sctitle>
+-<parent ref = "C560S254000" doc = "Class560.sgm">subclass 254</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains at least one
+-additional carbocyclic group.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno207" impsize = "2.160in 2.286in"    filename = "c560s255.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "256" id = "C560S256000">
+-<sctitle>Polycyclo - alicyclic ring system in alcohol moiety:</sctitle>
+-<parent ref = "C560S231000" doc = "Class560.sgm">subclass 231</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains a polyalicyclic
+-nucleus in which the rings are joined either through two ortho positioned carbons
+-or through a carbon bridge or both.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno208" impsize = "2.088in 2.700in"    filename = "c560s256.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C552S000000" doc = "Class552.sgm">552</classnum>
+-<subref><clstitle>Organic Compounds</clstitle>
+-<pretext></pretext>
+-<subnum range = "s" ref = "C552S653000" doc = "Class552.sgm">653</subnum></subref>
+-<descript><para> for esters of Vitamin D compounds, cholecalciferols,
+-activated 7-dehydrocholesterols, dihydrotachysterols, 3-5 cyclovitamin
+-D compounds, etc.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "257" id = "C560S257000">
+-<sctitle>Nor- or homo-cyclopentanohydrophenan-threnes:</sctitle>
+-<parent ref = "C560S256000" doc = "Class560.sgm">subclass 256</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains the structure,
+-illustrated below, wherein  is 0-2, but all n&quot;s may not
+-be equal to 1 at the same time.</scdesc>
+-<figure><graphic boardno = "Boardno209" impsize = "1.733in 1.120in"    filename = "c560s257-1.tif">
+-</figure>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  For compounds where all n&quot;s are equal to 1,
+-see Class 552, subclasses 502&plus;.</para></note1>
+-<note1 notenum = "(2)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno210" impsize = "2.533in 2.870in"    filename = "c560s257-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "258" id = "C560S258000">
+-<sctitle>Nor-a ring:</sctitle>
+-<parent ref = "C560S257000" doc = "Class560.sgm">subclass 257</parent>
+-<scdesc>Compounds wherein n&equals;0 in the A ring.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno211" impsize = "2.112in 2.475in"    filename = "c560s258.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "259" id = "C560S259000">
+-<sctitle>2, 6, 6-trialkyl cyclohexenyl in alcohol moiety:</sctitle>
+-<parent ref = "C560S231000" doc = "Class560.sgm">subclass 231</parent>
+-<scdesc>Compounds wherein the alcohol moiety is charcterized by
+-the presence of a 2, 6, 6-trialkyl cyclohexenyl group, e.g., carotenes.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno212" impsize = "2.352in 3.330in"    filename = "c560s259.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "260" id = "C560S260000">
+-<sctitle>Vitamin a alcohol moiety:</sctitle>
+-<parent ref = "C560S259000" doc = "Class560.sgm">subclass 259</parent>
+-<scdesc>Compounds wherein the alcohol moiety is Vitamin A.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno213" impsize = "2.747in 0.910in"    filename = "c560s260.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "261" id = "C560S261000">
+-<sctitle>Acyclic alcohol moiety having unsaturation:</sctitle>
+-<parent ref = "C560S231000" doc = "Class560.sgm">subclass 231</parent>
+-<scdesc>Compounds wherein the alcohol moiety is acyclic and contains
+-an ethylenic doule bond or a triple bond.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno214" impsize = "2.187in 0.910in"    filename = "c560s261-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno215" impsize = "1.600in 1.080in"    filename = "c560s261-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "262" id = "C560S262000">
+-<sctitle>Substituted:</sctitle>
+-<parent ref = "C560S261000" doc = "Class560.sgm">subclass 261</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains a substituent
+-other than a hydrocarbon and is not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno216" impsize = "2.613in 1.750in"    filename = "c560s262.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "263" id = "C560S263000">
+-<sctitle>Acyclic polyoxy alcohol moiety:</sctitle>
+-<parent ref = "C560S231000" doc = "Class560.sgm">subclass 231</parent>
+-<scdesc>Compounds wherein the alcohol moiety is acyclic and contains
+-in addition to the esterified OH group, another -OX group attached
+-to a noncarbonylic C, where X may be C, H, an alcoholate forming
+-group not provided for above, or an acyl group not provided for
+-above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno217" impsize = "2.613in 1.500in"    filename = "c560s263.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "264" id = "C560S264000">
+-<sctitle>Substituted:</sctitle>
+-<parent ref = "C560S263000" doc = "Class560.sgm">subclass 263</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains a substituent
+-other than a hydrocarbon and is not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno218" impsize = "2.320in 1.700in"    filename = "c560s264.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "265" id = "C560S265000">
+-<sctitle>Acyclic monohydric alcohol moiety: </sctitle>
+-<parent ref = "C560S231000" doc = "Class560.sgm">subclass 231</parent>
+-<scdesc>Compounds wherein the alcohol moiety is acyclic, saturated
+-and has no oxy group other than the one which is esterified.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno219" impsize = "1.867in 1.410in"    filename = "c560s265.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "266" id = "C560S266000">
+-<sctitle>Substituted:</sctitle>
+-<parent ref = "C560S265000" doc = "Class560.sgm">subclass 265</parent>
+-<scdesc>Compounds wherein the alcohol moiety contains a substituent
+-other than a hydrocarbon and is not provided for above.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  This subclass contains, for example:</para>
+-<figure><graphic boardno = "Boardno220" impsize = "2.480in 1.580in"    filename = "c560s266.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "300" id = "C560S300000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  wherein the hypoholite group,
+--O-halo, or the perhypohalite group, -O-O-halo, is bonded directly
+-to carbon, which carbon may be single bonded to any atom but may
+-be multiple bonded only to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Examples of compounds provided  for herein are:   
+-    </para>
+-<figure><graphic boardno = "Boardno221" impsize = "2.240in 2.120in"    filename = "c560s300.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "s" ref = "C588S406000" doc = "Class588.sgm">406</subnum></subref>
+-<descript><para> for the chemical destruction of organic hazardous
+-or toxic waste containing halogen.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "301" id = "C560S301000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  wherein the cyanate group,
+--O-C N is bonded directly to carbon, which carbon may be single
+-bonded to any atom but may be multiple bonded only to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:   </para>
+-<figure><graphic boardno = "Boardno222" impsize = "2.400in 1.410in"    filename = "c560s301.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "r" ref = "C588S408000" doc = "Class588.sgm">408</subnum></subref>
+-<descript><para> and 409 for the chemical destruction of organic
+-hazardous or toxic waste containing oxygen and nitrogen.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "302" id = "C560S302000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  having the group -C(&equals;X)-X-nX-,
+-wherein the X&quot;s may be the same or diverse chalcogens (i.e.,
+-oxygen, sulfur, selenium or tellurium), nX is a divalent chalcogen
+-or a chain of divalent chalcogens, and a single bonded X is bonded
+-directly to carbon, which carbon may be single bonded to any atom
+-but may be multiple bonded only to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Examples of compounds provided   for herein are:  
+-             </para>
+-<figure><graphic boardno = "Boardno223" impsize = "2.640in 3.636in"    filename = "c560s302.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "r" ref = "C588S408000" doc = "Class588.sgm">408</subnum></subref>
+-<descript><para> and 409 for the chemical destruction of organic
+-hazardous or toxic waste containing chalcogens or nitrogen.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "303" id = "C560S303000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  having the sulfohydroxamate
+-group or a chalcogen analogue thereof, -S(&equals;O)(&equals;O-NH-X-wherein
+-X is chalcogen (i.e., oxygen, sulfur, selenium or tellurium) and
+-substitution may be made for hydrogen only, and wherein the X is
+-bonded directly to carbon, which carbon may be single bonded to
+-any atom but may be multiple bonded only to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Examples of compounds provided for herein are:    
+-   </para>
+-<figure><graphic boardno = "Boardno224" impsize = "2.613in 2.250in"    filename = "c560s303.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "r" ref = "C588S406000" doc = "Class588.sgm">406</subnum></subref>
+-<descript><para>, 408 and 409 for the chemical destruction of organic
+-hazardous or toxic waste containing halogen, chalcogen, or nitrogen.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "304" id = "C560S304000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  wherein the peroxynitrate
+-group, -O-O-N(&equals;O)(&equals;O), is bonded directly to carbon,
+-which carbon may be single bonded to any atom but may be multiple
+-bonded only to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+-      </para>
+-<figure><graphic boardno = "Boardno225" impsize = "1.573in 1.200in"    filename = "c560s304.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "r" ref = "C588S408000" doc = "Class588.sgm">408</subnum></subref>
+-<descript><para> and 409 for the chemical destruction of organic
+-hazardous or toxic waste containing oxygen or nitrogen.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "305" id = "C560S305000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  having the -X-X- group,
+-wherein the X&quot;s are the same or diverse chalcogens (i.e.,
+-oxygen, sulfur, selenium or tellurium), bonded directly to boron and
+-to carbon, which carbon may be single bonded to any atom but may
+-be multiple bonded only to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+-         </para>
+-<figure><graphic boardno = "Boardno226" impsize = "1.867in 1.080in"    filename = "c560s305.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "s" ref = "C588S409000" doc = "Class588.sgm">409</subnum></subref>
+-<descript><para> for the chemical destruction of organic hazardous
+-or toxic waste containing chalcogens.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "306" id = "C560S306000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  wherein the perhalate group,
+--O-halo(&equals;O)(&equals;O)(&equals;O), is bonded directly
+-to carbon which carbon may be single bonded to any atom but may
+-be multiple bonded only to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+-      </para>
+-<figure><graphic boardno = "Boardno227" impsize = "1.653in 0.950in"    filename = "c560s306.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "s" ref = "C588S409000" doc = "Class588.sgm">409</subnum></subref>
+-<descript><para> for the chemical destruction of organic hazardous
+-or toxic waste containing oxygen.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "307" id = "C560S307000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  having the -S(&equals;O)(&equals;O)-S-
+-group wherein the divalent sulfur is bonded directly to carbon,
+-which carbon may be single bonded to any atom but may be multiple
+-bonded only to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:   </para>
+-<figure><graphic boardno = "Boardno228" impsize = "2.347in 1.040in"    filename = "c560s307.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "r" ref = "C588S406000" doc = "Class588.sgm">406</subnum></subref>
+-<descript><para> and 409 for the chemical destruction of organic
+-hazardous or toxic waste containing halogens or chalcogens.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "308" id = "C560S308000">
+-<parent ref = "C560S307000" doc = "Class560.sgm">subclass 307</parent>
+-<scdesc>Compounds wherein the hexavalent sulfur of the -S(&equals;O)(&equals;O)-S-
+-group is bonded directly to oxygen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+-  </para>
+-<figure><graphic boardno = "Boardno229" impsize = "2.347in 0.790in"    filename = "c560s308.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "309" id = "C560S309000">
+-<parent ref = "C560S308000" doc = "Class560.sgm">subclass 308</parent>
+-<scdesc>Compound wherein the -S(&equals;O)(&equals;O)-S- group is
+-attached indirectly to nitrogen by nonionic bonding.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+- </para>
+-<figure><graphic boardno = "Boardno230" impsize = "2.853in 1.540in"    filename = "c560s309.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "310" id = "C560S310000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  having the -S-(&equals;O)-S-
+-group wherein the divalent sulfur is bonnded directly to carbon,
+-which carbon may be single bonded to any atom but may be multiple
+-bonded only to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Examples of compounds provided for herein are:    
+-      </para>
+-<figure><graphic boardno = "Boardno231" impsize = "2.000in 1.790in"    filename = "c560s310.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "s" ref = "C588S409000" doc = "Class588.sgm">409</subnum></subref>
+-<descript><para> for the chemical destruction of organic hazardous
+-or toxic waste containing chalcogens.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "311" id = "C560S311000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  having the perhydroxamate
+-group or a chalcogen analogue thereof, -C(&equals;X)-NH-X-X-,
+-wherein the X&quot;s may be the same or diverse chalcogens (i.e., oxygen,
+-sulfur, selenium or tellurium) and substitution may be made for
+-hydrogen only, and wherein the single bonded X is bonded directly to
+-carbon, which carbon may be single bonded to any atom but may be
+-multiple bonded only to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+-    </para>
+-<figure><graphic boardno = "Boardno232" impsize = "2.827in 0.870in"    filename = "c560s311.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "r" ref = "C588S408000" doc = "Class588.sgm">408</subnum></subref>
+-<descript><para> and 409 for the chemical destruction of organic
+-hazardous or toxic waste containing chalcogen and nitrogen.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "312" id = "C560S312000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  having the hydroxmate group
+-or a chalcogen analogue thereof, -C(&equals;X)-NH-X-, wherein
+-the X&quot;s may be the same or diverse chalcogens (i.e., oxygen,
+-sulfur, selenium or tellurium) and substitution may be made for
+-hydrogen only, and wherein the single bonded X is bonded directly to
+-carbon, which carbon may be single bonded to any atom but may be
+-multiple bonded only to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Examples of compounds provided for herein  are:   
+-        </para>
+-<figure><graphic boardno = "Boardno233" impsize = "2.560in 1.620in"    filename = "c560s312.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "r" ref = "C588S408000" doc = "Class588.sgm">408</subnum></subref>
+-<descript><para> and 409 for the chemical destruction of organic
+-hazardous or toxic waste containing oxygen or nitrogen.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "313" id = "C560S313000">
+-<parent ref = "C560S312000" doc = "Class560.sgm">subclass 312</parent>
+-<scdesc>Compounds wherein the carbon of the -C(&equals;X)-NH-X-
+-group is bonded directly to nitrogen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+- </para>
+-<figure><graphic boardno = "Boardno234" impsize = "2.560in 1.000in"    filename = "c560s313.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "314" id = "C560S314000">
+-<parent ref = "C560S313000" doc = "Class560.sgm">subclass 313</parent>
+-<scdesc>Compounds wherein the substituent nitrogen is bonded directly
+-to acyclic or alicyclic carbon, or wherein the single bonded X is
+-sulfur.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Examples of compounds provided for  herein are:   
+-       </para>
+-<figure><graphic boardno = "Boardno235" impsize = "2.347in 0.870in"    filename = "c560s314-1.tif">
+-</figure>
+-<figure><graphic boardno = "Boardno236" impsize = "2.347in 1.540in"    filename = "c560s314-2.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "315" id = "C560S315000">
+-<parent ref = "C560S312000" doc = "Class560.sgm">subclass 312</parent>
+-<scdesc>Compounds wherein the carbon of the -C(&equals;X)-NH-X-
+-group is bonded directly to a carbocyclic ring.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Examples of compounds provided  for  herein are:  
+-       </para>
+-<figure><graphic boardno = "Boardno237" impsize = "2.347in 2.790in"    filename = "c560s315.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "316" id = "C560S316000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  wherein the hyponitrite
+-group, -O-N&equals;N-O-, is bonded directly to carbon, which carbon
+-may be single bonded to any atom but may be multiple bonded only
+-to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+-          </para>
+-<figure><graphic boardno = "Boardno238" impsize = "2.747in 1.330in"    filename = "c560s316.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "r" ref = "C588S408000" doc = "Class588.sgm">408</subnum></subref>
+-<descript><para> and 409 for the chemical destruction of organic
+-hazardous or toxic waste containing oxygen or nitrogen.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "317" id = "C560S317000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  wherein the -N&equals;S&equals;O
+-group is bonded directly to carbon, which carbon may be single bonded
+-to any atom but may be multiple bonded only to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:   </para>
+-<figure><graphic boardno = "Boardno239" impsize = "2.080in 0.620in"    filename = "c560s317.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "r" ref = "C588S406000" doc = "Class588.sgm">406</subnum></subref>
+-<descript><para>, 408 and 409 for the chemical destruction of organic
+-hazardous or toxic waste containing halogen, sulfur, oxygen, or
+-nitrogen.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "318" id = "C560S318000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  wherein the terminal oxygen
+-of a -S(&equals;O)(&equals;O)-O-O- group is bonded directly
+-to carbon, which carbon may be single bonded to any atom but may
+-be multiple bonded only to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein  is: 
+-  </para>
+-<figure><graphic boardno = "Boardno240" impsize = "2.613in 0.750in"    filename = "c560s318.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "s" ref = "C588S409000" doc = "Class588.sgm">409</subnum></subref>
+-<descript><para> for the chemical destruction of organic hazardous
+-or toxic waste containing sulfur and oxygen.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "319" id = "C560S319000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  wherein the perthioimidate
+-group, HN&equals;CH-S-S-, may be single bonded directly to any
+-atom but may be multiple bonded only to carbon, and substitution
+-may be made for hydrogen only.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+-    </para>
+-<figure><graphic boardno = "Boardno241" impsize = "2.613in 1.160in"    filename = "c560s319.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "r" ref = "C588S406000" doc = "Class588.sgm">406</subnum></subref>
+-<descript><para>, 408 and 409 for the chemical destruction of organic
+-hazardous or toxic waste containing halogen, sulfur, or nitrogen.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "330" id = "C560S330000">
+-<parent ref = "C560S001000" doc = "Class560.sgm">subclass 1</parent>
+-<scdesc>Compounds under Class 532, ...  wherein the isocyanate group,
+--N&equals;C&equals;O, is bonded directly to carbon, which carbon
+-may be single bonded to any atom but may be multiple bonded only to
+-carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+- </para>
+-<figure><graphic boardno = "Boardno242" impsize = "2.613in 1.160in"    filename = "c560s330.tif">
+-</figure></note1></notes>
+-<srchout>
+-<crecord><classnum ref = "C588S000000" doc = "Class588.sgm">588</classnum>
+-<subref><clstitle>Hazardous or Toxic Waste Destruction or Containment</clstitle>
+-<pretext></pretext>
+-<subnum range = "r" ref = "C588S406000" doc = "Class588.sgm">406</subnum></subref>
+-<descript><para>, 408, and 409 for the chemical destruction of organic
+-hazardous or toxic waste containing, halogen, oxygen, sulfur, phosphorus,
+-or nitrogen.</para></descript></crecord></srchout></subclass>
+-<subclass subnum = "331" id = "C560S331000">
+-<parent ref = "C560S330000" doc = "Class560.sgm">subclass 330</parent>
+-<scdesc>Products which contain an isocyanate ester in admixture
+-with a preserving or stabilizing agent whose sole function is to
+-prevent physical or chemical change.</scdesc></subclass>
+-<subclass subnum = "332" id = "C560S332000">
+-<parent ref = "C560S331000" doc = "Class560.sgm">subclass 331</parent>
+-<scdesc>Products wherein the preserving or stabilizing agent contains
+-nitrogen.</scdesc></subclass>
+-<subclass subnum = "333" id = "C560S333000">
+-<parent ref = "C560S331000" doc = "Class560.sgm">subclass 331</parent>
+-<scdesc>Products wherein the preserving or stabilizing agent contains
+-phosphorus, silicon or a phenolic hydroxy group.</scdesc></subclass>
+-<subclass subnum = "334" id = "C560S334000">
+-<parent ref = "C560S330000" doc = "Class560.sgm">subclass 330</parent>
+-<scdesc>Compounds which contain the carbodiimide group, -N&equals;C&equals;N-.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+-  </para>
+-<figure><graphic boardno = "Boardno243" impsize = "2.613in 1.000in"    filename = "c560s334.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "335" id = "C560S335000">
+-<parent ref = "C560S330000" doc = "Class560.sgm">subclass 330</parent>
+-<scdesc>Compounds which contain the biuret group,     -NH-C(&equals;0)-NH-C(&equals;O)
+--NH-, wherein substitution may be made for hydrogen only.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note. An example of a compound provided for herein is:   </para>
+-<figure><graphic boardno = "Boardno244" impsize = "2.613in 1.330in"    filename = "c560s335.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "336" id = "C560S336000">
+-<parent ref = "C560S330000" doc = "Class560.sgm">subclass 330</parent>
+-<scdesc>Processes which are directed to the preparation, purification,
+-recovery, or treatment in any way of an isocyanate ester.</scdesc></subclass>
+-<subclass subnum = "337" id = "C560S337000">
+-<parent ref = "C560S336000" doc = "Class560.sgm">subclass 336</parent>
+-<scdesc>Processes wherein isocyanic acid, H-N&equals;C&equals;O, or
+-a salt thereof, is employed as a reactant.</scdesc></subclass>
+-<subclass subnum = "338" id = "C560S338000">
+-<parent ref = "C560S336000" doc = "Class560.sgm">subclass 336</parent>
+-<scdesc>Processes which involve the formation of the isocyanate
+-group, -N&equals;C&equals;O.</scdesc></subclass>
+-<subclass subnum = "339" id = "C560S339000">
+-<parent ref = "C560S338000" doc = "Class560.sgm">subclass 338</parent>
+-<scdesc>Process wherein there is utilized a reactant which contains
+-the cyanate group, -O-C&equals;N.</scdesc></subclass>
+-<subclass subnum = "340" id = "C560S340000">
+-<parent ref = "C560S338000" doc = "Class560.sgm">subclass 338</parent>
+-<scdesc>Process wherein there is utilized a reactant which contains
+-a hetero ring.</scdesc></subclass>
+-<subclass subnum = "341" id = "C560S341000">
+-<parent ref = "C560S338000" doc = "Class560.sgm">subclass 338</parent>
+-<scdesc>Processes wherein carbon monoxide is utilized in any way.</scdesc></subclass>
+-<subclass subnum = "342" id = "C560S342000">
+-<parent ref = "C560S341000" doc = "Class560.sgm">subclass 341</parent>
+-<scdesc>Processes wherein there is utilized a reactant which contains
+-a nitro group bonded directly to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a process provided for herein is:   
+-   </para>
+-<figure><graphic boardno = "Boardno245" impsize = "2.613in 1.080in"    filename = "c560s342.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "343" id = "C560S343000">
+-<parent ref = "C560S338000" doc = "Class560.sgm">subclass 338</parent>
+-<scdesc>Processes wherein there is utilized a reactant that contains
+-the azide group, -N<subscrpt>3</subscrpt>.</scdesc></subclass>
+-<subclass subnum = "344" id = "C560S344000">
+-<parent ref = "C560S338000" doc = "Class560.sgm">subclass 338</parent>
+-<scdesc>Processes wherein there is utilized a reactant that contains
+-the -NH-C (&equals;O)-NH- group, wherein substitution may be made
+-for hydrogen only.</scdesc></subclass>
+-<subclass subnum = "345" id = "C560S345000">
+-<parent ref = "C560S338000" doc = "Class560.sgm">subclass 338</parent>
+-<scdesc>Processes wherein there is utilized a reactant that contains
+-the carbamate group, -O-C(&equals;O)-NH, wherein substitution
+-may be made for hydrogen only.</scdesc></subclass>
+-<subclass subnum = "346" id = "C560S346000">
+-<parent ref = "C560S338000" doc = "Class560.sgm">subclass 338</parent>
+-<scdesc>Processes wherein there is utilized a reactant that contains
+-carbon double or triple bonded to nitrogen.</scdesc></subclass>
+-<subclass subnum = "347" id = "C560S347000">
+-<parent ref = "C560S338000" doc = "Class560.sgm">subclass 338</parent>
+-<scdesc>Processes wherein there is utilized a carbonyl dihalide
+-reactant, X-C(&equals;O)-X, wherein X represents halogen.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  The classical isocyanate synthesis phosgenation of
+-an amine, is provided for herein.</para></note1></notes></subclass>
+-<subclass subnum = "348" id = "C560S348000">
+-<parent ref = "C560S338000" doc = "Class560.sgm">subclass 338</parent>
+-<scdesc>Processes wherein there is utilized a carbamyl halide reactant,
+-halo-C(&equals;O)-NH-, wherein substitution may be made for hydrogen
+-only.</scdesc></subclass>
+-<subclass subnum = "349" id = "C560S349000">
+-<parent ref = "C560S336000" doc = "Class560.sgm">subclass 336</parent>
+-<scdesc>Processes wherein an isocyanate ester is halogenated.</scdesc></subclass>
+-<subclass subnum = "350" id = "C560S350000">
+-<parent ref = "C560S336000" doc = "Class560.sgm">subclass 336</parent>
+-<scdesc>Processes wherein an isocyanate group on one reactant and
+-a different functional group on a second reactant undergo an exchange
+-reaction.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note. An example of a process provided for herein  is:   
+-         </para>
+-<figure><graphic boardno = "Boardno246" impsize = "2.613in 1.540in"    filename = "c560s350.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "351" id = "C560S351000">
+-<parent ref = "C560S336000" doc = "Class560.sgm">subclass 336</parent>
+-<scdesc>Processes wherein an iscoyanate ester of known structure
+-is reacted to yield products of indeterminate structure.</scdesc></subclass>
+-<subclass subnum = "352" id = "C560S352000">
+-<parent ref = "C560S336000" doc = "Class560.sgm">subclass 336</parent>
+-<scdesc>Processes wherein an isocyanate ester is separated from
+-impurities, or from the reaction medium.</scdesc></subclass>
+-<subclass subnum = "353" id = "C560S353000">
+-<parent ref = "C560S352000" doc = "Class560.sgm">subclass 352</parent>
+-<scdesc>Processes wherein a metal or an epoxy compound is utilized.</scdesc></subclass>
+-<subclass subnum = "354" id = "C560S354000">
+-<parent ref = "C560S330000" doc = "Class560.sgm">subclass 330</parent>
+-<scdesc>Compounds which contain a polycyclo ring system having an
+-alicyclic ring as onne of the cyclos.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Examples of compounds provided for herein are:    
+-     </para>
+-<figure><graphic boardno = "Boardno247" impsize = "2.000in 2.580in"    filename = "c560s354.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "355" id = "C560S355000">
+-<parent ref = "C560S330000" doc = "Class560.sgm">subclass 330</parent>
+-<scdesc>Compounds wherein the isocyanate group is bonded directly
+-to an acyclic carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  Example of compounds provided for  herein   are:  
+-      </para>
+-<figure><graphic boardno = "Boardno248" impsize = "2.320in 1.950in"    filename = "c560s355.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "356" id = "C560S356000">
+-<parent ref = "C560S355000" doc = "Class560.sgm">subclass 355</parent>
+-<scdesc>Compounds wherein the isocyanate group is attached indirectly
+-to halogen by acyclic nonionic bonding.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+-  </para>
+-<figure><graphic boardno = "Boardno249" impsize = "1.600in 0.500in"    filename = "c560s356.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "357" id = "C560S357000">
+-<parent ref = "C560S355000" doc = "Class560.sgm">subclass 355</parent>
+-<scdesc>Compounds wherein the isocyanate group is attached indirectly
+-by acyclic nonionic bonding to chalcogen, which is single bonded
+-directly to carbon.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+-      </para>
+-<figure><graphic boardno = "Boardno250" impsize = "2.480in 0.790in"    filename = "c560s357.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "358" id = "C560S358000">
+-<parent ref = "C560S330000" doc = "Class560.sgm">subclass 330</parent>
+-<scdesc>Compounds wherein the isocyanate group is bonded directly
+-to a benzene ring.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+-    </para>
+-<figure><graphic boardno = "Boardno251" impsize = "2.027in 0.950in"    filename = "c560s358.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "359" id = "C560S359000">
+-<parent ref = "C560S358000" doc = "Class560.sgm">subclass 358</parent>
+-<scdesc>Compounds wherein isocyanate groups are bonded directly
+-to more than one benzene ring.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+-      </para>
+-<figure><graphic boardno = "Boardno252" impsize = "2.560in 0.870in"    filename = "c560s359.tif">
+-</figure></note1></notes></subclass>
+-<subclass subnum = "360" id = "C560S360000">
+-<parent ref = "C560S358000" doc = "Class560.sgm">subclass 358</parent>
+-<scdesc>Compounds wherein plural isocyanate groups are bonded directly
+-to the same benzene ring.</scdesc>
+-<notes><note1 notenum = "(1)">
+-<para>Note.  An example of a compound provided for herein is:  
+-    </para>
+-<figure><graphic boardno = "Boardno253" impsize = "2.267in 1.660in"    filename = "c560s360.tif">
+-</figure></note1></notes></subclass></sclasses>
+-</class>
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE class PUBLIC "-//USPTO//DTD Classification Definitions//EN" "xclassdef.dtd" [
++]>
++<?xml-stylesheet href="classdef.xsl" type="text/XSL"?>
++
++<class classnum = "560" id = "C560S000000"><title>ORGANIC COMPOUNDS
++-- PART OF THE CLASS 532-570 SERIES </title>
++<sections><descsect>
++<para>This Class 560 is to be considered as an integral part of Class 260
++(see the Class 260 schedule for the position of this Class in schedule hierarchy).
++This Class retains all pertinent definitions and class lines of Class 260.</para>
++</descsect></sections>
+ <sclasses><subclass subnum="1" id="C560S001000"><sctitle>Carboxylic acid esters:</sctitle><parent ref="C560S001000" doc="Class560.sgm">subclass 1</parent><scdesc>Compounds under Class 532, ...  wherein the acid function
+ entering into the formation of the esters is a carboxyl group.</scdesc><notes><note1 notenum="(1)"><para>Note.  The traditional manner of naming esters has been to
+ define the acid and alcohol moieties that are interracted. The basis
