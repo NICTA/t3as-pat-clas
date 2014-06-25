@@ -37,18 +37,21 @@ object Indexer {
     val t = new FieldType
     t.setIndexed(true)
     t.setTokenized(tokenized)
-    t.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS)
+    t.setIndexOptions(opt)
     t.setStored(stored)
     t.freeze()
     t
   }
   
   val keywordFieldType = mkFieldType(false, true, DOCS_AND_FREQS)
-  // _AND_OFFSETS needed for PostingsHighlighter. Also needs stored field
   // Typical default to support phrase queries is DOCS_AND_FREQS_AND_POSITIONS
+  // _AND_OFFSETS needed for PostingsHighlighter. Also needs stored field.
   val textFieldType = mkFieldType(true, true, DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS)
   // TODO: could I get highlighting to use the stemmed stored field and avoid storing the unstemmed field (it's the same data)
-  val unstemmedTextFieldType = mkFieldType(true, true, DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS)
+  val textFieldUnstemmedType = textFieldType
+  
+  val hTextType = mkFieldType(true, false, DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS)
+  val hTextUnstemmedType = hTextType
 }
 
 class Indexer[T](analyzer: Analyzer, dir: Directory, mkDoc: T => Document) extends Closeable {

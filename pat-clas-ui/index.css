@@ -12,20 +12,22 @@ label, .label {
     font-weight: bold;
 }
 
-.browser {
-    margin-left: 20px;
-}
-
-#browserLinks {
+#schemaFormContent {
 	position: relative;
 }
 
-#browserLinks > a {
-	position: absolute;
-	padding-left: 5px;
+#schemaFormContent > .browserLabel {
+    margin-left: 20px;
 }
 
-#browserLinks > a.hidden {
+#schemaFormContent > div.browserLink {
+	position: absolute;
+	top: 2px;
+	left: 410px;
+	width: 500px;
+}
+
+#schemaFormContent > div.hidden {
 	visibility: hidden;
 }
 

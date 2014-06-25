@@ -83,7 +83,7 @@ object CPCUtil {
   /** Names of CPC fields in the Lucene index. */
   object IndexFieldName extends Enumeration {
     type IndexFieldName = Value
-    val Symbol, Level, ClassTitle, ClassTitleUnstemmed, NotesAndWarnings, NotesAndWarningsUnstemmed = Value
+    val Symbol, Level, ClassTitle, ClassTitleUnstemmed, NotesAndWarnings, NotesAndWarningsUnstemmed, HText, HTextUnstemmed = Value
 
     implicit def convert(f: IndexFieldName) = f.toString
   }
@@ -91,16 +91,24 @@ object CPCUtil {
   
   val textFields: List[String] = List(ClassTitle, NotesAndWarnings)
   val unstemmedTextFields: List[String] = List(ClassTitleUnstemmed, NotesAndWarningsUnstemmed) // in pref order for suggester
+
+  val analyzerTextFields: List[String] = HText :: textFields
+  val analyzerUnstemmedTextFields: List[String] = HTextUnstemmed :: unstemmedTextFields
+  
   val hitFields: List[String] = List(Symbol, Level) // fields to retrieve from search hits, in addition to textFields/unstemmedTextFields
   
   def mkHit(score: Float, stem: Boolean, f: Map[String, String], h: Map[String, String]) = {
-    def getH(s: String) = h.getOrElse(s, f.getOrElse(s, ""))
-    def getHU(s: String) = h.getOrElse(s, f.getOrElse(s, "").toUpperCase)
+    val getH =
+      if (stem) (s: String, u: String) => h.getOrElse(s, h.getOrElse(u, f.getOrElse(s, "")))
+      else (s: String, u: String) => h.getOrElse(u, h.getOrElse(s, f.getOrElse(u, "")))
+    
+    val s = f(Symbol).toUpperCase
     CPCHit(score,
-      HitSymbol(f(Symbol).toUpperCase, getHU(Symbol)),
+      HitSymbol(s, s),
       f(Level).toInt, 
-      getH(if (stem) ClassTitle else ClassTitleUnstemmed), 
-      getH(if (stem) NotesAndWarnings else NotesAndWarningsUnstemmed))
+      getH(ClassTitle, ClassTitleUnstemmed), 
+      getH(NotesAndWarnings, NotesAndWarningsUnstemmed)
+    )
   }
 
   /** Entity class mapping to a database row representing a CPC Classification Symbol.
@@ -126,7 +134,7 @@ object IPCUtil {
    */
   object IndexFieldName extends Enumeration {
     type IndexFieldName = Value
-    val Symbol, SymbolRaw, Level, Kind, TextBody, TextBodyUnstemmed = Value
+    val Symbol, SymbolRaw, Level, Kind, TextBody, TextBodyUnstemmed, HText, HTextUnstemmed = Value
 
     implicit def convert(f: IndexFieldName) = f.toString
   }
@@ -134,18 +142,27 @@ object IPCUtil {
   
   val textFields: List[String] = List(TextBody)
   val unstemmedTextFields: List[String] = List(TextBodyUnstemmed)
+
+  val analyzerTextFields: List[String] = HText :: textFields
+  val analyzerUnstemmedTextFields: List[String] = HTextUnstemmed :: unstemmedTextFields
+  
   val hitFields: List[String] = List(Symbol, SymbolRaw, Level, Kind)
   
   def mkHit(score: Float, stem: Boolean, f: Map[String, String], h: Map[String, String]) = {
-    def getH(s: String) = h.getOrElse(s, f.getOrElse(s, ""))
-    def getHU(s: String) = h.getOrElse(s, f.getOrElse(s, "").toUpperCase)
-    IPCHit(score, HitSymbol(f(SymbolRaw), getHU(Symbol)), f(Level).toInt, f(Kind), getH(if (stem) TextBody else TextBodyUnstemmed))
+    val getH =
+      if (stem) (s: String, u: String) => h.getOrElse(s, h.getOrElse(u, f.getOrElse(s, "")))
+      else (s: String, u: String) => h.getOrElse(u, h.getOrElse(s, f.getOrElse(u, "")))
+    
+      IPCHit(score, 
+        HitSymbol(f(SymbolRaw), f(Symbol).toUpperCase), 
+        f(Level).toInt, 
+        f(Kind), 
+        getH(TextBody, TextBodyUnstemmed)
+      )
   }
   
-  /** Entity class mapping to a database row representing a IPCEntry
-    */
+  /** Entity class mapping to a database row representing a IPCEntry */
   case class IPCEntry(id: Option[Int], parentId: Int, level: Int, kind: String, symbol: String, endSymbol: Option[String], textBody: String) {
-
     def toDescription(text: String => String) = IPCDescription(id.get, symbol, level, kind, text(textBody))
   }
 
@@ -175,7 +192,7 @@ object USPCUtil {
   /** Names of USPC fields in the Lucene index. */
   object IndexFieldName extends Enumeration {
     type IndexFieldName = Value
-    val Symbol, ClassTitle, ClassTitleUnstemmed, SubClassTitle, SubClassTitleUnstemmed, SubClassDescription, SubClassDescriptionUnstemmed, Text, TextUnstemmed = Value
+    val Symbol, ClassTitle, ClassTitleUnstemmed, SubClassTitle, SubClassTitleUnstemmed, SubClassDescription, SubClassDescriptionUnstemmed, Text, TextUnstemmed, HText, HTextUnstemmed = Value
 
     implicit def convert(f: IndexFieldName) = f.toString
   }
@@ -183,17 +200,25 @@ object USPCUtil {
   
   val textFields: List[String] = List(ClassTitle, SubClassTitle, SubClassDescription, Text)
   val unstemmedTextFields: List[String] = List(TextUnstemmed, SubClassDescriptionUnstemmed, SubClassTitleUnstemmed, ClassTitleUnstemmed) // in pref order for suggester
+
+  val analyzerTextFields: List[String] = HText :: textFields
+  val analyzerUnstemmedTextFields: List[String] = HTextUnstemmed :: unstemmedTextFields
+  
   val hitFields: List[String] = List(Symbol)
   
   def mkHit(score: Float, stem: Boolean, f: Map[String, String], h: Map[String, String]) = {
-    def getH(s: String) = h.getOrElse(s, f.getOrElse(s, ""))
-    def getHU(s: String) = h.getOrElse(s, f.getOrElse(s, "").toUpperCase)
+    val getH =
+      if (stem) (s: String, u: String) => h.getOrElse(s, h.getOrElse(u, f.getOrElse(s, ""))) // try stemmed highlights, then unstemmed highlights, then stemmed without highlights
+      else      (s: String, u: String) => h.getOrElse(u, h.getOrElse(s, f.getOrElse(u, "")))
+    
+    val s = f(Symbol).toUpperCase
     USPCHit(score,
-      HitSymbol(f(Symbol).toUpperCase, getHU(Symbol)),
-      getH(if (stem) ClassTitle else ClassTitleUnstemmed), 
-      getH(if (stem) SubClassTitle else SubClassTitleUnstemmed), 
-      getH(if (stem) SubClassDescription else SubClassDescriptionUnstemmed),
-      getH(if (stem) Text else TextUnstemmed))
+      HitSymbol(s, s),
+      getH(ClassTitle, ClassTitleUnstemmed), 
+      getH(SubClassTitle, SubClassTitleUnstemmed), 
+      getH(SubClassDescription, SubClassDescriptionUnstemmed),
+      getH(Text, TextUnstemmed)
+    )
   }
 
   /** Entity class mapping to a database row representing a USPC Symbol.

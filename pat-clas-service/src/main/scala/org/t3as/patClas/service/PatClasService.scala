@@ -106,7 +106,7 @@ class PatClasService {
       val f = if (n > 0) {
         val xs = x.toSet
         // fuzzy also gets exact matches, so filter them out
-        fuzzy.lookup(key, num + 5).filter(!xs.contains(_)).take(num)
+        fuzzy.lookup(key, n + xs.size).filter(!xs.contains(_)).take(n)
       } else List.empty
       Suggestions(x, f)
     }

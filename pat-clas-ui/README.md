@@ -49,8 +49,7 @@ The UI consists of the following sections:
  - are searched by default when the query does not specify any fields; and
  - have stemming applied (a search for `activated` will match `activating` and vice-versa).
  
- 
- **Note:** If `stem` is set to false then the corresponding `Unstemmed` fields are searched by default.
+ **Note:** If the `Stemming` checkbox is set not ticked then the corresponding `Unstemmed` fields are searched by default, providing unstemmed search.
    
 #### Context
  

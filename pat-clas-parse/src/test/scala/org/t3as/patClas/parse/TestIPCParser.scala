@@ -218,28 +218,28 @@ class TestIPCParser extends FlatSpec with Matchers {
     trees(0).children.size should be(2)
 
     val n0 = trees(0).children(0)
-    n0.value.symbol should be("A01")
-    n0.value.kind should be("t")
+    n0.value.ipcEntry.symbol should be("A01")
+    n0.value.ipcEntry.kind should be("t")
     n0.children.size should be(0)
     
     val n1 = trees(0).children(1)
-    n1.value.symbol should be("A01")
-    n1.value.kind should be("c")
+    n1.value.ipcEntry.symbol should be("A01")
+    n1.value.ipcEntry.kind should be("c")
     n1.children.size should be(1)
     
     val n2 = n1.children(0)
-    n2.value.symbol should be("A01B")
-    n2.value.kind should be("u")
+    n2.value.ipcEntry.symbol should be("A01B")
+    n2.value.ipcEntry.kind should be("u")
     n2.children.size should be(2)
     
     val n3 = n2.children(0)
-    n3.value.symbol should be("A01B")
-    n3.value.kind should be("i")
+    n3.value.ipcEntry.symbol should be("A01B")
+    n3.value.ipcEntry.kind should be("i")
     n3.children.size should be(0)
     
     val n4 = n2.children(1)
-    n4.value.symbol should be("A01B0001000000")
-    n4.value.kind should be("m")
+    n4.value.ipcEntry.symbol should be("A01B0001000000")
+    n4.value.ipcEntry.kind should be("m")
     n4.children.size should be(0)    
   }
 

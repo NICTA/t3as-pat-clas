@@ -133,12 +133,12 @@ class TestCPCParser extends FlatSpec with Matchers {
     
   }
 
-  def flatten(n: TreeNode[ClassificationItem]): Seq[ClassificationItem] = {
-    if (n.value.level == 8) n.children.size should be (0)
+  def flatten(n: TreeNode[CPCParser.CPCNode]): Seq[ClassificationItem] = {
+    if (n.value.classificationItem.level == 8) n.children.size should be (0)
     else n.children.size should be (1)
     
     val x = n.children.flatMap(flatten(_))
-    x.+:(n.value)
+    x.+:(n.value.classificationItem)
   }
 
 }

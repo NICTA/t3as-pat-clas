@@ -19,4 +19,6 @@
 
 package org.t3as.patClas.common
 
-case class TreeNode[T](value: T, children: Seq[TreeNode[T]])
+case class TreeNode[T](value: T, children: Seq[TreeNode[T]]) {
+  def map[B](f: T => B): TreeNode[B] = TreeNode(f(value), children.map(_.map(f)))
+}

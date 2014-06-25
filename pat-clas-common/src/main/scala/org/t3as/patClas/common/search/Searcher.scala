@@ -20,25 +20,31 @@
 package org.t3as.patClas.common.search
 
 import java.io.Closeable
+import java.util.HashSet
 
 import scala.Array.canBuildFrom
 import scala.Option.option2Iterable
-import scala.collection.JavaConversions.{asScalaBuffer, mapAsScalaMap, mutableSetAsJavaSet, setAsJavaSet}
-import scala.collection.mutable.HashSet
+import scala.collection.JavaConversions.{asScalaBuffer, asScalaSet, mapAsScalaMap, setAsJavaSet}
 import scala.language.postfixOps
 import scala.util.Try
 
 import org.apache.lucene.analysis.Analyzer
 import org.apache.lucene.index.{DirectoryReader, Term}
 import org.apache.lucene.queryparser.classic.{MultiFieldQueryParser, QueryParser}
-import org.apache.lucene.search.{BooleanQuery, ConstantScoreQuery, IndexSearcher, MultiTermQuery, PrefixFilter => lPrefixFilter, Query}
+import org.apache.lucene.search.{BooleanClause, BooleanQuery, ConstantScoreQuery, IndexSearcher, MultiTermQuery, PrefixFilter, Query, TermQuery}
 import org.apache.lucene.search.postingshighlight.{DefaultPassageFormatter, PostingsHighlighter}
 import org.apache.lucene.store.Directory
 import org.slf4j.LoggerFactory
 import org.t3as.patClas.api.HitBase
+import org.t3as.patClas.common.CPCUtil.IndexFieldName.{HText, HTextUnstemmed, Symbol}
 
-/** Search text associated with a classification code.
-  */
+
+/**
+ * Search text associated with a classification code.
+ * 
+ * TODO: Use of literals Symbol, HText, HTextUnstemmed is a bit hacky and relies on these being the same
+ * for all (CPC, IPC and USPC) indices.
+ */
 class Searcher[Hit <: HitBase](
   defaultFieldsStemmed: List[String],
   defaultFieldsUnstemmed: List[String],
@@ -51,13 +57,15 @@ class Searcher[Hit <: HitBase](
 
   val indexSearcher = new IndexSearcher(DirectoryReader.open(dir))
 
-  // TODO: I wrote my own PrefixFilter which uses DocValues before finding Lucene's one (which is currently used here).
-  // Not sure if Lucene's is using DocValues too, but it seems plenty fast enough.
-  // If it doesn't need the DocValues field them maybe that should be removed from the index.
-  // My version should be deleted if it doesn't get used.
-  // def prefixFilter(field: String, prefix: String) = new PrefixFilter(field, prefix.toLowerCase)
-  def prefixFilter(field: String, prefix: String) = new lPrefixFilter(new Term(field, prefix.toLowerCase))
-
+  /**
+   * @return query with prefix/range etc. queries expanded
+   */
+  def rewrite(q: Query) = {
+    val q2 = q.rewrite(indexSearcher.getIndexReader())
+    log.debug("rewrite: {}", q2)
+    q2    
+  }
+  
   // QueryParser notes on wild cards:
   //
   // Note 1:
@@ -91,34 +99,96 @@ class Searcher[Hit <: HitBase](
 
     val q1 = qpExpand.parse(query)
     log.debug("search: parsed query = {}", q1)
-    val q2 = Try(q1.rewrite(indexSearcher.getIndexReader())).recover {
+    Try(rewrite(q1)).recover {
       case e: BooleanQuery.TooManyClauses =>
         val qpFilter = setRewrite(new MultiFieldQueryParser(Constants.version, defaultFields, analyzer) {
           override protected def getPrefixQuery(field: String, termStr: String): Query = {
             // use a Filter to implement prefix terms (faster than expansion if there are many matches) 
-            new ConstantScoreQuery(prefixFilter(field, termStr))
+            new ConstantScoreQuery(new PrefixFilter(new Term(field, termStr.toLowerCase)))
           }
         })
         val q1 = qpFilter.parse(query)
         log.debug("search: recovering from BooleanQuery.TooManyClauses. parsed query = {}", q1)
-        q1.rewrite(indexSearcher.getIndexReader())
-    }.get
-    log.debug("rewritten query = {}", q2)
+        rewrite(q1)
+    }.get // Exception if recovery failed
+  }
+  
+  /**
+   * @return set of Terms in q
+   */
+  def getTerms(q: Query) = {
+    val terms = new HashSet[Term]
+    q.extractTerms(terms)
+    terms.toSet
+  }
+  
+  /**
+   * @return a new Query with field names mapped (1 to many) according to mapField
+   */
+  def mapQuery(q: Query)(mapField: String => List[String]) = {
+    val q2 = getTerms(q).foldLeft(new BooleanQuery) { (q2, t) => {
+      mapField(t.field).foreach {
+        f => q2.add(new TermQuery(new Term(f, t.bytes)), BooleanClause.Occur.SHOULD)
+      }
+      q2
+    }}
+    log.debug("mapQuery: {}", q2)
     q2
+  }
+  
+  /**
+   * @return transformed query for highlighting, mapping non-highlightable fields to highlightable ones
+   */
+  def highlightQuery(q: Query) = {     
+    val textFields = (defaultFieldsStemmed ++ defaultFieldsUnstemmed).toSet
+    val q2 = rewrite(mapQuery(q) { f: String => 
+      if (textFields.contains(f)) List(f) // unchanged
+      else if (HText.toString == f) defaultFieldsStemmed // map to all stemmed fields
+      else if (HTextUnstemmed.toString == f) defaultFieldsUnstemmed // map to all unstemmed fields
+      else List.empty // don't highlight non-text fields like Symbol (not useful and they are not indexed with offsets for highlighting)
+    })
+    log.debug("highlightQuery: {}", q2)
+    q2
+  }
+  
+  /**
+   * If the query contains HText, HTextUnstemmed terms then add extra terms to ensure a hit must include
+   * at least one of these terms in it's direct text (not only in the ancestor text),
+   * otherwise return the query unchanged. 
+   */
+  def hierarchyQuery(q: Query) = {
+    val q2 = mapQuery(q) { f: String => 
+      if (HText.toString == f) defaultFieldsStemmed // map to all stemmed fields
+      else if (HTextUnstemmed.toString == f) defaultFieldsUnstemmed // map to all unstemmed fields
+      else List.empty // ignore
+    }
+    val q3 = if (q2.toString().isEmpty) {
+      q
+    } else {
+      val q3 = new BooleanQuery
+      q3.add(q, BooleanClause.Occur.MUST)
+      q3.add(q2, BooleanClause.Occur.MUST)
+      q3
+    }
+    log.debug("hierarchyQuery: {}", q3)
+    q3
   }
 
   def search(query: String, stem: Boolean = true, symbolPrefix: Option[String] = None) = {
-    val tFields = if (stem) defaultFieldsStemmed else defaultFieldsUnstemmed
-    val q = parse(query, tFields.toArray)
-    val topDocs = symbolPrefix.map(s => indexSearcher.search(q, new lPrefixFilter(new Term("Symbol", s.toLowerCase)), 50))
+    val defaultFields = if (stem) defaultFieldsStemmed else defaultFieldsUnstemmed
+    val q = hierarchyQuery(parse(query, defaultFields.toArray))
+    val topDocs = symbolPrefix.map(s => indexSearcher.search(q, new PrefixFilter(new Term(Symbol, s.toLowerCase)), 50))
       .getOrElse(indexSearcher.search(q, 50))
 
     log.debug("totalHits = {}", topDocs.totalHits)
     val results = topDocs.scoreDocs.toList
     val docIds = results.map(_.doc)
-    val allHlights = highlights(q, docIds).toMap
+    
+    val allHlights = highlights(highlightQuery(q), docIds).toMap
     // log.debug("allHlights = {}", allHlights.map(e => (e._1, e._2.toList)))
-    val f2load = (fieldsToLoad ++ tFields).toSet
+    // A query could have terms for both stemmed and unstemmed versions of the same field, but we can only return a
+    // single highlighted field. In such a case if stemming is selected mkHit will prefer the stemmed highlights and vice-versa.  
+    val f2load = (fieldsToLoad ++ defaultFields).toSet
     results.zipWithIndex map {
       case (scoreDoc, idx) =>
         val fields = indexSearcher.doc(scoreDoc.doc, f2load).getFields.map(f => f.name -> f.stringValue).toMap
@@ -133,35 +203,11 @@ class Searcher[Hit <: HitBase](
 
   /** @param q query (must be in rewrite form for extractTerms)
     * @return Map field -> array where item i is highlights for docIds[i]
-    * TODO: could we store only one of stemmed or unstemmed text fields?
-    * Currently storing both just to get highlighting working, but maybe we could transform (fieldsIn, q) to avoid this?
     */
   def highlights(q: Query, docIds: List[Int]): Map[String, Array[String]] = {
-
-    def getFields(q: Query) = {
-      val terms = new HashSet[Term]
-      q.extractTerms(terms)
-      terms.map(_.field()).toArray
-    }
-
     val re = """<\/?span[^>]*>|&hellip;<br><br>"""r
 
-    def symbolToUpper(t: String) = {
-      val buf = new StringBuilder
-      val end = re.findAllMatchIn(t).foldLeft(0) {
-        case (pos, m) =>
-          buf append t.substring(pos, m.start).toUpperCase append m.matched
-          m.end
-      }
-      buf append t.substring(end).toUpperCase
-      buf.toString
-    }
-
-    def highlighSymbolToUpper(e: (String, Array[String])) =
-      if ("Symbol" == e._1) (e._1, e._2.map(symbolToUpper))
-      else e
-
-    val fieldsIn = getFields(q)
+    val fieldsIn = getTerms(q).map(_.field).toArray
     log.debug("fieldsIn = {}", fieldsIn)
     if (docIds.isEmpty || fieldsIn.isEmpty) Map.empty
     else {
@@ -171,7 +217,7 @@ class Searcher[Hit <: HitBase](
       }
       val maxPassagesIn = fieldsIn map (_ => 3)
       val re = """<\/?span[^>]*>"""r
-      val x = ph.highlightFields(fieldsIn, q, indexSearcher, docIds.toArray, maxPassagesIn).toMap.map(highlighSymbolToUpper)
+      val x = ph.highlightFields(fieldsIn, q, indexSearcher, docIds.toArray, maxPassagesIn).toMap
       x
     }
   }

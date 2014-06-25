@@ -50,12 +50,12 @@ object Constants {
   
   val cpcAnalyzer = {
     import org.t3as.patClas.common.CPCUtil._
-    mkAnalyzer(textFields, unstemmedTextFields)
+    mkAnalyzer(analyzerTextFields, analyzerUnstemmedTextFields)
   }
  
   val ipcAnalyzer = {
     import org.t3as.patClas.common.IPCUtil._
-    mkAnalyzer(textFields, unstemmedTextFields)
+    mkAnalyzer(analyzerTextFields, analyzerUnstemmedTextFields)
   }
   
   val uspcAnalyzer = {

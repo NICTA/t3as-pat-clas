@@ -38,9 +38,6 @@ class TestCPCdb extends FlatSpec with Matchers {
   "CPCdb" should "load and lookup" in {
     // Connect to the database and execute the following block within a session
     Database.forURL("jdbc:h2:mem:test1", driver = "org.h2.Driver") withSession { implicit session =>
-      // The session is never named explicitly. It is bound to the current
-      // thread as the threadLocalSession that we imported
-
       val dao = new CPCdb(H2Driver)
 
       import dao.profile.simple._

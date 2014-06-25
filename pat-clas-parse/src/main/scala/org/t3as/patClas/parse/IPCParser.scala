@@ -21,29 +21,40 @@ package org.t3as.patClas.parse
 
 import scala.language.postfixOps
 import scala.xml.Node
-
 import org.t3as.patClas.common.IPCUtil.IPCEntry
 import org.t3as.patClas.common.TreeNode
+import org.t3as.patClas.common.Util.toText
 
 object IPCParser {
+  
+   /*
+    * hText (hierarchy text) is textBody of this node appended to that of all its ancestors.
+    * This is indexed for searching, but not stored in Lucene or in the database.
+    */    
+  case class IPCNode(ipcEntry: IPCEntry, hText: String)
 
-  def parse(n: Node) = n \ "ipcEntry" map (n => mkTree(n, 0))
+  def parse(n: Node) = n \ "ipcEntry" map (n => mkTree(n, 0, ""))
 
-  def mkTree(n: Node, level: Int): TreeNode[IPCEntry] = new TreeNode(
-    ipcEntry(n, level),
-    n \ "ipcEntry" map (n => mkTree(n, level + 1)))
+  def mkTree(n: Node, level: Int, hText: String): TreeNode[IPCNode] = {
+    val e = ipcNode(n, level, hText);
+    new TreeNode(e, n \ "ipcEntry" map (n => mkTree(n, level + 1, e.hText)))
+  }
 
-  def ipcEntry(n: Node, level: Int): IPCEntry = {
+  def ipcNode(n: Node, level: Int, hText: String) = {
     def attrOption(n: Node, name: String) = n.attribute(name).map(_(0).text)
     def attr(n: Node, name: String) = attrOption(n, name).getOrElse(throw new Exception("ipcEntry missing @" + name))
 
-    IPCEntry(None, 0, level,
+    val textBody = n \ "textBody" toString
+    
+    IPCNode(IPCEntry(None, 0, level,
       // attr(n, "entryType"), always K, so omit
       attr(n, "kind"),
       attr(n, "symbol"),
       attrOption(n, "endSymbol"),
       // preserve XML elements (contains presentation elements e.g. <emdash/> and marked up refs to other classification codes) 
-      n \ "textBody" toString)
+      textBody
+      ),
+      hText + " " + toText(textBody))
   }
 
 }

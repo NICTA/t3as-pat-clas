@@ -144,8 +144,8 @@ object Load {
         // With these databases some other means will be required to insert this row.
         cpcs forceInsert ClassificationItem(Some(CPCdb.topLevel), CPCdb.topLevel, false, false, false, "2013-01-01", 0, "parent", "<text>none</text>", "<text>none</text>")
 
-        def process(t: TreeNode[ClassificationItem], parentId: Int) = {
-          dao.insertTree(t, parentId) // insert tree of ClassificationItems into db
+        def process(t: TreeNode[CPCParser.CPCNode], parentId: Int) = {
+          dao.insertTree(t.map(_.classificationItem), parentId) // insert tree of ClassificationItems into db
           indexer.addTree(t) // add to search index
         }
 
@@ -161,7 +161,7 @@ object Load {
           zipFile.entries filter (e => subclassFileNameRE.findFirstIn(e.getName).isDefined) foreach { e =>
             CPCParser.parse(XML.load(zipFile.getInputStream(e))).foreach { n =>
               // each root node should be a level 5 ClassificationItem and should have already been added to the db from a section zip entry
-              val c = n.value
+              val c = n.value.classificationItem
               if (c.level != 5) throw new Exception(s"Subclass file root node not level 5: ${c}")
               val parent = dao.compiled.getBySymbolLevel(c.symbol, c.level).firstOption.getOrElse(throw new Exception(s"Subclass file root node not in db: ${c}"))
               n.children foreach (process(_, parent.id.getOrElse(throw new Exception(s"Missing id from db record: ${parent}"))))
@@ -185,6 +185,7 @@ object Load {
         import dao.profile.simple._
         import dao.ipcs
         import org.t3as.patClas.common.IPCUtil.IPCEntry
+        import org.t3as.patClas.parse.IPCParser.IPCNode
 
         if (!MTable.getTables("ipc").list.isEmpty) ipcs.ddl.drop
         ipcs.ddl.create
@@ -192,8 +193,8 @@ object Load {
 
         ipcs forceInsert IPCEntry(Some(IPCdb.topLevel), IPCdb.topLevel, 0, "", "symbol", None, "<text>none</text>")
 
-        def process(t: TreeNode[IPCEntry], parentId: Int) = {
-          dao.insertTree(t, parentId) // insert tree of IPCEntry into db
+        def process(t: TreeNode[IPCNode], parentId: Int) = {
+          dao.insertTree(t.map(_.ipcEntry), parentId) // insert tree of IPCEntry into db
           indexer.addTree(t) // add to search index
         }
 
