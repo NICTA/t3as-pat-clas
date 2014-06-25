@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# Although this script is not pretty, I consider it less evil than complicating the build for
+# our specific production packaging, which is unlikely to be of use to anyone else using the project.
+
 # # Steps to release and deploy a new version to EC2
 # # ================================================
 
@@ -13,9 +16,9 @@
 # git tag -a pat-clas-1.0.3 -m 'tag for release'
 # git push origin pat-clas-1.0.3
 # 
-# # do a clean build
+# # do a clean production build
 # mvn clean
-# mvn
+# mvn -Pprod
 # 
 # # create packages to deploy on ec2
 # cd data
@@ -35,7 +38,7 @@
 
 set -e
 
-# java -jar ../pat-clas-parse/target/pat-clas-parse-*.one-jar.jar
+time java -jar ../pat-clas-parse/target/pat-clas-parse-*.one-jar.jar
 
 rm -rf tmp
 
@@ -56,11 +59,18 @@ done
 # the ui has no server component, but package it same as above to facilitate deployment
 n=pat-clas-ui
 echo "Creating $n-$ver.tar.gz ..." # reuse ver from above
-mkdir -p tmp/$n 
-d=`pwd`
-cd ../$n
-jar cf $d/tmp/$n/$n.war ajax-loader.gif  fancytree  index.css  index.html jquery.caret.js jquery-ui-1.10.4.custom
-cd $d
+src=../$n
+dst=tmp/$n
+mkdir -p $dst
+
+cp -r $src/{ajax-loader.gif,fancytree,index.css,jquery.caret.js,jquery-ui-1.10.4.custom} $dst
+
+# set prod baseUrl
+sed 's~^ *var baseUrl = .*$~  var baseUrl = "/pat-clas-service/rest/v1.0"~' $src/index.html > $dst/index.html
+
+pushd $dst
+jar cf $n.war ajax-loader.gif  fancytree  index.{css,html} jquery.caret.js jquery-ui-1.10.4.custom
+popd
 tar cfz $n-$ver.tar.gz -C tmp $n
 
 

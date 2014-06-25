@@ -1,5 +1,4 @@
 *~
-data/
 target/
 *.iml
 .idea
@@ -10,3 +9,6 @@ bin/
 .settings/
 .hsenv
 pat-clas-ui/fancytree/
+data/*.gz
+data/*.zip
+data/*Index*
