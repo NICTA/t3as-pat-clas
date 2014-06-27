@@ -23,7 +23,7 @@ import scala.language.postfixOps
 import scala.xml.Node
 import org.t3as.patClas.common.IPCUtil.IPCEntry
 import org.t3as.patClas.common.TreeNode
-import org.t3as.patClas.common.Util.toText
+import org.t3as.patClas.common.IPCUtil.ipcToText
 
 object IPCParser {
   
@@ -54,7 +54,7 @@ object IPCParser {
       attrOption(n, "endSymbol"),
       textBody
       ),
-      hText + " " + toText(textBody))
+      hText + " " + ipcToText(textBody))
   }
 
 }

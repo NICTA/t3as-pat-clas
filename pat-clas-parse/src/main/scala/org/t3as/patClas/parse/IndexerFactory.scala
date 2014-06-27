@@ -82,7 +82,7 @@ object IndexerFactory {
     doc add new Field(Symbol, c.symbol.toLowerCase, keywordFieldType)
     doc add new Field(Level, c.level.toString, keywordFieldType)
     if (!c.classTitle.isEmpty) addText(doc, ClassTitle, ClassTitleUnstemmed, toText(c.classTitle))
-    if (!c.notesAndWarnings.isEmpty) addText(doc, NotesAndWarnings, NotesAndWarningsUnstemmed, toText(c.classTitle))
+    if (!c.notesAndWarnings.isEmpty) addText(doc, NotesAndWarnings, NotesAndWarningsUnstemmed, toText(c.notesAndWarnings))
     addText(doc, HText, HTextUnstemmed, n.hText)
     doc
   }
