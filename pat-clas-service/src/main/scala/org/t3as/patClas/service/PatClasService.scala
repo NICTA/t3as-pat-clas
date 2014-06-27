@@ -178,7 +178,7 @@ class CPCService extends SearchService[CPCHit] with LookupService[CPCDescription
   override def ancestorsAndSelf(@QueryParam("symbol") symbol: String, @QueryParam("format") format: String) = {
     val fmt = getToText(format)
     database withSession { implicit session =>
-      cpcDb.getSymbolWithAncestors(symbol).map(_.toDescription(fmt))
+      cpcDb.getSymbolWithAncestors(symbol.trim).map(_.toDescription(fmt))
     }
   }
 
@@ -216,7 +216,7 @@ class IPCService extends SearchService[IPCHit] with LookupService[IPCDescription
   override def ancestorsAndSelf(@QueryParam("symbol") symbol: String, @QueryParam("format") format: String) = {
     val fmt = getToText(format)
     database withSession { implicit session =>
-      ipcDb.getSymbolWithAncestors(symbol).map(_.toDescription(fmt))
+      ipcDb.getSymbolWithAncestors(symbol.trim).map(_.toDescription(fmt))
     }
   }
 
@@ -254,11 +254,11 @@ class USPCService extends SearchService[USPCHit] with LookupService[USPCDescript
   override def ancestorsAndSelf(@QueryParam("symbol") symbol: String, @QueryParam("format") format: String) = {
     val fmt = getToText(format)
     database withSession { implicit session =>
-      uspcDb.getSymbolWithAncestors(symbol).map(_.toDescription(fmt))
+      uspcDb.getSymbolWithAncestors(symbol.trim).map(_.toDescription(fmt))
     }
   }
 
-  @Path("{parentId}/children")
+  @Path("children")
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
   override def children(@QueryParam("parentId") parentId: Int, @QueryParam("format") format: String) = {

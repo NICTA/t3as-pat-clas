@@ -44,6 +44,7 @@ object IPCParser {
     def attrOption(n: Node, name: String) = n.attribute(name).map(_(0).text)
     def attr(n: Node, name: String) = attrOption(n, name).getOrElse(throw new Exception("ipcEntry missing @" + name))
 
+    // preserve XML elements (contains presentation elements e.g. <emdash/> and marked up refs to other classification codes) 
     val textBody = n \ "textBody" toString
     
     IPCNode(IPCEntry(None, 0, level,
@@ -51,7 +52,6 @@ object IPCParser {
       attr(n, "kind"),
       attr(n, "symbol"),
       attrOption(n, "endSymbol"),
-      // preserve XML elements (contains presentation elements e.g. <emdash/> and marked up refs to other classification codes) 
       textBody
       ),
       hText + " " + toText(textBody))

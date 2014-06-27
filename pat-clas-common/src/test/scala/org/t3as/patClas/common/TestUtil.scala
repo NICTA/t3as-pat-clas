@@ -31,7 +31,7 @@ class TestUtil extends FlatSpec with Matchers {
   }
   
   "toText" should "concatenate all text node descendents in document order, trimming whitespace" in {
-    val xml = """<a> text1 <text>text  2</text>   <b>text   3<text>text 4</text>  </b>  <text>text 5</text>text    6</a>"""
+    val xml = """<a> text1 <elem>text  2</elem>   <b>text   3<elem>text 4</elem>  </b>  <elem>text 5</elem>text    6</a>"""
     val s = Util.toText(xml)  
     s should be ("text1\ntext 2\ntext 3\ntext 4\ntext 5\ntext 6")
   }
@@ -57,4 +57,12 @@ class TestUtil extends FlatSpec with Matchers {
       IPCUtil.toCpcFormat(in) should be (out)
     }
   }
+  
+  "IPCUtil.ipcToText" should "concatenate all text node descendents and sref/@ref in document order, trimming whitespace" in {
+    val xml = """<a> text1 <elem>text  2</elem>   <b>text   3 ref to <sref ref="A01B0012986000"/><elem>text 4</elem>  </b>  <elem>text 5</elem>text    6</a>"""
+    val s = IPCUtil.ipcToText(xml)  
+    s should be ("text1\ntext 2\ntext 3 ref to\nA01B12/986\ntext 4\ntext 5\ntext 6")
+  }
+
+
 }

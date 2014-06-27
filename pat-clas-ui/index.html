@@ -143,6 +143,7 @@
 
   /* dev:  'http://localhost:8080/pat-clas-service/rest/v1.0' */
   /* prod: '/pat-clas-service/rest/v1.0' */
+  /* prod value is set by data/package.sh */
   var baseUrl = 'http://localhost:8080/pat-clas-service/rest/v1.0'
 
   var searchCols = [
@@ -582,10 +583,9 @@
 
   function schemaSelected(ev) {
     var s = schemaName(schemaInt()); /* same as ev.target.id */
-    $.each($('#schemaFormContent > div.browserLink'), function(index, a) {
-      var show = a.id.indexOf(s) >= 0;
-      $(a).removeClass(show ? "hidden" : "shown");
-      $(a).addClass(show ? "shown" : "hidden");
+    $.each($('#browserLinks > div'), function(index, a) {
+      if (a.id.indexOf(s) >= 0) $(a).removeClass("hidden");
+      else $(a).addClass("hidden");      
     });
   }
 
@@ -626,6 +626,11 @@
   
   /* === attach functions to static buttons === */
   $(document).ready(function() {
+    
+    // Firefox form auto-complete can set a different radion button 'checked' than what is hard-coded,
+    // so update the link visability to whatever is actually selected. See http://stackoverflow.com/questions/7988729/firefox-remembering-radio-buttons-incorrectly#comment9771756_7988729
+    schemaSelected();
+    
     $('#schemaForm input[name=schema]').on('change', schemaSelected);
     $('#search').on('click', search);
     $('#context').on('click', context);
@@ -675,25 +680,30 @@
   </ul>
 
   <h2>Classification System</h2>
-  <form id="schemaForm">
-    <div id="schemaFormContent">
+  <div class="floatContainer">
+    <div class="schema">
       <span class="label">Schema:</span>
-      <input type="radio" name="schema" id="CPC" value="0" checked /><label for="CPC">CPC</label> 
-      <input type="radio" name="schema" id="IPC" value="1" /><label for="IPC">IPC</label> 
-      <input type="radio" name="schema" id="USPC" value="2" /><label for="USPC">USPC</label>
+      <form id="schemaForm">
+        <input type="radio" name="schema" id="CPC" value="0" checked /><label for="CPC">CPC</label> 
+        <input type="radio" name="schema" id="IPC" value="1" /><label for="IPC">IPC</label> 
+        <input type="radio" name="schema" id="USPC" value="2" /><label for="USPC">USPC</label>
+      </form>
       <span class="label browserLabel">Official browser:</span>
-      <!-- TODO: Add an icon to indicate that these open in a new window -->
-      <div id="CPCbrowser" class="browserLink shown"><a href="http://worldwide.espacenet.com/classification/" target="_blank">http://worldwide.espacenet.com/classification/</a></div>
-      <div id="IPCbrowser" class="browserLink hidden"><a href="http://web2.wipo.int/ipcpub/" target="_blank">http://web2.wipo.int/ipcpub/</a></div>
-      <div id="USPCbrowser" class="browserLink hidden"><a href="http://www.uspto.gov/web/patents/classification/" target="_blank">http://www.uspto.gov/web/patents/classification/</a></div>
     </div>
-  </form>
-  <form id="selSymForm">
-    <span class="label selectSym">Selecting a symbol will show it in:</span>
-    <input type="radio" name="selectSym" id="selSymContext" value="0" checked /><label for="selSymContext">Context</label>
-    <input type="radio" name="selectSym" id="selSymExplore" value="1" /><label for="selSymExplore">Explore</label>
-  </form>
-  
+    <div id="browserLinks">
+      <!-- TODO: Add an icon to indicate that these open in a new window -->
+      <div id="CPClink"><a href="http://worldwide.espacenet.com/classification/" class="shown" target="_blank">http://worldwide.espacenet.com/classification/</a></div>
+      <div id="IPClink" class="hidden"><a href="http://web2.wipo.int/ipcpub/" class="hidden" target="_blank">http://web2.wipo.int/ipcpub/</a></div>
+      <div id="USPClink" class="hidden"><a href="http://www.uspto.gov/web/patents/classification/" class="hidden" target="_blank">http://www.uspto.gov/web/patents/classification/</a></div>
+    </div>
+  </div>
+  <div id="selSymForm">
+    <form>
+      <span class="label selectSym">Selecting a symbol will show it in:</span>
+      <input type="radio" name="selectSym" id="selSymContext" value="0" checked /><label for="selSymContext">Context</label>
+      <input type="radio" name="selectSym" id="selSymExplore" value="1" /><label for="selSymExplore">Explore</label>
+    </form>
+  </div>
 
   <h2>Search</h2>
   <form id="searchForm">

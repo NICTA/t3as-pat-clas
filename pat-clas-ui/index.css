@@ -12,22 +12,34 @@ label, .label {
     font-weight: bold;
 }
 
-#schemaFormContent {
-	position: relative;
+form {
+  display: inline;
 }
 
-#schemaFormContent > .browserLabel {
+.floatContainer {
+	overflow: hidden;
+}
+
+.floatContainer > div {
+    float: left;
+}
+
+.browserLabel {
     margin-left: 20px;
 }
 
-#schemaFormContent > div.browserLink {
+#browserLinks {
+    position: relative; 
+}
+
+#browserLinks > div {
 	position: absolute;
-	top: 2px;
-	left: 410px;
+	top: 1px;
+	left: 10px;
 	width: 500px;
 }
 
-#schemaFormContent > div.hidden {
+#browserLinks > div.hidden {
 	visibility: hidden;
 }
 
@@ -149,18 +161,6 @@ span.fancytree-title > span.level {
 	margin-left: 5px;
 }
 
-span.fancytree-title > class-title {
-	display: block;
-	margin-right: 30px;
-	white-space: normal;
-}
-
-#debug {
-	height: 250px;
-	border: 1px solid #98bf21;
-	overflow: auto;
-}
-
 .error {
 	color: red;
 }
@@ -180,6 +180,12 @@ class-ref[scheme="ipc"] {
 	cursor: pointer;
 }
 
+span.fancytree-title > class-title  {
+	display: block;
+	margin-right: 30px;
+	white-space: normal;
+}
+
 /* IPC XML elements */
 titlepart {
 	display: block;
@@ -196,14 +202,20 @@ sref {
 	cursor: pointer;
 }
 
+span.fancytree-title > textbody {
+	display: block;
+	margin-right: 30px;
+	white-space: normal;
+}
+
 /* USPC XML elements */
 
 /* TODO: make srecord block and para within it inline */
-para {
-	display: block;
-}
+/* para { */
+/* 	display: block; */
+/* } */
 
-crecord {
+crecord, srecord {
 	display: block;
 	padding-left: 5px;
 }
@@ -246,4 +258,6 @@ endnum {
 
 .fancytree-title > scdesc {
 	display: block;
-}
+	margin-right: 30px;
+	white-space: normal;
+} 

@@ -95,7 +95,7 @@ object IndexerFactory {
   }
 
   def ipcToDoc(n: IPCParser.IPCNode) = {
-    import org.t3as.patClas.common.IPCUtil.toCpcFormat
+    import org.t3as.patClas.common.IPCUtil.{ipcToText, toCpcFormat}
     import org.t3as.patClas.common.IPCUtil.IndexFieldName._
 
     val c = n.ipcEntry
@@ -104,7 +104,7 @@ object IndexerFactory {
     doc add new Field(SymbolRaw, c.symbol, keywordFieldType)
     doc add new Field(Level, c.level.toString, keywordFieldType)
     doc add new Field(Kind, c.kind.toString, keywordFieldType)
-    if (!c.textBody.isEmpty) addText(doc, TextBody, TextBodyUnstemmed, toText(c.textBody))
+    if (!c.textBody.isEmpty) addText(doc, TextBody, TextBodyUnstemmed, ipcToText(c.textBody))
     addText(doc, HText, HTextUnstemmed, n.hText)
     doc
   }

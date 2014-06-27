@@ -186,6 +186,24 @@ object IPCUtil {
       }
     }
   } 
+  
+  // Like Util.toText (which concatenates descendant text nodes), we do that but also take
+  // symbols from sref/@ref attributes so that references to symbols are not lost.
+  // The symbols are reformated with toCpcFormat(). 
+  def ipcToText(xml: String) = {
+    if (xml.isEmpty) ""
+    else {
+      val multiSpace = """\s+""".r
+      XML.loadString(xml) flatMap (_.descendant_or_self) flatMap { n =>
+        if (n.isAtom) {
+          val s = multiSpace replaceAllIn(n.text.trim, { _ => " " })
+          if (s.isEmpty()) None else Some(s)
+        }
+        else if ("sref" == n.label) Some(toCpcFormat((n \ "@ref").toString))
+        else None
+      } mkString("\n")
+    }
+  }
 }
 
 object USPCUtil {
