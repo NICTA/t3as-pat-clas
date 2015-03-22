@@ -237,6 +237,7 @@ subnum {
 	text-decoration: underline;
 	cursor: pointer;
 	padding-left: 5px;
+	padding-right: 5px;
 }
 
 /* TODO: add something other than colour to indicate this is a end subclass of a range implicitly of the current class */
